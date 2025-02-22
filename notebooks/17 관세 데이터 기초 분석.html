@@ -1,0 +1,3837 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>7 관세 데이터 기초 분석 &#8212; 파이썬을 활용한 무역데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/17 관세 데이터 기초 분석';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="8 국제무역 중력 모형 추정" href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html" />
+    <link rel="prev" title="6 어떤 나라가 교역을 많이 할까" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="00%20%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="파이썬을 활용한 무역데이터 분석 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="파이썬을 활용한 무역데이터 분석 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00%20%EC%84%9C%EB%AC%B8.html">
+                    시작하며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 분석</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11%20%EC%9A%B0%EB%A6%AC%EB%82%98%EB%9D%BC%20%EB%AC%B4%EC%97%AD%EC%9D%98%EC%A1%B4%EB%8F%84%20%EC%B6%94%EC%9D%B4.html">1 우리나라 무역의존도 추이</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html">2 수출의 내용을 따져보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20%EC%88%98%EC%B6%9C%20%EB%8B%A4%EA%B0%81%ED%99%94%EB%A5%BC%20%EC%B8%A1%EC%A0%95%ED%95%B4%EB%B3%B4%EC%9E%90.html">3 수출 다각화를 측정해보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html">4 자동차 수출입을 동시에 한다</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15%20%EC%88%98%EC%B6%9C%20%EC%84%B1%EC%9E%A5%20%EB%B6%84%ED%95%B4%ED%95%98%EA%B8%B0.html">5 수출 성장 분해하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html">6 어떤 나라가 교역을 많이 할까</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7 관세 데이터 기초 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html">8 국제무역 중력 모형 추정</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 관리</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html">1 국제무역 데이터의 특징</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20UN%20Comtrade%20API%20%EC%B6%94%EC%B6%9C.html">2 UN Comtrade API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html">3 세계은행 WITS API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20WTO%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">4 WTO 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25%20%EA%B4%80%EC%84%B8%EC%B2%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">5 관세청 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html">6 국제무역 빅데이터 관리</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WBGAPI.html">7 세계은행 WBGAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2/issues/new?title=Issue%20on%20page%20%2Fnotebooks/17 관세 데이터 기초 분석.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/17 관세 데이터 기초 분석.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7 관세 데이터 기초 분석</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 관세</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">관세란?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 관세 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wto-tao-tdf">WTO의 TAO 및 TDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wits">세계은행의 WITS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macmap">MAcMap 시스템</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wto">3. WTO 관세 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tao-tdf">TAO와 TDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">관세 코드와 표준화</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 관세 프로파일</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#world-tariff-profiles">World Tariff Profiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">관세 프로파일 용어</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">평균 관세율 계산</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">5. 사례: 2008년 캐나다 관세 프로파일</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">평균 양허관세율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binding-coverage">Binding Coverage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">비종가세 비율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mfn">MFN 평균 실행관세율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">무역 가중평균 MFN 실행관세율</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 관세 범위별 빈도 분포</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-bounds">can_bounds</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-mfn">can_mfn</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-imp">can_imp</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>7 관세 데이터 기초 분석<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>출처: UNCTAD (2012), <a class="reference external" href="https://unctad.org/topic/trade-analysis/trade-policy-analysis"><em>A Practical Guide to Trade Policy Analysis</em></a>, <a class="reference external" href="https://unctad.org/system/files/official-document/gds2012d2_ch2_en.pdf">Chapter 2</a>.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1.-%EA%B4%80%EC%84%B8"><span class="xref myst">1. 관세</span></a></p></li>
+<li><p><a class="reference internal" href="#2.-%EA%B4%80%EC%84%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="xref myst">2. 관세 데이터</span></a></p></li>
+<li><p><a class="reference internal" href="#3.-WTO-%EA%B4%80%EC%84%B8-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="xref myst">3. WTO 관세 데이터</span></a></p></li>
+<li><p><a class="reference internal" href="#4.-%EA%B4%80%EC%84%B8-%ED%94%84%EB%A1%9C%ED%8C%8C%EC%9D%BC"><span class="xref myst">4. 관세 프로파일</span></a></p></li>
+<li><p><a class="reference internal" href="#5.-%EC%82%AC%EB%A1%80:-2008%EB%85%84-%EC%BA%90%EB%82%98%EB%8B%A4-%EA%B4%80%EC%84%B8-%ED%94%84%EB%A1%9C%ED%8C%8C%EC%9D%BC"><span class="xref myst">5. 사례: 2008년 캐나다 관세 프로파일</span></a></p></li>
+<li><p><a class="reference internal" href="#6.-%EA%B4%80%EC%84%B8-%EB%B2%94%EC%9C%84%EB%B3%84-%EB%B9%88%EB%8F%84-%EB%B6%84%ED%8F%AC"><span class="xref myst">6. 관세 범위별 빈도 분포</span></a></p></li>
+</ul>
+<section id="id2">
+<h2>1. 관세<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<section id="id3">
+<h3>관세란?<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p><strong>무역 정책</strong>(Trade policy)은 정부가 국제 무역과 관련하여 채택하는 정책을 의미하며, 다양한 조치와 여러 도구를 활용할 수 있다. 이러한 도구에는 수입 또는 수출에 대한 세금, 국제 거래의 정량적 제한, 보조금, 비관세조치(NTMs) 등 다양한 조치들이 포함된다. 정부는 수입하거나 수출하는 수천 개의 제품에 대해 이러한 조치를 다양한 조합으로 적용한다. 예를 들어, 관세라는 동일한 조치라도 제품에 따라 다른 수준으로 설정되며, 이로 인해 무역에 매우 상이한 영향을 미칠 수 있다.</p>
+<p><strong>관세</strong>(tariff)는 국경에서 상품의 수입에 부과하는 세금이다. 관세의 효과는 수입 상품의 가격을 세계(국내) 시장 가격보다 높이는 것이다. 관세는 보통 세관 당국에 의해 징수되며 <strong>종가세</strong>(<em>ad valorem</em>) 또는 <strong>종량세</strong>(specific)일 수 있다. 종가세는 수입 상품의 가치, 보통 운임보험료 포함(CIF: Cost Insurance and Freight) 수입 가치의 일정 비율로 표시되며, 종량세는 상품 단위당 고정 통화 금액으로 표시된다.</p>
+<p>종가세가 종량세보다 훨씬 더 널리 사용된다. 그 이유 중 하나는 집계하고 비교하기가 더 쉬워서 투명성이 높기 때문이다. 이는 특히 국가들이 관세 약속을 협상할 때 중요하다. 종량세는 상품이 측정되는 단위에 따라 다르기 때문에 상품 간 비교가 더 어렵다. 그러나 이를 비교하는 한 가지 방법은 <strong>종가세 환산치</strong>(<em>ad valorem</em> equivalent)을 계산하는 것이다.</p>
+<p>관세 체제의 특징 중 간과해서는 안 되는 점은 <strong>최종 용도에 따른 면제</strong>(exemption)의 가능성이다. 특수 프로젝트, 수출가공구역(EPZ: export processing zone)에서 특수 지위를 가진 다국적 기업, 국제 기구 등이다. 공식적인 면제 외에도, 정부는 종종 현지 조사에 의해서만 알 수 있는 임시 면제를 부여한다. 면제가 중요할 때, 이를 간과하면 보호율을 과대평가하게 된다.</p>
+<p>GATT/WTO와 관련된 두 가지 추가 구분을 고려해야 한다. 첫 번째 구분은 <strong>최혜국대우</strong>(MFN: most-favoured nation) 관세율과 <strong>특혜</strong>(preferential) 관세율 간의 차이이다. MFN 관세는 WTO 회원국이 특혜 협정을 체결하지 않은 모든 다른 WTO 회원국의 수입에 대해 부여하기로 약속한 관세이다. 특혜 관세는 자유무역협정(FTA), 관세동맹(customs union) 또는 기타 특혜무역협정(preferential trade agreement)에서 특혜 파트너의 수입에 대해 부여되는 관세로, 다른 관세보다 0에 가까운 경우가 많다.</p>
+<p>두 번째 구분은 <strong>양허</strong>(bound) 관세와 <strong>실행</strong>(applied) 관세 간의 차이다. 정부가 GATT/WTO에서 관세 인하를 협상할 때, 그들의 약속은 MFN 관세 약정(양허) 형태를 취한다. 양허된 MFN 관세 수준은 국가의 관세율표에 나열돼있으며, 이는 정부가 실행 MFN 관세를 설정하기로 약속한 상한을 나타낸다.</p>
+<p>주어진 관세품목(tariff line)에 대해 양허 관세는 실행 MFN 관세보다 높거나 같아야 하며, 특혜 관세가 있는 경우 특혜 관세보다 높거나 같다. 선진국의 경우, 양허 관세는 보통 실행 관세와 동일하거나 매우 가깝다. 그러나 개발도상국의 경우에는 종종 양허 관세가 실행 관세보다 높아 무역 흐름에 제약적인 영향을 미친다.</p>
+<blockquote>
+<div><p><strong>관세 양허</strong>(Concession of Tariff)란 국가 간 관세 적용에 관한 협상에서 협상 당사국이 특정 품목의 관세를 일정 수준 이상으로 부과하지 않겠다고 약속하는 것을 의미한다. 관세 양허의 결과는 당해 국가의 양허 관세율표(Tariff Schedule) 형태로 협정문에 부속시키며, 일단 관세 양허된 품목의 세율에 대해서는 상대방의 동의 없이는 변경할 수 없다.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="id4">
+<h2>2. 관세 데이터<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>세계 전체의 관세 데이터에 접근할 수 있는 주요 포털은 세 가지며, 비관세조치에 대한 접근은 현재로서는 기본적으로 하나의 포털이 있다.</p>
+<ol class="arabic simple">
+<li><p><strong>WTO</strong>는 양허 관세, 실행 관세, 특혜 관세에 대한 접근을 두 가지 시스템을 통해 제공한다. Tariff Analysis Online(<strong>TAO</strong>)과 Tariff Download Facility(<strong>TDF</strong>)이다. 또한 WTO 회원국들이 통보한 비관세조치(NTM) 정보를 담고있는 다양한 데이터베이스에도 접근할 수 있다.</p></li>
+<li><p><strong>세계은행</strong> World Integrated Trade Solutions(<strong>WITS</strong>) 포털은 양허 관세, 실행 관세, 특혜 관세에 대한 접근을 제공하며, 전 세계적으로 유일한 비관세조치(NTM) 데이터베이스(<strong>TRAINS</strong>)에도 접근할 수 있다.</p></li>
+<li><p><strong>ITC</strong>(International Trade Centre)의 Market Access Map(<strong>MAcMap</strong>) 포털을 통해 양허, 실행, 특혜 관세와 관세쿼터, 반덤핑 관세, 원산지 규칙에 접근할 수 있다.</p></li>
+</ol>
+<p>모든 세 가지 포털은 무역 데이터에도 접근할 수 있게 해준다. 이 외에도 특정 조치나 특정 부문에 대한 정보를 제공하는 여러 데이터베이스가 온라인에서 접근 가능하다.</p>
+<section id="wto-tao-tdf">
+<h3>WTO의 TAO 및 TDF<a class="headerlink" href="#wto-tao-tdf" title="Link to this heading">#</a></h3>
+<p>WTO의 <strong>TAO</strong>(<a class="reference external" href="http://tariffanalysis.wto.org/">http://tariffanalysis.wto.org/</a>)는 WTO 회원국이 제공하거나 승인한 공식 관세 데이터에 접근할 수 있는 두 가지 인터페이스 중 하나다. 이 관세 데이터는 두 개의 데이터베이스에 저장된다. Integrated Data Base(IDB)와 Consolidated Tariffs Schedules(CTS)이다.</p>
+<p><strong>IDB</strong>는 WTO 회원국이 WTO에 보고하기로 약속한 관세 및 무역 정보를 저장한다. IDB는 1996년부터 주로 8자리나 때로는 10자리의 관세품목 수준에서 WTO 회원국의 MFN 실행 관세 및 수입 데이터를 담고 있다.</p>
+<p><strong>CTS</strong> 데이터베이스는 모든 WTO 회원국의 양허 관세를 포함하고 있다. IDB와 동일한 시스템을 통해 무료로 접근할 수 있다.</p>
+<p>TAO의 보완으로 <strong>TDF</strong>(<a class="reference external" href="http://tariffdata.wto.org/">http://tariffdata.wto.org/</a>)가 있으며, 이는 HS 6자리 코드 수준의 정보를 포함한다.</p>
+</section>
+<section id="wits">
+<h3>세계은행의 WITS<a class="headerlink" href="#wits" title="Link to this heading">#</a></h3>
+<p>WITS(<a class="reference external" href="http://wits.worldbank.org/">http://wits.worldbank.org/</a>)는 세계은행이 유엔무역개발회의(UNCTAD)와 긴밀히 협력해 개발했다. 이는 다섯 가지 무역 및 관세 데이터베이스에 접근할 수 있게 한다.</p>
+<ul class="simple">
+<li><p>WTO의 IDB 및 CTS 데이터베이스</p></li>
+<li><p>UNSD의 COMTRADE 데이터베이스</p></li>
+<li><p>UNCTAD의 TRAINS 데이터베이스</p></li>
+<li><p>CEPII 및 IFPRI의 MAcMapHS6v2 데이터베이스</p></li>
+<li><p>AMAD 데이터베이스</p></li>
+</ul>
+<p><strong>TRAINS</strong>(TRade Analysis and INformation System)는 1988년부터 국가 관세품목 수준에서 MFN(실행) 및 특혜 관세, 비관세조치(NTMs) 및 수입 데이터를 포함하고 있다. NTM 데이터는 공식 데이터 소스에서 수집된다. 이 데이터는 기업 설문조사 및 웹 포털을 통해 수집된 정보로 보완되며, 별도의 데이터베이스에 저장된다.</p>
+</section>
+<section id="macmap">
+<h3>MAcMap 시스템<a class="headerlink" href="#macmap" title="Link to this heading">#</a></h3>
+<p>국제무역센터(ITC)와 국제경제연구소(CEPII)가 공동 개발한 데이터베이스로, 실행 MFN 관세 및 특혜 관세, 그리고 WTO의 양허 관세(CTS 데이터베이스)를 관세품목 수준에서 제공한다. 또한, 비종가세(non-<em>ad valorem</em> tariff)를 종가세 환산치(AVE: <em>ad valorem</em> equivalents)로 변환한 정보를 포함하고 있으며, 관세율 쿼터(tariff-rate quota)에 대한 데이터도 포함돼있다(원본 데이터는 AMAD에서 제공).</p>
+</section>
+</section>
+<section id="wto">
+<h2>3. WTO 관세 데이터<a class="headerlink" href="#wto" title="Link to this heading">#</a></h2>
+<p>출처: <a class="reference external" href="https://www.wto.org/english/tratop_e/tariffs_e/tariff_data_e.htm">Tariffs: Comprehensive tariff data on the WTO website</a></p>
+<section id="tao-tdf">
+<h3>TAO와 TDF<a class="headerlink" href="#tao-tdf" title="Link to this heading">#</a></h3>
+<p>WTO 웹사이트는 회원국의 관세율과 수입(import)에 대한 정보를 제공한다. Tariff Analysis Online (<a class="reference external" href="http://tariffanalysis.wto.org/?ui=1">TAO</a>)은 두 개의 데이터베이스를 활용하여 가장 상세한 수준에서 정의된 제품의 관세율, 수입 통계 및 이를 인터랙티브 방식으로 분석할 수 있는 기능을 제공한다. Tariff Download Facility (<a class="reference external" href="http://tariffdata.wto.org/Default.aspx?culture=en-US">TDF</a>)는 표준화된 관세 통계를 제공하며, 약간 덜 상세하지만 국가 간 즉각적인 비교가 가능하다.</p>
+<p>이 두 서비스 모두에서 사용자는 두 가지 세트의 관세 데이터를 얻고 비교할 수 있다.</p>
+<ul class="simple">
+<li><p>법적으로 양허된 관세율 약정, 이는 회원국 정부가 설정할 수 있는 관세의 상한선을 나타내며 “<strong>양허율</strong>(bound rate)”로 불린다.</p></li>
+<li><p>실제로 수입에 부과되는 관세율, 이는 더 낮을 수 있으며 “<strong>실행율</strong>(applied rate)”로 불리며 무역에 직접적인 영향을 미친다.</p></li>
+</ul>
+<p>관세는 “<strong>관세품목</strong>(tariff line)” 수준(8자리 이상의 HS 코드)에서 제공된다. 이 수준의 세부 정보에서는 국가들이 반드시 동일한 코드 번호로 제품을 정의하는 것은 아니기 때문에 국가 간 비교가 가능하지 않을 수도 있다.</p>
+<p>TAO는 데이터 검색과 온라인 분석(관세, 관세쿼터, 수입 및 농업 보조금에 대한 국가 약정 포함)에 대한 다양한 옵션을 제공한다. 결과는 화면에서 확인하거나 다운로드 및 인쇄할 수 있다.</p>
+<p>TDF는 더 간단한다. 양허, 실행, 특혜 관세와 수입 통계 데이터는 모든 국가에 표준화된 HS 코드의 최대 6자리까지 제공된다.</p>
+<p>TAO 및 TDF는 두 개의 데이터베이스(IDB와 CTS 데이터베이스)를 기반으로 한다. <a class="reference external" href="https://www.wto.org/english/tratop_e/tariffs_e/idb_e.htm">IDB</a>(Integrated Database)는 WTO 회원국과 가입 경제의 수입에 대해 실행된(applied) 관세의 시계열을 포함한다. 데이터는 가장 세부적인 제품 수준(보통 8자리에서 10자리 제품 수준 또는 관세품목 코드)에서 제공된다. 이 데이터베이스에는 수입 통계도 포함되어 있으며, 국가별 원산지 및 관세품목별로 수입의 가치와 양을 포함한다.</p>
+<p><a class="reference external" href="https://www.wto.org/english/tratop_e/tariffs_e/cts_e.htm">CTS</a>(Consolidated Tariff Schedules) 데이터베이스는 WTO 회원국이 다른 WTO 회원국에서 수입된 제품에 부과할 수 있는 합의된 최대 관세(agreed maximum tariff)가 들어있다.</p>
+</section>
+<section id="id5">
+<h3>관세 코드와 표준화<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>데이터베이스에서 제품(Product)은 세계관세기구(WCO: World Customs Organization)의 국제적으로 합의된 “HS(Harmonized System)”를 사용하여 식별된다.</p>
+<p>HS 시스템에서는 가장 넓은 범주의 제품이 두 자리 “류(類: chapter)”로 식별된다(예: 04는 유제품, 계란 및 기타 식용 동물 제품). 그런 다음 자리를 추가하여 세분화된다. 자리 수가 많을수록 카테고리가 더 상세해진다. 예를 들어 4자리 코드 또는 “호(小號; heading)” 0403은 유제품에서 유래한 제품 그룹이다. 6자리에서 0403.10은 요구르트를 위한 “소호(小號; sub-heading)”다. 8자리 수준에서 0403.10.11은 저지방 요구르트 “관세품목”이다.</p>
+<p>코드는 6자리까지 표준화되어 있으며, 이는 국제적으로 비교할 수 있는 가장 상세한 수준이다. 이는 TDF에서 사용된다. 그 이후에는 각 국가가 자신의 필요에 따라 자유롭게 정의를 사용할 수 있다.</p>
+<p>TAO와 TDF는 모두 MS 엑셀 스프레드시트 및 기타 형식으로 데이터를 다운로드할 수 있다.</p>
+</section>
+</section>
+<section id="id6">
+<h2>4. 관세 프로파일<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>관세 프로파일(Tariff Profile)은 특정 국가의 관세 현황과 구조를 요약한 것을 말한다. 대표적으로 다음과 같은 지표들로 구성된다.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>지표</p></th>
+<th class="head text-left"><p>설명 및 계산 방법</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>양허 범위(binding coverage)</p></td>
+<td class="text-left"><p>최소 하나의 양허 관세품목을 포함하는 HS 6자리 소호(subheading)의 비율. full 양허 범위는 소수점 없이 100으로 표시된다. 일부 관세품목이 양허되지 않았지만 결과가 여전히 100으로 반올림된다면, 소수점 한 자리를 유지하여 표시한다(예: 100.0).</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>단순평균(Simple average)</p></td>
+<td class="text-left"><p>종가세(<em>ad valorem</em>) 또는 AVE(종가세 환산치) HS 6자리 관세 평균의 단순평균.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>무관세(duty-free) 비율</p></td>
+<td class="text-left"><p>제품 그룹 내 소호 총 수에서 무관세 HS 6자리 소호의 비율. 부분적으로 무관세인 소호는 비율에 따라 고려된다.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>비종가 관세(Non-<em>ad valorem</em> duties)</p></td>
+<td class="text-left"><p>비종가 관세가 적용되는 HS 6자리 소호의 비율. HS 6자리 소호의 일부에만 비종가 관세가 적용되는 경우 해당 관세품목의 비율이 사용된다.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>관세 &gt; 15%</p></td>
+<td class="text-left"><p>종가 관세 또는 AVE가 15%를 초과하는 HS 6자리 소호의 비율. HS 6자리 소호의 일부만 그러한 관세가 적용되는 경우 비율에 따라 계산된다.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>관세 &gt; 3×AVG</p></td>
+<td class="text-left"><p>종가 관세 또는 AVE가 국가 평균의 세 배를 초과하는 HS 6자리 소호의 비율. HS 6자리 소호의 일부만 그러한 관세가 적용되는 경우 비율에 따라 계산된다.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>2023년에 아직 실행되지 않은 양허(concessions)</p></td>
+<td class="text-left"><p>2023년에 아직 실행되지 않은 HS 6자리 양허 소호의 비율. HS 6자리 소호의 일부만 이러한 관세가 적용되는 경우 비율에 따라 계산된다.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>최고 관세</p></td>
+<td class="text-left"><p>관세품목 수준의 최대 종가 관세 또는 AVE.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>서로 다른 관세율의 수</p></td>
+<td class="text-left"><p>서로 다른 관세율의 수. 비종가 관세는 항상 서로 다르게 취급되며 AVE 계산은 항상 서로 다른 AVE를 산출한다. 그러나 이 지표에서는 제공되지 않은 관세는 포함되지 않다.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>변동계수(coefficient of variation)</p></td>
+<td class="text-left"><p>관세품목 관세율의 표준 편차를 모든 관세율의 단순 관세품목 수준 평균으로 나눈 값. 종가 관세 또는 AVE만 포함된다.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>MFN 실행 관세품목의 수</p></td>
+<td class="text-left"><p>총 MFN 실행 관세품목의 수.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="world-tariff-profiles">
+<h3>World Tariff Profiles<a class="headerlink" href="#world-tariff-profiles" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://www.wto.org/english/res_e/publications_e/world_tariff_profiles24_e.htm"><strong>World Tariff Profiles 2024</strong></a>: 170개 이상의 국가 및 관세 지역이 부과한 관세 및 비관세조치에 대한 포괄적인 정보를 제공한다. 이는 WTO와 UNCTAD의 공동 출판물이다.</p>
+<p><strong>Technical notes</strong></p>
+<p>HS 01–97 류(chapter)에 기록된 관세 및 수입만 고려된다. 각 실행 관세율표는 해당 연도의 국가에서 채택한 HS 버전의 HS 6자리 소호 수준의 표준 분류법을 기준으로 검증된다. 이 표준을 따르지 않는 국가 관세품목은 폐기되고 고려되지 않다(즉, 처음 6자리는 국가에서 사용한 HS 버전의 표준 소호 분류법을 기반으로 해야 한다). 반면에 누락된 소호는 추가된다. 따라서 모든 계산은 완전한 표준 분류법을 기반으로 한다. 모든 단순평균은 사전 집계된 HS 6자리 평균을 기반으로 한다. 사전 집계는 관세품목 수준의 관세가 먼저 HS 6자리 소호로 평균화된다는 것을 의미한다. 후속 계산은 이러한 사전 집계된 평균을 기반으로 한다. 가능한 한 비종가 관세는 종가세 환산치로 변환된다.</p>
+<p><strong>2024년 한국 관세 프로파일</strong></p>
+<p><img alt="한국 관세 프로파일 1" src="https://raw.githubusercontent.com/pilsunchoi/images2/main/%ED%95%9C%EA%B5%AD%EA%B4%80%EC%84%B8%ED%94%84%EB%A1%9C%ED%8C%8C%EC%9D%BC1.png" /></p>
+<p><img alt="한국 관세 프로파일 2" src="https://raw.githubusercontent.com/pilsunchoi/images2/main/%ED%95%9C%EA%B5%AD%EA%B4%80%EC%84%B8%ED%94%84%EB%A1%9C%ED%8C%8C%EC%9D%BC2.png" /></p>
+</section>
+<section id="id7">
+<h3>관세 프로파일 용어<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>용어</p></th>
+<th class="head text-left"><p>설명</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>종가 관세(<em>ad valorem</em>, AV)</p></td>
+<td class="text-left"><p>가격의 일정 비율로 부과되는 관세율.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>실행 관세율(applied rates)</p></td>
+<td class="text-left"><p>실제로 수입에 부과되는 관세. 이는 양허 관세율보다 낮을 수 있음.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>양허 관세율(bound rates, tariff binding)</p></td>
+<td class="text-left"><p>합의된 수준을 초과하여 관세율을 인상하지 않겠다는 약속. 일단 관세율이 양허되면, 영향을 받는 당사자에게 보상을 제공하지 않는 한 인상할 수 없음.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>자리 수준(digit-level)</p></td>
+<td class="text-left"><p>제품을 식별하기 위해 사용되는 코드의 참조. 제품 범주는 자리를 추가하여 세분화됨.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>HS 시스템(Harmonized System)</p></td>
+<td class="text-left"><p>제품을 식별하기 위해 세계관세기구(WCO: World Customs Organization)에서 사용하는 코드 체계. 코드는 최대 6자리까지 표준화되어 있음. 그 이후에는 국가별로 관세 및 다양한 목적을 위해 국가별 구분을 도입할 수 있음.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>최혜국(MFN, most-favoured-nation) 관세</p></td>
+<td class="text-left"><p>수입품에 부과되는 일반 비차별적 관세(자유무역협정 및 기타 프로그램에 따른 특혜 관세(preferential tariff) 또는 할당내 관세(tariffs charged inside quotas) 제외).</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>양허관세율표(tariff schedule)</p></td>
+<td class="text-left"><p>(상품에 대한) 양허 관세율 목록.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>관세품목(TL, tariff line)</p></td>
+<td class="text-left"><p>관세 코드 체계에 의해 정의된 제품.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id8">
+<h3>평균 관세율 계산<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p><strong>관세율표</strong>(tariff schedule)는 일반적으로 HS 8자리 수준의 세분화 또는 더 높은 수준(최대 HS 12)으로 정의되며, 주어진 국가에는 항상 5,000개 이상, 종종 그보다 훨씬 많은 <strong>관세품목</strong>(tariff line)이 있다.</p>
+<p>관세는 단순평균 또는 가중치를 사용하는 방식으로 집계할 수 있다. 단순평균은 모든 관세품목의 관세를 다 더해서 그 관세품목 수로 나누어 계산한다. 가중평균의 경우, 다음과 같은 형태를 취한다.</p>
+<div class="math notranslate nohighlight">
+\[
+τ = \sum w_k τ_k
+\]</div>
+<p>여기서 <span class="math notranslate nohighlight">\(k\)</span>는 수입 상품을 나타내고 <span class="math notranslate nohighlight">\(w_k\)</span>는 관세 <span class="math notranslate nohighlight">\(k\)</span>에 주어진 가중치다. 널리 사용되는 접근 방식은 국가의 전체 수입에서의 해당 상품이 차지하는 비율을 가중치로 사용하는 것이다.</p>
+<p>단순평균과 수입-가중평균은 계산하기 상대적으로 쉽다는 장점이 있지만, 이 두 가지 방법 모두 각각의 단점이 있다. 단순평균은 수입되지 않은 제품과 대량으로 수입되는 제품에 동일한 가중치를 부여한다는 문제점이 있다. 수입-가중평균의 경우, 이 편향을 어느 정도 수정하지만 높은 관세를 과소평가하며, 금지적 관세에는 0의 가중치가 부여된다는 문제점이 있다.</p>
+</section>
+</section>
+<section id="id9">
+<h2>5. 사례: 2008년 캐나다 관세 프로파일<a class="headerlink" href="#id9" title="Link to this heading">#</a></h2>
+<p>2008년 기준, 캐나다의 양허 관세, 실행 관세, 수입 데이터를 관세품목 수준에서 다운로드한다(CAN_Bounds.dta). 캐나다의 경우, 관세품목은 8자리 또는 경우에 따라 10자리 수준으로 정의된다.</p>
+<section id="id10">
+<h3>평균 양허관세율<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Load CAN_Bounds dataset</span>
+<span class="n">can_bounds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s2">&quot;../Data/CAN_Bounds.dta&quot;</span><span class="p">)</span>
+
+<span class="c1"># 일부 8자리 관세품목에는 &#39;00&#39;, &#39;01&#39;, &#39;02&#39;, ... 와 같은 하위 품목이 있음. </span>
+<span class="c1"># 여기서 &#39;00&#39;은 하위 제품의 평균으로서 독립된 품목이 아님.</span>
+<span class="n">can_bounds</span> <span class="o">=</span> <span class="n">can_bounds</span><span class="p">[</span><span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;tls&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&#39;00&#39;&quot;</span><span class="p">]</span> <span class="c1"># tls 값이 &#39;00&#39;인 행을 삭제함</span>
+<span class="n">can_bounds</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4555, 45)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">can_bounds</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;queryname&#39;, &#39;basenomenclature&#39;, &#39;productclassification&#39;,
+       &#39;reportercode&#39;, &#39;reporter&#39;, &#39;year&#39;, &#39;productcode&#39;, &#39;tl&#39;, &#39;tls&#39;, &#39;ex&#39;,
+       &#39;certified&#39;, &#39;source&#39;, &#39;bounddutyav&#39;, &#39;bounddutyother&#39;,
+       &#39;bounddutynature&#39;, &#39;boundnaturedescription&#39;, &#39;bounddutybindingstatus&#39;,
+       &#39;boundbindingdescription&#39;, &#39;odcdutyav&#39;, &#39;odcdutyother&#39;, &#39;odcdutynature&#39;,
+       &#39;odcdutynaturedescription&#39;, &#39;odctextualinformation&#39;, &#39;basedutyav&#39;,
+       &#39;basedutyother&#39;, &#39;basedutynature&#39;, &#39;basenaturedescription&#39;,
+       &#39;basedutybindingstatus&#39;, &#39;basebindingdescription&#39;, &#39;specialsafeguard&#39;,
+       &#39;presentinstrument&#39;, &#39;presentinrtext&#39;, &#39;implementationfrom&#39;,
+       &#39;implementationto&#39;, &#39;firstinstrument&#39;, &#39;earlierinrtext&#39;, &#39;v38&#39;,
+       &#39;presenatureodcdutyuctdescription&#39;, &#39;presenatureodcdutyuctcodcduty&#39;,
+       &#39;odcdutyctextualinformation&#39;, &#39;presenatureinstrumenature&#39;,
+       &#39;presenatureinrtext&#39;, &#39;implemenatureationfrom&#39;,
+       &#39;implemenatureationatureo&#39;, &#39;firstatusinstrumenature&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>농업제품 더미변수 만들기</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create agricultural product dummy</span>
+<span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;productclassification&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;HS - WTO Agricultural Products Definition&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>HS 6자리 코드 만들기</strong></p>
+<ul class="simple">
+<li><p>HS 8자리 코드인 <code class="docutils literal notranslate"><span class="pre">tl</span></code> 변수의 문자열 값을 앞에서부터(맨앞 따옴표부터) 7자리까지 자른 다음, 맨끝에 작은 따옴표(‘)를 추가</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create hs6 classification</span>
+<span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;hs6&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;tl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>비종가세 더미변수 만들기</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create non ad-valorem duty dummy</span>
+<span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;nav&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">can_bounds</span><span class="p">[</span><span class="s2">&quot;bounddutynature&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>필요 변수만 남기기</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep only necessary columns and save the file</span>
+<span class="n">can_bounds_new</span> <span class="o">=</span> <span class="n">can_bounds</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;tl&quot;</span><span class="p">,</span> <span class="s2">&quot;tls&quot;</span><span class="p">,</span> <span class="s2">&quot;ex&quot;</span><span class="p">,</span> <span class="s2">&quot;bounddutyav&quot;</span><span class="p">,</span> <span class="s2">&quot;bounddutybindingstatus&quot;</span><span class="p">,</span> <span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">can_bounds_new</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tl</th>
+      <th>tls</th>
+      <th>ex</th>
+      <th>bounddutyav</th>
+      <th>bounddutybindingstatus</th>
+      <th>nav</th>
+      <th>hs6</th>
+      <th>ag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'01011000'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010110'</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'01019000'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010190'</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'01021000'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010210'</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'01029010'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010290'</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'01029090'</td>
+      <td></td>
+      <td></td>
+      <td>NaN</td>
+      <td>B</td>
+      <td>1</td>
+      <td>'010290'</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4839</th>
+      <td>'54021090'</td>
+      <td>'01'</td>
+      <td>Ex01</td>
+      <td>8.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540210'</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4840</th>
+      <td>'54022010'</td>
+      <td>'02'</td>
+      <td>Ex02</td>
+      <td>8.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540220'</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4841</th>
+      <td>'54022090'</td>
+      <td>'01'</td>
+      <td>Ex01</td>
+      <td>8.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540220'</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4843</th>
+      <td>'54071010'</td>
+      <td>'02'</td>
+      <td>Ex02</td>
+      <td>14.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540710'</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4844</th>
+      <td>'54076192'</td>
+      <td></td>
+      <td></td>
+      <td>14.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540761'</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>4555 rows × 8 columns</p>
+</div></div></div>
+</div>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tl</span></code></strong> (tariff line): 관세품목 코드. 국가별로 정의된 상세한 코드로, HS 코드보다 더 세부적으로 구성됨.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tls</span></code></strong> (tariff line suffix): 일부 8자리 관세품목에는 ‘00’, ‘01’, ‘02’, … 와 같은 하위 품목이 있음.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ex</span></code></strong> (exception): 특정 품목이 예외 조건에 해당하는지를 나타냄.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bounddutyav</span></code></strong> (bound duty ad valorem): 종가세 양허 관세율(최대 허용 관세율).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bounddutybindingstatus</span></code></strong> (bound duty binding status): 관세 양허 상태. “B”는 양허 관세, 그 외 값은 비양허 상태.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">nav</span></code></strong> (non ad valorem): 비종가 관세(예: 특정 금액/중량 등) 더미변수. 값이 1이면 비종가세, 0이면 종가세.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">hs6</span></code></strong> (6-digit HS code): HS 코드 체계의 6자리 수준에서의 품목 분류.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ag</span></code></strong> (agriculture): 농업 제품 더미변수. 값이 1이면 농업 제품, 0이면 비농업 제품.</p></li>
+</ul>
+<p><strong>품목별 평균 관세율 계산</strong></p>
+<p>우선, 각각의 hs-6 수준과 농업 제품 여부별로 사전 집계를 수행한다. 즉, <code class="docutils literal notranslate"><span class="pre">hs6</span></code>와 <code class="docutils literal notranslate"><span class="pre">ag</span></code>의 각 고유 조합에 대해 데이터를 그룹화하여 <code class="docutils literal notranslate"><span class="pre">bounddutyav</span></code>의 평균값을 계산한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pre-aggregate at hs6 level</span>
+<span class="n">bound_aggregated</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">can_bounds_new</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="n">bound_aggregated</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>bounddutyav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2618</th>
+      <td>'560210'</td>
+      <td>0</td>
+      <td>14.00</td>
+    </tr>
+    <tr>
+      <th>2619</th>
+      <td>'560221'</td>
+      <td>0</td>
+      <td>9.35</td>
+    </tr>
+    <tr>
+      <th>2620</th>
+      <td>'560229'</td>
+      <td>0</td>
+      <td>14.00</td>
+    </tr>
+    <tr>
+      <th>2621</th>
+      <td>'560290'</td>
+      <td>0</td>
+      <td>14.00</td>
+    </tr>
+    <tr>
+      <th>2622</th>
+      <td>'560311'</td>
+      <td>0</td>
+      <td>14.00</td>
+    </tr>
+  </tbody>
+</table>
+<p>2623 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>전체 및 농업 제품 여부별로 <code class="docutils literal notranslate"><span class="pre">bounddutyav</span></code>의 평균값 계산</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute total, agricultural, and non-agricultural averages</span>
+<span class="n">total_avg</span> <span class="o">=</span> <span class="n">bound_aggregated</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ag_avg</span> <span class="o">=</span> <span class="n">bound_aggregated</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bound_aggregated</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">nonag_avg</span> <span class="o">=</span> <span class="n">bound_aggregated</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bound_aggregated</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Simple average final bound&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">total_avg</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ag_avg</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">nonag_avg</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Simple average final bound</td>
+      <td>4.47</td>
+      <td>3.66</td>
+      <td>4.74</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="binding-coverage">
+<h3>Binding Coverage<a class="headerlink" href="#binding-coverage" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>HS 6단위의 각 품목별로 양허 상태 관세품목의 비율을 계산함.</p></li>
+</ul>
+<p><strong>양허 관세 더미변수 생성</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make an explicit copy of the DataFrame</span>
+<span class="n">can_bounds_new</span> <span class="o">=</span> <span class="n">can_bounds_new</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># Compute binding coverage</span>
+<span class="n">can_bounds_new</span><span class="p">[</span><span class="s2">&quot;bind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">can_bounds_new</span><span class="p">[</span><span class="s2">&quot;bounddutybindingstatus&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">can_bounds_new</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tl</th>
+      <th>tls</th>
+      <th>ex</th>
+      <th>bounddutyav</th>
+      <th>bounddutybindingstatus</th>
+      <th>nav</th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>bind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'01011000'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'01019000'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'01021000'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'01029010'</td>
+      <td></td>
+      <td></td>
+      <td>0.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'01029090'</td>
+      <td></td>
+      <td></td>
+      <td>NaN</td>
+      <td>B</td>
+      <td>1</td>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4839</th>
+      <td>'54021090'</td>
+      <td>'01'</td>
+      <td>Ex01</td>
+      <td>8.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540210'</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4840</th>
+      <td>'54022010'</td>
+      <td>'02'</td>
+      <td>Ex02</td>
+      <td>8.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540220'</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4841</th>
+      <td>'54022090'</td>
+      <td>'01'</td>
+      <td>Ex01</td>
+      <td>8.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540220'</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4843</th>
+      <td>'54071010'</td>
+      <td>'02'</td>
+      <td>Ex02</td>
+      <td>14.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540710'</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4844</th>
+      <td>'54076192'</td>
+      <td></td>
+      <td></td>
+      <td>14.0</td>
+      <td>B</td>
+      <td>0</td>
+      <td>'540761'</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>4555 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p><strong>품목별 binding coverage 계산</strong></p>
+<ul class="simple">
+<li><p>각 관세품목별로 몇 퍼센트가 양허관세인지를 계산한다.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hs6</span></code>와 <code class="docutils literal notranslate"><span class="pre">ag</span></code>의 각 고유 조합에 대해 데이터를 그룹화하여 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">bind</span></code> 열의 값을 합산하여 <code class="docutils literal notranslate"><span class="pre">bind_sum</span></code>이라는 새 열을 만들고, 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">bind</span></code> 열의 값의 개수를 세어 <code class="docutils literal notranslate"><span class="pre">bind_count</span></code>라는 새 열을 만든다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binding_coverage</span> <span class="o">=</span> <span class="n">can_bounds_new</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">bind_sum</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;bind&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span> <span class="n">bind_count</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;bind&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">binding_coverage</span><span class="p">[</span><span class="s2">&quot;BindingCoverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">binding_coverage</span><span class="p">[</span><span class="s2">&quot;bind_sum&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">binding_coverage</span><span class="p">[</span><span class="s2">&quot;bind_count&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span>
+<span class="n">binding_coverage</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>bind_sum</th>
+      <th>bind_count</th>
+      <th>BindingCoverage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>2</td>
+      <td>2</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2618</th>
+      <td>'560210'</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2619</th>
+      <td>'560221'</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2620</th>
+      <td>'560229'</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2621</th>
+      <td>'560290'</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2622</th>
+      <td>'560311'</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2623 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute total, agricultural, and non-agricultural averages</span>
+<span class="n">total_avg</span> <span class="o">=</span> <span class="n">binding_coverage</span><span class="p">[</span><span class="s2">&quot;BindingCoverage&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ag_avg</span> <span class="o">=</span> <span class="n">binding_coverage</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">binding_coverage</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;BindingCoverage&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">nonag_avg</span> <span class="o">=</span> <span class="n">binding_coverage</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">binding_coverage</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;BindingCoverage&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Simple average binding coverage&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">total_avg</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ag_avg</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">nonag_avg</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Simple average binding coverage</td>
+      <td>99.68</td>
+      <td>100.0</td>
+      <td>99.56</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id11">
+<h3>비종가세 비율<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>HS 6단위의 각 품목별로 비종가세의 비율을 구함.</p></li>
+</ul>
+<p><strong>품목별 비종가세 비율 계산</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">hs6</span></code>와 <code class="docutils literal notranslate"><span class="pre">ag</span></code>의 각 고유 조합에 대해 데이터를 그룹화하여 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">nav</span></code> 열의 값을 합산하여 <code class="docutils literal notranslate"><span class="pre">total_nav</span></code>이라는 새 열을 만들고, 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">nav</span></code> 열의 값의 개수를 세어 <code class="docutils literal notranslate"><span class="pre">nrtl</span></code>라는 새 열을 만든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nav_share</span> <span class="o">=</span> <span class="n">can_bounds_new</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">nav_sum</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span> <span class="n">nav_count</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;nav_sum&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;nav_count&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span>
+<span class="n">nav_share</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>nav_sum</th>
+      <th>nav_count</th>
+      <th>NAVshare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>50.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2618</th>
+      <td>'560210'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2619</th>
+      <td>'560221'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2620</th>
+      <td>'560229'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2621</th>
+      <td>'560290'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2622</th>
+      <td>'560311'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2623 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute total, agricultural, and non-agricultural averages</span>
+<span class="n">total_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="p">[</span><span class="s1">&#39;NAVshare&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ag_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">nonag_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Simple average nav share&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">total_avg</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ag_avg</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">nonag_avg</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Simple average nav share</td>
+      <td>5.21</td>
+      <td>17.85</td>
+      <td>0.69</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="mfn">
+<h3>MFN 평균 실행관세율<a class="headerlink" href="#mfn" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CAN_DutyDetails.dta 불러들임.</p></li>
+<li><p>캐나다 2008년 실행관세 데이터임.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load CAN_DutyDetails dataset</span>
+<span class="n">can_duty_details</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s2">&quot;../Data/CAN_DutyDetails.dta&quot;</span><span class="p">)</span>
+<span class="n">can_duty_details</span> <span class="o">=</span> <span class="n">can_duty_details</span><span class="p">[</span><span class="n">can_duty_details</span><span class="p">[</span><span class="s2">&quot;tls&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&#39;00&#39;&quot;</span><span class="p">]</span>
+<span class="n">can_duty_details</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(39417, 23)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>최혜국(MFN) 실행관세율 추려내기</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">can_duty_details</span><span class="p">[</span><span class="s1">&#39;nationaldescription&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;MFN applied duty rates&#39;
+ &#39;Preferential duty rates for Commonwealth Caribbean Countries&#39;
+ &#39;Least Developed Countries (LDC) duties&#39;
+ &#39;Free-trade agreement duty rate for Chile  (CCFTA)&#39;
+ &#39;Free-trade area duty rate for the United States under the North American Free Trade Agreement (NAFTA)&#39;
+ &#39;Free-trade agreement duty rate for Costa Rica&#39;
+ &#39;Free-trade area duty rate for Mexico under the North American Free Trade Agreement (NAFTA)&#39;
+ &#39;Generalized System of Preferences (GSP) scheme&#39;
+ &#39;Preferential duty rates for Australia&#39;
+ &#39;Preferential duty rates for New Zealand&#39;
+ &#39;Free-trade area duty rate for Mexico-United States under the North American Free Trade Agreement (NAFTA)&#39;
+ &#39;Free-trade agreement duty rate for Israel (CIFTA)&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_mfn</span> <span class="o">=</span> <span class="n">can_duty_details</span><span class="p">[</span>
+    <span class="n">can_duty_details</span><span class="p">[</span><span class="s2">&quot;nationaldescription&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;MFN applied duty rates&quot;</span>
+<span class="p">]</span>
+<span class="n">can_mfn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>queryname</th>
+      <th>basenomenclature</th>
+      <th>classification</th>
+      <th>reporter</th>
+      <th>reportercode</th>
+      <th>year</th>
+      <th>subid</th>
+      <th>tl</th>
+      <th>tls</th>
+      <th>dutytypecode</th>
+      <th>...</th>
+      <th>dutynature</th>
+      <th>bindingcode</th>
+      <th>bindingcoverageflag</th>
+      <th>description1</th>
+      <th>description2</th>
+      <th>description3</th>
+      <th>partnername</th>
+      <th>nationaldescription</th>
+      <th>dutydescription</th>
+      <th>v23</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO Agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'01011000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Pure-bred breeding animals</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO Agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'01019000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Other</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO Agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'01021000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Pure-bred breeding animals</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO Agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'01029000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Other</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO Agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'01031000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Pure-bred breeding animals</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>39412</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO  Non-agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'97020000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Original engravings, prints and lithographs. ...</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39413</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO  Non-agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'97030000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Original sculptures and statuary, in any mate...</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39414</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO  Non-agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'97040000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Postage or revenue stamps, stamp-postmarks, f...</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39415</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO  Non-agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'97050000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Collections and collectors' pieces of zoologi...</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39416</th>
+      <td>NaN</td>
+      <td>Harmonized System 2007</td>
+      <td>HS - WTO  Non-agricultural Products Definition</td>
+      <td>Canada</td>
+      <td>'124'</td>
+      <td>2008</td>
+      <td>1</td>
+      <td>'97060000'</td>
+      <td></td>
+      <td>'02'</td>
+      <td>...</td>
+      <td>A</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Antiques of an age exceeding one hundred years...</td>
+      <td>Not applicable/not available</td>
+      <td>Ad valorem duty</td>
+      <td>-</td>
+      <td>MFN applied duty rates</td>
+      <td>02- MFN statutory (legal/autonomous) duty</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>8432 rows × 23 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">can_mfn</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;queryname&#39;, &#39;basenomenclature&#39;, &#39;classification&#39;, &#39;reporter&#39;,
+       &#39;reportercode&#39;, &#39;year&#39;, &#39;subid&#39;, &#39;tl&#39;, &#39;tls&#39;, &#39;dutytypecode&#39;, &#39;partner&#39;,
+       &#39;avdutyrate&#39;, &#39;specificdutyrate&#39;, &#39;dutynature&#39;, &#39;bindingcode&#39;,
+       &#39;bindingcoverageflag&#39;, &#39;description1&#39;, &#39;description2&#39;, &#39;description3&#39;,
+       &#39;partnername&#39;, &#39;nationaldescription&#39;, &#39;dutydescription&#39;, &#39;v23&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>필요 변수 만들기</strong></p>
+<ul class="simple">
+<li><p>농업 제품 더미변수</p></li>
+<li><p>비종가세 더미변수</p></li>
+<li><p>HS 6자리 코드</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make an explicit copy of the DataFrame</span>
+<span class="n">can_mfn</span> <span class="o">=</span> <span class="n">can_mfn</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Create agricultural product dummy for can_mfn</span>
+<span class="n">can_mfn</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">can_mfn</span><span class="p">[</span><span class="s2">&quot;classification&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;HS - WTO Agricultural Products Definition&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="c1"># Create non ad-valorem duty dummy</span>
+<span class="n">can_mfn</span><span class="p">[</span><span class="s2">&quot;nav&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">can_mfn</span><span class="p">[</span><span class="s2">&quot;description3&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Ad valorem duty&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="c1"># Create hs6 classification</span>
+<span class="n">can_mfn</span><span class="p">[</span><span class="s2">&quot;hs6&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">can_mfn</span><span class="p">[</span><span class="s2">&quot;tl&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="mi">7</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>평균 실행관세율 계산</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute simple average MFN applied</span>
+<span class="n">mfn_aggregated</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">can_mfn</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># Compute averages</span>
+<span class="n">total_avg</span> <span class="o">=</span> <span class="n">mfn_aggregated</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ag_avg</span> <span class="o">=</span> <span class="n">mfn_aggregated</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mfn_aggregated</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">nonag_avg</span> <span class="o">=</span> <span class="n">mfn_aggregated</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mfn_aggregated</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Simple average MFN applied&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">total_avg</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ag_avg</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">nonag_avg</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Simple average MFN applied</td>
+      <td>3.6</td>
+      <td>3.21</td>
+      <td>3.66</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>품목별 비종가세 비율 계산</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">hs6</span></code>와 <code class="docutils literal notranslate"><span class="pre">ag</span></code>의 각 고유 조합에 대해 데이터를 그룹화하여 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">nav</span></code> 열의 값을 합산하여 <code class="docutils literal notranslate"><span class="pre">total_nav</span></code>이라는 새 열을 만들고, 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">nav</span></code> 열의 값의 개수를 세어 <code class="docutils literal notranslate"><span class="pre">nrtl</span></code>라는 새 열을 만든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nav_share</span> <span class="o">=</span> <span class="n">can_mfn</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">nav_sum</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span> <span class="n">nav_count</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;nav_sum&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;nav_count&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span>
+<span class="n">nav_share</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>nav_sum</th>
+      <th>nav_count</th>
+      <th>NAVshare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5047</th>
+      <td>'970200'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5048</th>
+      <td>'970300'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5049</th>
+      <td>'970400'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5050</th>
+      <td>'970500'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5051</th>
+      <td>'970600'</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5052 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute total, agricultural, and non-agricultural averages</span>
+<span class="n">total_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="p">[</span><span class="s1">&#39;NAVshare&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ag_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">nonag_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Share of non ad valorem duty in MFN applied&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">total_avg</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ag_avg</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">nonag_avg</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Share of non ad valorem duty in MFN applied</td>
+      <td>1.71</td>
+      <td>12.69</td>
+      <td>0.05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id12">
+<h3>무역 가중평균 MFN 실행관세율<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CAN_TradeDetails.dta 파일과 병합하여 무역 가중평균을 계산한다.</p></li>
+<li><p>“All Origins”의 총수입액(단위: 10억 달러)과 HS6 수준의 평균만 고려한다.</p></li>
+</ul>
+<p><strong>관세품목별 수입액 데이터 불러오기</strong></p>
+<ul class="simple">
+<li><p>“All Origins”의 총수입액</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trade_details</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s2">&quot;../Data/CAN_TradeDetails.dta&quot;</span><span class="p">)</span>
+<span class="n">trade_details</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(121716, 20)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trade_details</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;queryname&#39;, &#39;basenomenclature&#39;, &#39;classification&#39;, &#39;reporter&#39;,
+       &#39;reportercode&#39;, &#39;year&#39;, &#39;subid&#39;, &#39;tl&#39;, &#39;tls&#39;, &#39;value&#39;, &#39;natvalue&#39;,
+       &#39;quantity&#39;, &#39;abbreviation&#39;, &#39;share&#39;, &#39;rank&#39;, &#39;partner&#39;, &#39;name&#39;,
+       &#39;unitvalue&#39;, &#39;recordstatus&#39;, &#39;v20&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_imp</span> <span class="o">=</span> <span class="n">trade_details</span><span class="p">[</span><span class="n">trade_details</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;All Origins&quot;</span><span class="p">][[</span><span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]]</span>
+<span class="n">can_imp</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;import_values&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">can_imp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">can_imp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tl</th>
+      <th>name</th>
+      <th>import_values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>'01011000'</td>
+      <td>All Origins</td>
+      <td>7414.230957</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>'01019000'</td>
+      <td>All Origins</td>
+      <td>60022.085938</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>'01021000'</td>
+      <td>All Origins</td>
+      <td>3528.814941</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>'01029000'</td>
+      <td>All Origins</td>
+      <td>5923.375000</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>'01031000'</td>
+      <td>All Origins</td>
+      <td>506.005005</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>121488</th>
+      <td>'97020000'</td>
+      <td>All Origins</td>
+      <td>14156.569336</td>
+    </tr>
+    <tr>
+      <th>121534</th>
+      <td>'97030000'</td>
+      <td>All Origins</td>
+      <td>40397.253906</td>
+    </tr>
+    <tr>
+      <th>121581</th>
+      <td>'97040000'</td>
+      <td>All Origins</td>
+      <td>3892.829102</td>
+    </tr>
+    <tr>
+      <th>121633</th>
+      <td>'97050000'</td>
+      <td>All Origins</td>
+      <td>19766.447266</td>
+    </tr>
+    <tr>
+      <th>121686</th>
+      <td>'97060000'</td>
+      <td>All Origins</td>
+      <td>29859.830078</td>
+    </tr>
+  </tbody>
+</table>
+<p>8210 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p><strong>MFN 실행관세율 데이터</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">avdutyrate</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate sub-products at hs8</span>
+<span class="n">can_mfn</span> <span class="o">=</span> <span class="n">can_mfn</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="s1">&#39;hs6&#39;</span><span class="p">,</span> <span class="s1">&#39;ag&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;avdutyrate&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;nav&#39;</span><span class="p">:</span> <span class="s1">&#39;mean&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">can_mfn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tl</th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>avdutyrate</th>
+      <th>nav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'01011000'</td>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'01019000'</td>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'01021000'</td>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'01029000'</td>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'01031000'</td>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>8427</th>
+      <td>'97020000'</td>
+      <td>'970200'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8428</th>
+      <td>'97030000'</td>
+      <td>'970300'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8429</th>
+      <td>'97040000'</td>
+      <td>'970400'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8430</th>
+      <td>'97050000'</td>
+      <td>'970500'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8431</th>
+      <td>'97060000'</td>
+      <td>'970600'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>8432 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p><strong>MFN 실행관세율 + 수입액 병합</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Merge with the duty data</span>
+<span class="n">can_imp</span> <span class="o">=</span> <span class="n">can_imp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">can_mfn</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;tl&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+<span class="n">can_imp</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;hs6&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">can_imp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tl</th>
+      <th>name</th>
+      <th>import_values</th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>avdutyrate</th>
+      <th>nav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'01011000'</td>
+      <td>All Origins</td>
+      <td>7414.230957</td>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'01019000'</td>
+      <td>All Origins</td>
+      <td>60022.085938</td>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'01021000'</td>
+      <td>All Origins</td>
+      <td>3528.814941</td>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'01029000'</td>
+      <td>All Origins</td>
+      <td>5923.375000</td>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'01031000'</td>
+      <td>All Origins</td>
+      <td>506.005005</td>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>8205</th>
+      <td>'97020000'</td>
+      <td>All Origins</td>
+      <td>14156.569336</td>
+      <td>'970200'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8206</th>
+      <td>'97030000'</td>
+      <td>All Origins</td>
+      <td>40397.253906</td>
+      <td>'970300'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8207</th>
+      <td>'97040000'</td>
+      <td>All Origins</td>
+      <td>3892.829102</td>
+      <td>'970400'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8208</th>
+      <td>'97050000'</td>
+      <td>All Origins</td>
+      <td>19766.447266</td>
+      <td>'970500'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>8209</th>
+      <td>'97060000'</td>
+      <td>All Origins</td>
+      <td>29859.830078</td>
+      <td>'970600'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>8210 rows × 7 columns</p>
+</div></div></div>
+</div>
+<p><strong>HS6 소호별로 합산</strong></p>
+<ul class="simple">
+<li><p>평균 실행관세율(<code class="docutils literal notranslate"><span class="pre">avdutyrate</span></code>)</p></li>
+<li><p>평균 비종가세 더미변수(<code class="docutils literal notranslate"><span class="pre">nav</span></code>)</p></li>
+<li><p>총 수입액(<code class="docutils literal notranslate"><span class="pre">import_values</span></code>)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate at HS6-subheading</span>
+<span class="n">agg</span> <span class="o">=</span> <span class="n">can_imp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;hs6&#39;</span><span class="p">,</span> <span class="s1">&#39;ag&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">avdutyrate</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;avdutyrate&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">),</span>
+    <span class="n">nav</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;nav&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">),</span>
+    <span class="n">value</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;import_values&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>총수입액 계산</strong></p>
+<ul class="simple">
+<li><p>단위: 10억 달러</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Mtot</span></code>: 총수입액</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MtotAg</span></code>: 농업제품 총수입액</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MtotNonAg</span></code>: 비농업제품 총수입액</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;Mtot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agg</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">agg</span><span class="p">[</span><span class="s1">&#39;MtotAg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;ag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">agg</span><span class="p">[</span><span class="s1">&#39;MtotNonAg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;ag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">agg</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>avdutyrate</th>
+      <th>nav</th>
+      <th>value</th>
+      <th>Mtot</th>
+      <th>MtotAg</th>
+      <th>MtotNonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>7414.230957</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>60022.085938</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3528.814941</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>5923.375000</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>506.005005</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5013</th>
+      <td>'970200'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>14156.569336</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>5014</th>
+      <td>'970300'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>40397.253906</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>5015</th>
+      <td>'970400'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3892.829102</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>5016</th>
+      <td>'970500'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>19766.447266</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+    <tr>
+      <th>5017</th>
+      <td>'970600'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>29859.830078</td>
+      <td>397087232.0</td>
+      <td>26136516.0</td>
+      <td>370950720.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5018 rows × 8 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">agg</span><span class="p">[[</span><span class="s1">&#39;Mtot&#39;</span><span class="p">,</span> <span class="s1">&#39;MtotAg&#39;</span><span class="p">,</span> <span class="s1">&#39;MtotNonAg&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e6</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Imports in billion US$&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Mtot&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;MtotAg&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;MtotNonAg&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Imports in billion US$</td>
+      <td>397.089996</td>
+      <td>26.139999</td>
+      <td>370.950012</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>수입액 기준 가중평균 계산</strong></p>
+<ul class="simple">
+<li><p>전체 가중평균 실행관세율</p></li>
+<li><p>농업제품 가중평균 실행관세율</p></li>
+<li><p>비농업제품 가중평균 실행관세율</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">agg</span><span class="p">[</span><span class="s1">&#39;avdutyrate&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">agg</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">agg</span><span class="p">[</span><span class="s1">&#39;Mtot&#39;</span><span class="p">]</span>
+<span class="n">agg</span><span class="p">[</span><span class="s1">&#39;Ag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;ag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;avdutyrate&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;ag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">agg</span><span class="p">[</span><span class="s1">&#39;MtotAg&#39;</span><span class="p">]</span>
+<span class="n">agg</span><span class="p">[</span><span class="s1">&#39;NonAg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;ag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;avdutyrate&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">agg</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;ag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">agg</span><span class="p">[</span><span class="s1">&#39;MtotNonAg&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">agg</span><span class="p">[[</span><span class="s1">&#39;Total&#39;</span><span class="p">,</span> <span class="s1">&#39;Ag&#39;</span><span class="p">,</span> <span class="s1">&#39;NonAg&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Trade weighted average MFN applied&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Ag&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;NonAg&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Trade weighted average MFN applied</td>
+      <td>2.73</td>
+      <td>3.2</td>
+      <td>2.7</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>품목별 비종가세 비율 계산</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">hs6</span></code>와 <code class="docutils literal notranslate"><span class="pre">ag</span></code>의 각 고유 조합에 대해 데이터를 그룹화하여 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">nav</span></code> 열의 값을 합산하여 <code class="docutils literal notranslate"><span class="pre">total_nav</span></code>이라는 새 열을 만들고, 각 그룹 내 <code class="docutils literal notranslate"><span class="pre">nav</span></code> 열의 값의 개수를 세어 <code class="docutils literal notranslate"><span class="pre">nrtl</span></code>라는 새 열을 만든다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nav_share</span> <span class="o">=</span> <span class="n">can_imp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;hs6&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">nav_sum</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span> <span class="n">nav_count</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;nav&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;nav_sum&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;nav_count&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span>
+<span class="n">nav_share</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hs6</th>
+      <th>ag</th>
+      <th>nav_sum</th>
+      <th>nav_count</th>
+      <th>NAVshare</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>'010110'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>'010190'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>'010210'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>'010290'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>'010310'</td>
+      <td>1</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>5013</th>
+      <td>'970200'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5014</th>
+      <td>'970300'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5015</th>
+      <td>'970400'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5016</th>
+      <td>'970500'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>5017</th>
+      <td>'970600'</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>1</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5018 rows × 5 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute total, agricultural, and non-agricultural averages</span>
+<span class="n">total_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="p">[</span><span class="s1">&#39;NAVshare&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ag_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">nonag_avg</span> <span class="o">=</span> <span class="n">nav_share</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nav_share</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;NAVshare&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Save results to a DataFrame</span>
+<span class="n">summary_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Summary&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Share of non ad valorem duty in imports&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">total_avg</span><span class="p">],</span>
+        <span class="s2">&quot;Ag&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ag_avg</span><span class="p">],</span>
+        <span class="s2">&quot;NonAg&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">nonag_avg</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+<span class="n">summary_df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Summary</th>
+      <th>Total</th>
+      <th>Ag</th>
+      <th>NonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Share of non ad valorem duty in imports</td>
+      <td>1.57</td>
+      <td>11.66</td>
+      <td>0.06</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>6. 관세 범위별 빈도 분포<a class="headerlink" href="#id13" title="Link to this heading">#</a></h2>
+<p><strong>groupby mapping 예시</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 예시 데이터프레임 생성</span>
+<span class="n">example</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ag&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;range&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;NAV&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;bounddutyav&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+
+<span class="c1"># 각 그룹의 크기를 계산해서 시리즈로 변환</span>
+<span class="n">group_sizes_a</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ag&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">group_sizes_ra</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+<span class="c1"># 인덱스를 기준으로 크기를 매핑</span>
+<span class="n">example</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">example</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sizes_a</span><span class="p">)</span>
+<span class="n">example</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">example</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sizes_ra</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  ag range  bounddutyav  nr_a  nr_ra
+0  1     A         10.0     2      2
+1  1     A          NaN     2      2
+2  0     A         30.0     4      1
+3  0     B         40.0     4      2
+4  0     B         50.0     4      2
+5  0   NAV          NaN     4      1
+</pre></div>
+</div>
+</div>
+</div>
+<section id="can-bounds">
+<h3>can_bounds<a class="headerlink" href="#can-bounds" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">can_bounds_new</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4555, 9)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create range for frequency distribution</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;bounddutyav&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+<span class="p">]</span>
+<span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Duty-free&quot;</span><span class="p">,</span> <span class="s2">&quot;0 &lt;= 5&quot;</span><span class="p">,</span> <span class="s2">&quot;5 &lt;= 10&quot;</span><span class="p">,</span> <span class="s2">&quot;10 &lt;= 15&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;15 &lt;= 25&quot;</span><span class="p">,</span> <span class="s2">&quot;25 &lt;= 50&quot;</span><span class="p">,</span> <span class="s2">&quot;50 &lt;= 100&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt; 100&quot;</span><span class="p">,</span> <span class="s2">&quot;NAV&quot;</span>
+<span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;N.A.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute frequency distribution</span>
+<span class="n">group_sizes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ag&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">)</span>
+<span class="n">group_sizes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;freqAg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;freqNonAg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="c1"># Drop duplicates and save</span>
+<span class="n">final_bounds</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s2">&quot;freqAg&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;freqNonAg&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span>
+<span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">final_bounds</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">final_bounds</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">ranges</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">final_bounds</span> <span class="o">=</span> <span class="n">final_bounds</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">final_bounds</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>range</th>
+      <th>freqAg</th>
+      <th>freqNonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duty-free</td>
+      <td>32.80</td>
+      <td>34.92</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0 &lt;= 5</td>
+      <td>11.30</td>
+      <td>6.99</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5 &lt;= 10</td>
+      <td>18.47</td>
+      <td>46.30</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10 &lt;= 15</td>
+      <td>5.44</td>
+      <td>10.73</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>15 &lt;= 25</td>
+      <td>0.69</td>
+      <td>0.32</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>25 &lt;= 50</td>
+      <td>0.48</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>50 &lt;= 100</td>
+      <td>0.14</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>&gt; 100</td>
+      <td>0.28</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>NAV</td>
+      <td>30.39</td>
+      <td>0.74</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="can-mfn">
+<h3>can_mfn<a class="headerlink" href="#can-mfn" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">can_mfn</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(8432, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create range for frequency distribution</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+<span class="p">]</span>
+<span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Duty-free&quot;</span><span class="p">,</span> <span class="s2">&quot;0 &lt;= 5&quot;</span><span class="p">,</span> <span class="s2">&quot;5 &lt;= 10&quot;</span><span class="p">,</span> <span class="s2">&quot;10 &lt;= 15&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;15 &lt;= 25&quot;</span><span class="p">,</span> <span class="s2">&quot;25 &lt;= 50&quot;</span><span class="p">,</span> <span class="s2">&quot;50 &lt;= 100&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt; 100&quot;</span><span class="p">,</span> <span class="s2">&quot;NAV&quot;</span>
+<span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;N.A.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute frequency distribution</span>
+<span class="n">group_sizes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ag&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">)</span>
+<span class="n">group_sizes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sizes</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;freqAg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;freqNonAg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_ra&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;nr_a&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="c1"># Drop duplicates and save</span>
+<span class="n">final_bounds</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s2">&quot;freqAg&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;freqNonAg&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span>
+<span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">final_bounds</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">final_bounds</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">ranges</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">final_bounds</span> <span class="o">=</span> <span class="n">final_bounds</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">final_bounds</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>range</th>
+      <th>freqAg</th>
+      <th>freqNonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duty-free</td>
+      <td>39.04</td>
+      <td>53.82</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0 &lt;= 5</td>
+      <td>10.67</td>
+      <td>11.47</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5 &lt;= 10</td>
+      <td>15.86</td>
+      <td>22.88</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10 &lt;= 15</td>
+      <td>5.41</td>
+      <td>6.21</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>15 &lt;= 25</td>
+      <td>0.73</td>
+      <td>5.45</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>25 &lt;= 50</td>
+      <td>0.51</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>50 &lt;= 100</td>
+      <td>0.15</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>&gt; 100</td>
+      <td>0.29</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>NAV</td>
+      <td>27.34</td>
+      <td>0.17</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="can-imp">
+<h3>can_imp<a class="headerlink" href="#can-imp" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">can_imp</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create range for frequency distribution</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;avdutyrate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+<span class="p">]</span>
+<span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Duty-free&quot;</span><span class="p">,</span> <span class="s2">&quot;0 &lt;= 5&quot;</span><span class="p">,</span> <span class="s2">&quot;5 &lt;= 10&quot;</span><span class="p">,</span> <span class="s2">&quot;10 &lt;= 15&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;15 &lt;= 25&quot;</span><span class="p">,</span> <span class="s2">&quot;25 &lt;= 50&quot;</span><span class="p">,</span> <span class="s2">&quot;50 &lt;= 100&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt; 100&quot;</span><span class="p">,</span> <span class="s2">&quot;NAV&quot;</span>
+<span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;range&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;N.A.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute frequency distribution</span>
+<span class="n">group_sums</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;ag&quot;</span><span class="p">)[</span><span class="s2">&quot;import_values&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;tot_a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sums</span><span class="p">)</span>
+<span class="n">group_sums</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])[</span><span class="s2">&quot;import_values&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;tot_ra&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s2">&quot;range&quot;</span><span class="p">,</span> <span class="s2">&quot;ag&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">group_sums</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;freqAg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;tot_ra&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;tot_a&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;freqNonAg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ag&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;tot_ra&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;tot_a&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="c1"># Drop duplicates and save</span>
+<span class="n">final_bounds</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;range&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span>
+    <span class="s2">&quot;freqAg&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;freqNonAg&quot;</span><span class="p">:</span> <span class="s2">&quot;max&quot;</span>
+<span class="p">})</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">final_bounds</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">final_bounds</span><span class="p">[</span><span class="s1">&#39;range&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">ranges</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">final_bounds</span> <span class="o">=</span> <span class="n">final_bounds</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">final_bounds</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>range</th>
+      <th>freqAg</th>
+      <th>freqNonAg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Duty-free</td>
+      <td>50.86</td>
+      <td>59.04</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0 &lt;= 5</td>
+      <td>5.94</td>
+      <td>5.38</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5 &lt;= 10</td>
+      <td>15.11</td>
+      <td>31.70</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10 &lt;= 15</td>
+      <td>10.03</td>
+      <td>0.95</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>15 &lt;= 25</td>
+      <td>0.12</td>
+      <td>2.91</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>25 &lt;= 50</td>
+      <td>2.00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>50 &lt;= 100</td>
+      <td>0.00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>&gt; 100</td>
+      <td>0.00</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>NAV</td>
+      <td>15.94</td>
+      <td>0.01</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6 어떤 나라가 교역을 많이 할까</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8 국제무역 중력 모형 추정</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 관세</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">관세란?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. 관세 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wto-tao-tdf">WTO의 TAO 및 TDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wits">세계은행의 WITS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macmap">MAcMap 시스템</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#wto">3. WTO 관세 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tao-tdf">TAO와 TDF</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">관세 코드와 표준화</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 관세 프로파일</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#world-tariff-profiles">World Tariff Profiles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">관세 프로파일 용어</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">평균 관세율 계산</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">5. 사례: 2008년 캐나다 관세 프로파일</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">평균 양허관세율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binding-coverage">Binding Coverage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">비종가세 비율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mfn">MFN 평균 실행관세율</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">무역 가중평균 MFN 실행관세율</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">6. 관세 범위별 빈도 분포</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-bounds">can_bounds</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-mfn">can_mfn</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#can-imp">can_imp</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

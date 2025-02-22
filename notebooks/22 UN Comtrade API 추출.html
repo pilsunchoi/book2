@@ -1,0 +1,2319 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>2 UN Comtrade API 추출 &#8212; 파이썬을 활용한 무역데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/22 UN Comtrade API 추출';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3 세계은행 WITS API 추출" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html" />
+    <link rel="prev" title="1 국제무역 데이터의 특징" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="00%20%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="파이썬을 활용한 무역데이터 분석 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="파이썬을 활용한 무역데이터 분석 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00%20%EC%84%9C%EB%AC%B8.html">
+                    시작하며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 분석</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11%20%EC%9A%B0%EB%A6%AC%EB%82%98%EB%9D%BC%20%EB%AC%B4%EC%97%AD%EC%9D%98%EC%A1%B4%EB%8F%84%20%EC%B6%94%EC%9D%B4.html">1 우리나라 무역의존도 추이</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html">2 수출의 내용을 따져보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20%EC%88%98%EC%B6%9C%20%EB%8B%A4%EA%B0%81%ED%99%94%EB%A5%BC%20%EC%B8%A1%EC%A0%95%ED%95%B4%EB%B3%B4%EC%9E%90.html">3 수출 다각화를 측정해보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html">4 자동차 수출입을 동시에 한다</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15%20%EC%88%98%EC%B6%9C%20%EC%84%B1%EC%9E%A5%20%EB%B6%84%ED%95%B4%ED%95%98%EA%B8%B0.html">5 수출 성장 분해하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html">6 어떤 나라가 교역을 많이 할까</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html">7 관세 데이터 기초 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html">8 국제무역 중력 모형 추정</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 관리</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html">1 국제무역 데이터의 특징</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2 UN Comtrade API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html">3 세계은행 WITS API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20WTO%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">4 WTO 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25%20%EA%B4%80%EC%84%B8%EC%B2%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">5 관세청 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html">6 국제무역 빅데이터 관리</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WBGAPI.html">7 세계은행 WBGAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2/issues/new?title=Issue%20on%20page%20%2Fnotebooks/22 UN Comtrade API 추출.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/22 UN Comtrade API 추출.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2 UN Comtrade API 추출</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. 개요</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-comtrade">UN Comtrade 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#api">오픈 API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">UN Comtrade 데이터 API로 접근</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comtradeapicall">comtradeapicall 패키지</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 사전 작업</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">UN Comtrade API 인증키 획득</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">데이터베이스별 API 종류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">comtradeapicall 패키지 설치</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3. comtradeapicall 사용법</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">함수 종류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">comtradeapicall 패키지 함수 사용법</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comtradeapicall-1">comtradeapicall 파라미터(1)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comtradeapicall-2">comtradeapicall 파라미터(2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">comtradeapicall 패키지 사용 절차</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comtrade">4. Comtrade 데이터 다운로드 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">한국의 2022년 상품 수출</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">전세계 2022년 상품 수출</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">한미일중의 2022년 상품 수출</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ais">5. AIS 기반 해상 무역량 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">2024년 AIS기반 세계 해양 무역량 추출</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">2024년 세계 해양 무역량 분석</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">데이터 로딩</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dry-bulk-10">DRY BULK 해양 수출 상위 10개국</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">DRY BULK 해양 수입 상위 10개국</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="un-comtrade-api">
+<h1>2 UN Comtrade API 추출<a class="headerlink" href="#un-comtrade-api" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1.-%EA%B0%9C%EC%9A%94"><span class="xref myst">1. 개요</span></a></p></li>
+<li><p><a class="reference internal" href="#2.-%EC%82%AC%EC%A0%84-%EC%9E%91%EC%97%85"><span class="xref myst">2. 사전 작업</span></a></p></li>
+<li><p><a class="reference internal" href="#3.-comtradeapicall-%EC%82%AC%EC%9A%A9%EB%B2%95"><span class="xref myst">3. comtradeapicall 사용법</span></a></p></li>
+<li><p><a class="reference internal" href="#4.-Comtrade-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-%EC%98%88%EC%A0%9C"><span class="xref myst">4. Comtrade 데이터 다운로드 예제</span></a></p></li>
+<li><p><a class="reference internal" href="#5.-AIS-%EA%B8%B0%EB%B0%98-%ED%95%B4%EC%83%81-%EB%AC%B4%EC%97%AD%EB%9F%89-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="xref myst">5. AIS 기반 해상 무역량 데이터</span></a></p></li>
+</ul>
+<p><em><span style="color:brown;">NOTE: 이 장에서 예시적으로 소개하는 모든 데이터 추출 작업은 UN Comtrade에서 자신의 인증키(subscription key)를 발급받아야만 실행됩니다.</span></em></p>
+<p>UN Comtrade는 국제무역 데이터베이스로서 가장 광범위하고, 세부적이면서, 신뢰도가 높다. UN Comtrade 데이터를 보다 효율적으로 다운로드받는 방법은 API를 통해 프로그래밍적으로 데이터를 가져오는 것이다.</p>
+<p>이 장에서는 최근 UN Comtrade 측에서 발표한 파이썬 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지를 이용해 UN Comtrade 데이터를 API를 통해 다운로드받는 방법을 소개한다. UN Comtrade 데이터베이스 인증키를 얻는 방법과 comtradeapicall 패키지를 설치하는 방법 등 데이터를 추출하기 위한 사전작업에 대해 설명한다. 또한 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code>에서 제공하는 여러 함수들의 사용법을 살펴보고, 함수에 들어 있는 여러 파라미터들의 의미와 설정 방법을 소개한다.</p>
+<p>그런 다음, 이를 실제 UN Comtrade 데이터 추출에 적용하고, 그렇게 해서 다운로드받은 데이터를 사용하여 무역지표를 분석하는 것을 예시적으로 보여준다.</p>
+<section id="id1">
+<h2>1. 개요<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="un-comtrade">
+<h3>UN Comtrade 데이터<a class="headerlink" href="#un-comtrade" title="Link to this heading">#</a></h3>
+<p>UN Comtrade는 세계 각국의 무역 데이터를 제공하는 가장 중요한 데이터베이스이다. 전 세계 대부분의 국가와 지역의 무역 데이터를 담고 있으며, 연도별, 월별, 그리고 일부 분야에서는 일별 데이터까지 제공한다. 데이터 분류가 상세하다는 점도 장점인데, 국가 간의 수출입 활동을 다양한 수준(총계, 세부 품목 등)에서 보여준다. 수출입 국가, 무역 품목, 무역 흐름(수출, 수입, 재수출, 재수입) 등을 세부적으로 구분하여 제공한다. 데이터가 정기적으로 업데이트되어 최신 무역 동향을 파악할 수 있다. UN Comtrade 데이터는 정확성 면에서도 장점을 지닌다. 각국의 관세청 및 통계청으로부터 데이터를 수집하며, 수집된 데이터는 검증 과정을 거치고, 국제 기준에 따라 표준화된다. 데이터 품질을 유지하기 위해 여러 단계의 검증과 교차확인 절차를 거친다.</p>
+<p>이처럼 연구자들에게는 여러 가지로 중요하고 유용한 데이터베이스이면서도 누구에게나 무료로 접근이 가능하다는 점이 또 다른 장점이다. 유료인 프리미엄 서비스(한 번에 추출할 수 있는 데이터 용량이 훨씬 크며, 기타 추가적인 기능을 제공)가 있기는 하지만, 프리미엄 회원이 아니더라도 누구나 인터넷을 통해 UN Comtrade 데이터베이스에서 데이터를 추출할 수 있다. UN Comtrade에 대한 자세한 설명은 <a href="https://comtrade.un.org">UN Comtrade Docs</a>에 나와 있다.</p>
+</section>
+<section id="api">
+<h3>오픈 API<a class="headerlink" href="#api" title="Link to this heading">#</a></h3>
+<p>UN Comtrade 데이터를 얻는 방법은 먼저 <a class="reference external" href="https://comtradeplus.un.org/">웹사이트</a>를 통한 방법이 있다. 해당 웹사이트 상에서 드롭다운 메뉴를 통해 원하는 대상이나 항목을 선택하는 방식이다. 그러나 UN Comtrade 데이터를 보다 효율적으로 다운로드받는 방법은 웹사이트가 아니라 <strong>오픈 API</strong>(Application Programming Interface)를 통해 프로그래밍적으로 데이터를 가져오는 것이다. API는 소프트웨어 간의 상호작용을 가능하게 하는 인터페이스로 이를 사용해 상대방 서버에 데이터를 프로그래밍적으로 요청하고, 그 응답을 받아오는 방식이다. API를 사용함으로써 데이터를 조각조각 가져와 일일이 결합시킬 필요 없이, 코드로 원하는 데이터를 한 번에 요청하고 다운로드받아 그것을 곧바로 분석에 사용할 수 있어 효율적이다.</p>
+<blockquote>
+<div><p><strong>오픈 API 데이터</strong>는 공개된 API를 통해 접근할 수 있는 데이터로, 특정 기관, 조직, 또는 서비스가 외부 개발자나 사용자에게 데이터를 제공하기 위해 개방한 API이다.</p>
+<p><strong>특징</strong></p>
+<ol class="arabic simple">
+<li><p><strong>공개성</strong>: 누구나 접근 가능하거나, 간단한 인증 절차를 통해 데이터를 활용할 수 있음.</p></li>
+<li><p><strong>자동화된 데이터 접근</strong>: API를 통해 실시간 또는 정기적으로 데이터를 프로그래밍 방식으로 요청하고 받을 수 있음.</p></li>
+<li><p><strong>구조화된 형식</strong>: 주로 JSON, XML, CSV 등 구조화된 데이터 형식으로 제공되어 쉽게 활용 가능.</p></li>
+<li><p><strong>다양한 활용성</strong>: 데이터를 가공하거나 분석하여 맞춤형 애플리케이션, 보고서, 연구 등 다양한 목적으로 사용 가능.</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="id2">
+<h3>UN Comtrade 데이터 API로 접근<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>그런데 UN Comtrade 데이터를 API를 통해 다운로드받는 것이 대용량의 데이터를 한 번에 가져올 수 있어서 효율적이라는 것이지, 그 과정이 쉬운 것은 아니다. 오히려 번거롭고 복잡한 편이라 할 수 있다. 왜냐하면 자신이 원하는 데이터를 API를 통해 요청하기 위해서는 파이썬 등 컴퓨터 언어를 이용한 코딩 작업, 또는 Stata 등 통계패키지에 의한 코딩 작업이 필요하기 때문이다. 이를 수행하기 위해서는 API 호출 프로그램을 알아야 할 뿐 아니라, 연구자 본인이 원하는 데이터 항목에 해당하는 코드를 정확히 알아내 API 호출 프로그램을 만들어야 한다.</p>
+<p>가령 “2022년 세계 모든 나라별로 연간 상품 수출 데이터를 HS(Harmonized System) 기준 모든 품목에 대해 얻고자 하는 경우”를 생각해보자. 이를 실행하기 위해서는 각각의 조건(즉, “모든 나라”, “연간”, “수출”, “HS 기준”, “모든 품목” 등등)에 해당하는 코드를 알아내 API 호출 프로그램을 짜야 한다. 이와 같은 작업에 처음 접근하는 사람에게는 진입장벽이 높은 편이라 할 수 있다.</p>
+<blockquote>
+<div><p><strong>HS</strong>(Harmonized System)는 국제적으로 통일된 상품 분류 체계다. 세계관세기구(WCO)가 개발했으며, 상품에 6자리 코드를 부여하여 전 세계적으로 무역 통계를 수집하고 분석하는 데 사용된다. SITC(Standard International Trade Classification)는 유엔통계국(UN Statistics Division)이 개발한 분류 체계로, 국제 무역 데이터를 분석하고 비교하는 데 사용된다. SITC는 상품을 경제적 활동에 맞게 그룹화하여 1자리에서 5자리 코드로 세분화한다. BEC(Broad Economic Categories) 역시 유엔통계국이 개발한 분류 체계로, 상품과 서비스를 경제적 용도에 따라 분류한다. BEC는 주로 자본재, 중간재, 소비재로 나누며, 경제 분석과 무역 연구에 활용된다.</p>
+</div></blockquote>
+</section>
+<section id="comtradeapicall">
+<h3>comtradeapicall 패키지<a class="headerlink" href="#comtradeapicall" title="Link to this heading">#</a></h3>
+<p>이런 사정을 감안하여 UN Comtrade 측에서 2023년 1월 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code>이라는 파이썬 패키지를 만들어 공개했다. 이는 파이썬을 사용해 UN Comtrade API를 호출하여 데이터를 추출하고 다운로드하는 작업을 쉽게 수행할 수 있도록 해준다. UN Comtrade API 호출 프로그램을 연구자 본인이 처음부터 만들 필요 없이 이미 짜여진 프로그램 속에 자신이 원하는 부분만 채워넣는 방식으로 작업을 수행할 수 있게 해준다.</p>
+<p>여기서는 파이썬 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지를 이용해 UN Comtrade 데이터를 다운로드받는 방법을 소개한다. UN Comtrade 데이터베이스 인증키를 얻는 방법과 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지를 설치하는 방법 등 데이터를 추출하기 위한 사전작업에 대해 설명한다. 또한 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code>이 제공하는 여러 함수들의 사용법을 살펴보고, 함수에 들어 있는 여러 파라미터들의 의미와 설정 방법을 소개한다. 그런 다음, 이상의 설명을 실제 UN Comtrade 데이터 추출에 적용하고, 그렇게 해서 다운로드받은 데이터를 사용하여 무역지표를 계산하는 것을 예시적으로 보여준다.</p>
+</section>
+</section>
+<section id="id3">
+<h2>2. 사전 작업<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>UN Comtrade API 인증키 획득<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>API Key는 API를 사용할 때 사용자를 인증(확인)하고 해당 사용자가 어떤 데이터나 서비스를 사용할 수 있는지 권한을 부여하기 위한 고유한 식별자이다. 이는 마치 웹사이트에 로그인할 때 사용하는 사용자 이름과 비밀번호와 같은 역할을 한다.</p>
+<ul class="simple">
+<li><p>UN Comtrade API를 사용하려면 인증키가 필요하다.</p></li>
+<li><p>인증키를 얻기 위해서는 <a class="reference external" href="https://comtradedeveloper.un.org">UN Comtrade API portal</a>에 방문한다.  로그인 단추(“Azure Active Directory B2C”)를 클릭하면 새로운 창이 생기면서 로그인 정보의 입력을 요구한다.</p></li>
+<li><p>이미 &#64;un.org 계정이 있거나 여기에 새로이 가입하는 경우 이를 통해 로그인할 수 있다.</p></li>
+<li><p>또는 자신의 Gmail 계정과 비밀번호를 사용하여 UN Comtrade에 계정을 설정할 수 있다.</p></li>
+<li><p>로그인 후 상단 메뉴에서 <code class="docutils literal notranslate"><span class="pre">Products</span></code>를 선택한다.
+</br></br></p></li>
+<li><p>프리미엄 등급이 아닐 경우 <code class="docutils literal notranslate"><span class="pre">Free</span> <span class="pre">APIs</span></code>를 선택한다.</p></li>
+<li><p>원하는 구독 이름을 만들고 <code class="docutils literal notranslate"><span class="pre">Subscribe</span></code>를 클릭하면 인증키가 생성된다.</p></li>
+<li><p>인증키가 발급되면 상단 메뉴의 <code class="docutils literal notranslate"><span class="pre">Profile</span></code>에서 확인할 수 있다.</p></li>
+<li><p>인증키가 사용 도중 중단되는 경우, <code class="docutils literal notranslate"><span class="pre">Profile</span></code>에서 재발급받을 수 있다.</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>데이터베이스별 API 종류<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>인증키의 종류에 따라 UN Comtrade 데이터베이스 접근이 차등화되며, 그 내용이 아래 표에 나와 있다(<a class="reference external" href="https://comtradedeveloper.un.org/apis">출처</a>). Free API 인증키(즉, 무료 회원)인 경우에는 비동기(asynchronous) 요청이나 대용량 다운로드(bulk download)를 할 수 없다. UN Comtrade 데이터베이스별로 무료 또는 유료(프리미엄) 인증키가 필요하고, 인증키 없이 접근 가능한 경우도 있다.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>데이터베이스</p></th>
+<th class="head text-left"><p>내용</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>comtrade - v1</p></td>
+<td class="text-left"><p>Free API. 무역 데이터 및 메타데이터. 인증키가 필요함.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>comtradeAsync - v1</p></td>
+<td class="text-left"><p>Premium API. 비동기 요청(asynchronous request). 이메일로 결과 알림을  받음. 인증키가 필요함.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>comtradebulk - v1</p></td>
+<td class="text-left"><p>Premium API. 대용량 파일. 인증키가 필요함.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>experimental - v1</p></td>
+<td class="text-left"><p>AIS(선박자동식별시스템) 데이터를 사용하여 해상 무역을 추정한 실험적 데이터.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>public - v1</p></td>
+<td class="text-left"><p>Free API. 무역 데이터 미리보기. 인증키가 필요하지 않음.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id6">
+<h3>comtradeapicall 패키지 설치<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://pypi.org/project/comtradeapicall/">comtradeapicall</a>는 파이썬 패키지로서 <a class="reference external" href="https://comtradedeveloper.un.org/signin?returnUrl=%2F">UN Comtrade API</a>를 호출하여 데이터를 추출하고 다운로드하는 작업을 쉽게 수행할 수 있도록 해준다. 파이썬 프롬프트 창에서 다음을 실행하면 파이썬에 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지가 설치된다.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install comtradeapicall
+</pre></div>
+</div>
+<p>파이썬을 주피터 노트북의 셀에서 설치할 경우 <code class="docutils literal notranslate"><span class="pre">%pip</span> <span class="pre">install</span> <span class="pre">comtradeapicall</span></code>을 실행시킨다. <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 설치 후에는 다음과 같이 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 및 <code class="docutils literal notranslate"><span class="pre">numpy</span></code> 라이브러리와 함께 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지를 불러들이고, 이미 받아놓은 인증키를 지정해 놓으면 UN Comtrade API 호출 준비가 완료된다.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import pandas as pd
+import numpy as np
+import comtradeapicall
+subscription_key = &#39;자신의 인증키’ 
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>3. comtradeapicall 사용법<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지는 API 호출에 필요한 <strong>함수</strong>들을 데이터베이스 별로, 그리고 필요한 기능별로 만들어 놓았다.(자세한 것은 <a class="reference external" href="https://pypi.org/project/comtradeapicall/">comtradeapicall 패키지</a> 참조.) <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지를 설치하면 다음과 같은 함수를 사용할 수 있다.</p>
+<section id="id8">
+<h3>함수 종류<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><strong>구  분</strong></p></th>
+<th class="head text-left"><p><strong>함  수</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><strong>가져오기/미리보기</strong></p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">previewTarifflineData</span></code>(SelectionCriteria, query_option)<br>• <code class="docutils literal notranslate"><span class="pre">getFinalData</span></code>(subscription_key, SelectionCriteria, query_option)<br>• <code class="docutils literal notranslate"><span class="pre">getTarifflineData</span></code>(subscription_key, SelectionCriteria, query_option)<br>• <code class="docutils literal notranslate"><span class="pre">_previewFinalData</span></code><br>• <code class="docutils literal notranslate"><span class="pre">_previewTarifflineData</span></code><br>• <code class="docutils literal notranslate"><span class="pre">_getFinalData</span></code><br>• <code class="docutils literal notranslate"><span class="pre">_getTarifflineData</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong>데이터 Availability 확인</strong></p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">_getFinalDataAvailability</span></code>(SelectionCriteria)<br>• <code class="docutils literal notranslate"><span class="pre">getFinalDataAvailability</span></code>(subscription_key, SelectionCriteria)<br>• <code class="docutils literal notranslate"><span class="pre">_getTarifflineDataAvailability</span></code>(SelectionCriteria)<br>• <code class="docutils literal notranslate"><span class="pre">getTarifflineDataAvailability</span></code>(subscription_key, SelectionCriteria)<br>• <code class="docutils literal notranslate"><span class="pre">getFinalDataBulkAvailability</span></code>(subscription_key, SelectionCriteria, [publishedDateFrom], [publishedDateTo])<br>• <code class="docutils literal notranslate"><span class="pre">getTarifflineDataBulkAvailability</span></code>(subscription_key, SelectionCriteria, [publishedDateFrom], [publishedDateTo])<br>• <code class="docutils literal notranslate"><span class="pre">getLiveUpdate</span></code>(subscription_key)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong>대용량 데이터 다운로드</strong></p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">bulkDownloadFinalData</span></code>(subscription_key, directory, SelectionCriteria, decompress, [publishedDateFrom], [publishedDateTo])<br>• <code class="docutils literal notranslate"><span class="pre">bulkDownloadFinalClassicData</span></code>(subscription_key, directory, SelectionCriteria, decompress, [publishedDateFrom], [publishedDateTo])<br>• <code class="docutils literal notranslate"><span class="pre">bulkDownloadTarifflineData</span></code>(subscription_key, directory, SelectionCriteria, decompress, [publishedDateFrom], [publishedDateTo])</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong>비동기적 추출</strong><br>이메일로 통보(최대 250만 레코드)</p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">submitAsyncFinalDataRequest</span></code>(subscription_key, SelectionCriteria, query_option)<br>• <code class="docutils literal notranslate"><span class="pre">submitAsyncTarifflineDataRequest</span></code>(subscription_key, SelectionCriteria, query_option)<br>• <code class="docutils literal notranslate"><span class="pre">checkAsyncDataRequest</span></code>(subscription_key, [batchId])<br>• <code class="docutils literal notranslate"><span class="pre">downloadAsyncFinalDataRequest</span></code>(subscription_key, directory, SelectionCriteria, query_option)<br>• <code class="docutils literal notranslate"><span class="pre">downloadAsyncTarifflineDataRequest</span></code>(subscription_key, directory, SelectionCriteria, query_option)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong>메타데이터, 노트, 레퍼런스 추출</strong></p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">_getMetadata</span></code>(SelectionCriteria, showHistory)<br>• <code class="docutils literal notranslate"><span class="pre">getMetadata</span></code>(subscription_key, SelectionCriteria, showHistory)<br>• <code class="docutils literal notranslate"><span class="pre">listReference</span></code>([category])<br>• <code class="docutils literal notranslate"><span class="pre">getReference</span></code>(category)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong>표준단위값(SUV: Standard Unit Values) 추출</strong></p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">getSUV</span></code>(subscription_key, SelectionCriteria, [qtyUnitCode])</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong>선박자동식별시스템(AIS) 데이터 추출</strong></p></td>
+<td class="text-left"><p>• <code class="docutils literal notranslate"><span class="pre">getAIS</span></code>(subscription_key, AISSelectionCriteria, [vesselTypeCode])</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id9">
+<h3>comtradeapicall 패키지 함수 사용법<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>위 표에 정리돼 있는 함수들 중에서, Free API 인증키로 가장 많이 사용하는 함수는 다음 두 가지일 것이다.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>getFinalData(subscription_key, SelectionCriteria, query_option)
+getTarifflineData(subscription_key, SelectionCriteria, query_option)
+</pre></div>
+</div>
+<p>이들 두 함수 모두 데이터를 불러오는 데 사용하는 함수이다. 두 함수는 구조가 거의 동일한데, 단지 함수 이름에 <code class="docutils literal notranslate"><span class="pre">Final</span></code>과 <code class="docutils literal notranslate"><span class="pre">Tariffline</span></code> 부분만 다르다. 아래 표에 나와 있는 대부분의 함수 이름이 <code class="docutils literal notranslate"><span class="pre">Final</span></code>과 <code class="docutils literal notranslate"><span class="pre">Tariffline</span></code> 두 종류로 돼 있는 것을 알 수 있다. <a class="reference external" href="https://uncomtrade.org/docs/what-is-tariffline-data/">Tariffline 데이터</a>는 각 국가에서 제출한 HS 원본 데이터이다. 즉, 어떤 범주별로 합쳐진 고수준 데이터(예: 총 상품, 파트너로서의 WORLD)가 없으며, 이상값 탐지나 수량 추정도 없다. 또한, 데이터는 BEC(Broad Economic Categories), SITC(Standard International Trade Classification)와 같은 다른 분류로 변환되지 않는다.</p>
+<p>위의 두 개 함수의 괄호안에 세 가지 종류의 인수(argument)가 있는데, 이들 인수를 사용해 자신이 원하는 데이터를 지정하게 된다. 첫 번째 인수인 <code class="docutils literal notranslate"><span class="pre">subscription_key</span></code>는 이미 앞 장에서 획득 방법을 설명했다. 두 번째 범주인 <code class="docutils literal notranslate"><span class="pre">SelectionCriteria</span></code>가 핵심인데, 여기에 속하는 파라미터들이 아래 표에 정리돼 있다. 가령 <code class="docutils literal notranslate"><span class="pre">SelectionCriteria</span></code> 범주의 첫 번째 파라미터인 <code class="docutils literal notranslate"><span class="pre">typeCode</span></code>의 경우, 상품 유형을 선택하는 것으로서 필요한 값을 문자(“str”)로 지정하며, 상품이면 <code class="docutils literal notranslate"><span class="pre">C</span></code>로 표시한다.</p>
+</section>
+<section id="comtradeapicall-1">
+<h3>comtradeapicall 파라미터(1)<a class="headerlink" href="#comtradeapicall-1" title="Link to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p><strong>구분</strong></p></th>
+<th class="head text-left"><p><strong>세부 사항</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><strong>SelectionCriteria</strong></p></td>
+<td class="text-left"><p>- <code class="docutils literal notranslate"><span class="pre">typeCode</span></code>(str): 상품 유형. 상품 (C) 또는 서비스 (S)<br>- <code class="docutils literal notranslate"><span class="pre">freqCode</span></code>(str): 관측 시간 간격. 연간 (A) 또는 월간 (M)<br>- <code class="docutils literal notranslate"><span class="pre">clCode</span></code>(str): 상품 분류 및 버전 (HS, SITC)<br>- <code class="docutils literal notranslate"><span class="pre">period</span></code>(str): 연도와 월 조합 (월간) 또는 연도 (연간)<br>- <code class="docutils literal notranslate"><span class="pre">reporterCode</span></code>(str): 통계 관련 국가 또는 지리적 영역<br>- <code class="docutils literal notranslate"><span class="pre">cmdCode</span></code>(str): 분류 코드와 사용하는 상품 코드<br>- <code class="docutils literal notranslate"><span class="pre">flowCode</span></code>(str): 무역 흐름 (수출, 재수출, 수입, 재수입 등)<br>- <code class="docutils literal notranslate"><span class="pre">partnerCode</span></code>(str): 주요 상대국 또는 지리적 영역<br>- <code class="docutils literal notranslate"><span class="pre">partner2Code</span></code>(str): 보조 상대국 또는 지리적 영역<br>- <code class="docutils literal notranslate"><span class="pre">customsCode</span></code>(str): 세관 또는 통계 절차<br>- <code class="docutils literal notranslate"><span class="pre">motCode</span></code>(str): 운송 방식 (국가 경제 영토 이동 시)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><strong>query_option</strong></p></td>
+<td class="text-left"><p>- <code class="docutils literal notranslate"><span class="pre">maxRecords</span></code>(int): 반환 레코드 수 제한<br>- <code class="docutils literal notranslate"><span class="pre">format_output</span></code>(str): 출력 형식 (CSV, JSON)<br>- <code class="docutils literal notranslate"><span class="pre">aggregateBy</span></code>(str): 쿼리 집계 옵션<br>- <code class="docutils literal notranslate"><span class="pre">breakdownMode</span></code>(str): classic 모드 (상대국/상품별) 또는 plus 모드 (세분화)<br>- <code class="docutils literal notranslate"><span class="pre">countOnly</span></code>(bool): <code class="docutils literal notranslate"><span class="pre">True</span></code> 설정 시 실제 레코드 수 반환<br>- <code class="docutils literal notranslate"><span class="pre">includeDesc</span></code>(bool): 설명 포함 여부</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><strong>AIS SelectionCriteria</strong></p></td>
+<td class="text-left"><p>- <code class="docutils literal notranslate"><span class="pre">typeCode</span></code>(str): 상품 유형. 상품 (C)만 해당<br>- <code class="docutils literal notranslate"><span class="pre">freqCode</span></code>(str): 시간 간격. 일간 (D)<br>- <code class="docutils literal notranslate"><span class="pre">datefrom</span></code>(str) 및 <code class="docutils literal notranslate"><span class="pre">dateto</span></code>(str): 관측 날짜 (ASCII 형식)<br>- <code class="docutils literal notranslate"><span class="pre">countryareaCode</span></code>(str): 국가 코드 (<code class="docutils literal notranslate"><span class="pre">getReference</span></code>(‘ais:countriesareas’)로 확인 가능)<br>- <code class="docutils literal notranslate"><span class="pre">vesselTypeCode</span></code>(str): 운송 선박 유형 (<code class="docutils literal notranslate"><span class="pre">getReference</span></code>(‘ais:vesseltypes’)로 확인 가능)<br>- <code class="docutils literal notranslate"><span class="pre">flowCode</span></code>(str): 무역 흐름 (수출, 수입)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="comtradeapicall-2">
+<h3>comtradeapicall 파라미터(2)<a class="headerlink" href="#comtradeapicall-2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>다음은 Free API 인증키로 접근 가능한 <code class="docutils literal notranslate"><span class="pre">comtrade</span> <span class="pre">-</span> <span class="pre">v1</span></code> 데이터베이스를 호출할 때 사용하는 <a class="reference external" href="https://comtradedeveloper.un.org/api-details#api=comtrade-v1&amp;amp;operation=get-get">comtrade - v1 파라미터</a>이다.</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>파라미터</p></th>
+<th class="head text-left"><p>필수 여부</p></th>
+<th class="head text-left"><p>타입</p></th>
+<th class="head text-left"><p>내용</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>typeCode</p></td>
+<td class="text-left"><p>true</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>무역 유형: 상품은 C, 서비스는 S</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>freqCode</p></td>
+<td class="text-left"><p>true</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>무역 빈도: 연간은 A, 월간은 M</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>clCode</p></td>
+<td class="text-left"><p>true</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>상품 분류: HS, SITC, BEC, EBOPS</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>reporterCode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>보고국 코드 (쉼표(,)로 구분된 3자리 숫자 국가 코드)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>period</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>연도 또는 월. 연도는 4자리 숫자. 월은 YYYYMM 형식. 다중값 입력은 쉼표(,)로 구분.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>partnerCode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>상대국 코드 (쉼표(,)로 구분된 3자리 숫자 국가 코드)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>partner2Code</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>두 번째 상대국 코드 (쉼표(,)로 구분된 3자리 숫자 국가 코드)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>cmdCode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>상품 코드. 다중값 입력은 쉼표(,)로 구분.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>flowCode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>무역흐름/하위흐름 코드(수출, 재수출, 수입, 재수입 등). 다중 값 입력은 쉼표(,)로 구분.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>customsCode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>세관 코드. 다중값 입력은 쉼표(,)로 구분.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>motCode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>string</p></td>
+<td class="text-left"><p>운송 방식 코드. 다중값 입력은 쉼표(,)로 구분.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>aggregateBy</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>csv</p></td>
+<td class="text-left"><p>결과를 aggregate하려는 파라미터를 쉼표(,)로 구분된 리스트로 추가.</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>breakdownMode</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>csv</p></td>
+<td class="text-left"><p>‘classic’은 상세한 형태, ‘aggregated’는 큰 범주로 묶어 요약된 형태로 제공함.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>includeDesc</p></td>
+<td class="text-left"><p>false</p></td>
+<td class="text-left"><p>boolean</p></td>
+<td class="text-left"><p>데이터 변수의 설명 포함 여부</p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 패키지 함수의 인수 중 세 번째 범주인 <code class="docutils literal notranslate"><span class="pre">query_option</span></code>은 데이터의 형식에 관한 요청 사항이다. 가령 <code class="docutils literal notranslate"><span class="pre">query_option</span></code> 범주의 첫 번째 파라미터인 <code class="docutils literal notranslate"><span class="pre">_maxRecords</span></code>는 최대 레코드(관측) 개수를 지정하는 것으로서 정수(<code class="docutils literal notranslate"><span class="pre">int</span></code>)로 표기해야 한다. 또 다른 파라미터인 <code class="docutils literal notranslate"><span class="pre">includeDesc</span></code>는 항목에 대한 설명을 포함시킬지를 선택하는 것으로서 부울값(<code class="docutils literal notranslate"><span class="pre">bool</span></code>), 즉 <code class="docutils literal notranslate"><span class="pre">True</span></code> 또는 <code class="docutils literal notranslate"><span class="pre">False</span></code>로 표기한다. <code class="docutils literal notranslate"><span class="pre">query_option</span></code> 중 <code class="docutils literal notranslate"><span class="pre">breakdownMode</span></code>의 경우에는 <code class="docutils literal notranslate"><span class="pre">classic</span></code>과 <code class="docutils literal notranslate"><span class="pre">plus</span></code> 두 가지 옵션이 있는데, 후자가 보다 세분화된 데이터를 제공한다.</p>
+<p>한편, 위 파라미터(2) 표의 맨 하단에 나와 있는 AIS(선박자동식별시스템) 기반 데이터의 <code class="docutils literal notranslate"><span class="pre">SelectionCriteria</span></code>의 경우, 표의 맨 위에 나와 있는 일반적인 무역 통계의 선택사항과는 약간 다른 형태인 것을 알 수 있다. UN Comtrade 데이터베이스에는 AIS(Automatic Identification System) 데이터를 사용하여 해상 무역량을 추정한 실험적 데이터가 있다. IMF(국제통화기금)의 Cerdeiro 등 (2020)은 AIS 원시 데이터를 사용하여 세계 해상 무역량 지표를 추정하는 시스템을 구축했다. AIS 데이터에 머신러닝 기법을 적용하여 세계 전체, 양국, 그리고 국가 내 수준에서 무역량을 추정하는 방식이다. 이를 통해 해상 무역량을 사실상 실시간으로 추정하는 것이 가능하다.</p>
+<p>이상의 설명에서 짐작할 수 있듯이 UN Comtrade 데이터를 API를 통해 제대로 추출하기 위해서는 자신이 원하는 조건에 해당하는 코드를 잘 찾아서 제대로 입력해야 하고, 데이트를 불러온 다음에는 각 컬럼 변수 이름(코드)의 의미를 잘 알아야 한다. UN Comtrade 데이터의 각 항목(코드)의 의미와 종류에 대해서는 UN Comtrade <a class="reference external" href="https://comtradeplus.un.org/ListOfReferences">List of References</a>에 자세히 나와 있다.</p>
+</section>
+<section id="id10">
+<h3>comtradeapicall 패키지 사용 절차<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p><strong>(1) UN Comtrade API 인증키 지정</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comtradeapicall 패키지 설치(처음 한 번만 설치하면 됨)</span>
+<span class="c1"># %pip install comtradeapicall</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">comtradeapicall</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 아래 따옴표 안에 자신의 인증키를 복붙해 넣는다.</span>
+
+<span class="n">subscription_key</span> <span class="o">=</span> <span class="s1">&#39;자신의 인증키&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>(2) 원하는 comtradeapicall 함수 선택</strong></p>
+<ul class="simple">
+<li><p>아래에서는 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> 함수 사용법의 간단한 예를 소개하고, UN Comtrade 데이터를 다운로드받는 예제는 다음 절에서 설명한다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 전체 추출 결과를 알기 위해 모든 컬럼이 출력되도록 설정</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span>  <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 세 글자로 된 나라 코드를 숫자 코드로 전환(한국의 경우 세 글자는 &#39;KOR&#39;이고 숫자 코드는 410임)</span>
+
+<span class="n">country_code</span> <span class="o">=</span> <span class="n">comtradeapicall</span><span class="o">.</span><span class="n">convertCountryIso3ToCode</span><span class="p">(</span><span class="s1">&#39;KOR&#39;</span><span class="p">)</span>
+<span class="n">country_code</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;410&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 보고국(reporter) 코드 리스트 반환</span>
+
+<span class="n">mydf</span> <span class="o">=</span> <span class="n">comtradeapicall</span><span class="o">.</span><span class="n">getReference</span><span class="p">(</span><span class="s1">&#39;reporter&#39;</span><span class="p">)</span>
+<span class="n">mydf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>text</th>
+      <th>reporterCode</th>
+      <th>reporterDesc</th>
+      <th>reporterNote</th>
+      <th>reporterCodeIsoAlpha2</th>
+      <th>reporterCodeIsoAlpha3</th>
+      <th>entryEffectiveDate</th>
+      <th>isGroup</th>
+      <th>entryExpiredDate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4</td>
+      <td>Afghanistan</td>
+      <td>4</td>
+      <td>Afghanistan</td>
+      <td>Afghanistan</td>
+      <td>AF</td>
+      <td>AFG</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>8</td>
+      <td>Albania</td>
+      <td>8</td>
+      <td>Albania</td>
+      <td>Albania</td>
+      <td>AL</td>
+      <td>ALB</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>12</td>
+      <td>Algeria</td>
+      <td>12</td>
+      <td>Algeria</td>
+      <td>Algeria</td>
+      <td>DZ</td>
+      <td>DZA</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20</td>
+      <td>Andorra</td>
+      <td>20</td>
+      <td>Andorra</td>
+      <td>Andorra</td>
+      <td>AD</td>
+      <td>AND</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>24</td>
+      <td>Angola</td>
+      <td>24</td>
+      <td>Angola</td>
+      <td>Angola</td>
+      <td>AO</td>
+      <td>AGO</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>250</th>
+      <td>887</td>
+      <td>Yemen</td>
+      <td>887</td>
+      <td>Yemen</td>
+      <td>Yemen</td>
+      <td>YE</td>
+      <td>YEM</td>
+      <td>1991-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>251</th>
+      <td>890</td>
+      <td>Yugoslavia (...1991)</td>
+      <td>890</td>
+      <td>Yugoslavia (...1991)</td>
+      <td>Former Yugoslavia</td>
+      <td>YU</td>
+      <td>YUG</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>1991-12-31T00:00:00</td>
+    </tr>
+    <tr>
+      <th>252</th>
+      <td>894</td>
+      <td>Zambia</td>
+      <td>894</td>
+      <td>Zambia</td>
+      <td>Zambia</td>
+      <td>ZM</td>
+      <td>ZMB</td>
+      <td>1965-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>253</th>
+      <td>836</td>
+      <td>Zanzibar and Pemba Isd (...1964)</td>
+      <td>836</td>
+      <td>Zanzibar and Pemba Isd (...1964)</td>
+      <td>Former Zanzibar and Pemba Island</td>
+      <td>NaN</td>
+      <td>_ZP</td>
+      <td>1900-01-01T00:00:00</td>
+      <td>False</td>
+      <td>1964-12-31T00:00:00</td>
+    </tr>
+    <tr>
+      <th>254</th>
+      <td>716</td>
+      <td>Zimbabwe</td>
+      <td>716</td>
+      <td>Zimbabwe</td>
+      <td>Zimbabwe</td>
+      <td>ZW</td>
+      <td>ZWE</td>
+      <td>1965-01-01T00:00:00</td>
+      <td>False</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>255 rows × 10 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="comtrade">
+<h2>4. Comtrade 데이터 다운로드 예제<a class="headerlink" href="#comtrade" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>github의 <code class="docutils literal notranslate"><span class="pre">comtradeapicall</span></code> <a class="reference external" href="https://github.com/uncomtrade/comtradeapicall">사이트</a>에는 보다 많은 예제 코드가 나와있다.</p></li>
+</ul>
+<section id="id11">
+<h3>한국의 2022년 상품 수출<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>아래 명령문은 <code class="docutils literal notranslate"><span class="pre">getFinalData</span></code> 함수를 사용해 “Final” 데이터를 불러들이는 것으로서,</p>
+<ul class="simple">
+<li><p>한국(<code class="docutils literal notranslate"><span class="pre">reporterCode</span></code>=‘410’)이</p></li>
+<li><p>전 세계(<code class="docutils literal notranslate"><span class="pre">partnerCode</span></code>=’000’)를 대상으로</p></li>
+<li><p>2022년(<code class="docutils literal notranslate"><span class="pre">period</span></code>=’2022’)</p></li>
+<li><p>연간(<code class="docutils literal notranslate"><span class="pre">freqCode</span></code>=’A’)으로</p></li>
+<li><p>상품(<code class="docutils literal notranslate"><span class="pre">typeCode</span></code>=’C’)을</p></li>
+<li><p>수출(<code class="docutils literal notranslate"><span class="pre">flowCode</span></code>=’X’)한 금액을</p></li>
+<li><p>HS 기준(<code class="docutils literal notranslate"><span class="pre">clCode</span></code>=’HS’)</p></li>
+<li><p>모든 품목(<code class="docutils literal notranslate"><span class="pre">cmdCode</span></code>=None)에 대해</p></li>
+<li><p>클래식 형태(<code class="docutils literal notranslate"><span class="pre">breakdownMode</span></code>=’classic’)로 얻기 위한 것이다.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>data = comtradeapicall.getFinalData(
+    subscription_key, 
+    typeCode=&#39;C&#39;, 
+    freqCode=&#39;A&#39;, 
+    clCode=&#39;HS&#39;, 
+    period=&#39;2022&#39;, 
+    reporterCode=&#39;410&#39;, 
+    cmdCode=None, 
+    flowCode=&#39;X&#39;, 
+    partnerCode=&#39;000&#39;, 
+    partner2Code=None, 
+    customsCode=None, 
+    motCode=None, 
+    maxRecords=None, 
+    format_output=&#39;JSON&#39;, 
+    aggregateBy=None, 
+    breakdownMode=&#39;classic&#39;, 
+    countOnly=None, 
+    includeDesc=True)
+data
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    typeCode	freqCode	refPeriodId	refYear	refMonth	period	reporterCode	reporterISO	reporterDesc	flowCode	flowDesc	partnerCode	partnerISO	partnerDesc	partner2Code	partner2ISO	partner2Desc	classificationCode	classificationSearchCode	isOriginalClassification	cmdCode	cmdDesc	aggrLevel	isLeaf	customsCode	customsDesc	mosCode	motCode	motDesc	qtyUnitCode	qtyUnitAbbr	qty	isQtyEstimated	altQtyUnitCode	altQtyUnitAbbr	altQty	isAltQtyEstimated	netWgt	isNetWgtEstimated	grossWgt	isGrossWgtEstimated	cifvalue	fobvalue	primaryValue	legacyEstimationFlag	isReported	isAggregate
+0	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	24	Tobacco and manufactured tobacco substitutes; ...	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000000e+00	False	-1	N/A	0.0	False	0.000000e+00	False	0.0	False	None	979071521.0	979071521.0	0	False	True
+1	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	02	Meat and edible meat offal	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000000e+00	False	-1	N/A	0.0	False	0.000000e+00	False	0.0	False	None	84965415.0	84965415.0	0	False	True
+2	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	05	Animal originated products; not elsewhere spec...	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000000e+00	False	-1	N/A	0.0	False	0.000000e+00	False	0.0	False	None	59207744.0	59207744.0	0	False	True
+3	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	53	Vegetable textile fibres; paper yarn and woven...	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000000e+00	False	-1	N/A	0.0	False	0.000000e+00	False	0.0	False	None	9888321.0	9888321.0	0	False	True
+4	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	14	Vegetable plaiting materials; vegetable produc...	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000000e+00	False	-1	N/A	0.0	False	0.000000e+00	False	0.0	False	None	484798.0	484798.0	0	False	True
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+6230	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	2206	Fermented beverages, n.e.c. in chapter 22; (e....	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	7	l	5.841711e+07	True	-1	N/A	0.0	False	5.841711e+07	False	0.0	False	None	49500161.0	49500161.0	2	False	True
+6231	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	2203	Beer made from malt	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	7	l	1.024642e+08	True	-1	N/A	0.0	False	1.024642e+08	False	0.0	False	None	69474212.0	69474212.0	2	False	True
+6232	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	2209	Vinegar and substitutes for vinegar obtained f...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	7	l	5.508541e+07	True	-1	N/A	0.0	False	3.934114e+07	False	0.0	False	None	67268725.0	67268725.0	2	False	True
+6233	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	2208	Ethyl alcohol, undenatured; of an alcoholic st...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	7	l	1.333510e+08	True	-1	N/A	0.0	False	1.233497e+08	False	0.0	False	None	187509632.0	187509632.0	2	False	True
+6234	C	A	20220101	2022	52	2022	410	KOR	Rep. of Korea	X	Export	0	W00	World	0	W00	World	H6	HS	True	2202	Waters, including mineral and aerated waters, ...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	7	l	5.237197e+08	True	-1	N/A	0.0	False	5.237197e+08	False	0.0	False	None	630284808.0	630284808.0	2	False	True
+
+6235 rows × 47 columns
+</pre></div>
+</div>
+<p><strong>UN Comtrade 데이터 각 항목 코드 의미</strong></p>
+<ul class="simple">
+<li><p>반환된 UN Comtrade 데이터의 각 항목(코드)들이 무엇을 의미하고, 어떤 종류가 있는지에 대해서는 UN Comtrade <a class="reference external" href="https://comtradeplus.un.org/ListOfReferences">List of References</a>에 자세히 나와 있다.</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>전세계 2022년 상품 수출<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ul>
+<li><p>다음은 2022년 연간(<code class="docutils literal notranslate"><span class="pre">A</span></code>) 상품(<code class="docutils literal notranslate"><span class="pre">C</span></code>) 수출(<code class="docutils literal notranslate"><span class="pre">X</span></code>) Final 데이터를 얻기 위한 것이다. 전 세계 모든 나라 각각이 전 세계(<code class="docutils literal notranslate"><span class="pre">000</span></code>)를 대상으로 수출한 금액을 HS 기준 모든 품목(<code class="docutils literal notranslate"><span class="pre">cmdCode</span></code>=None)에 대해 얻고자 한다.
+</br></p></li>
+<li><p>전 세계 모든 나라 <strong>각각</strong>에 대해 데이터를 얻고자 하기 때문에 <code class="docutils literal notranslate"><span class="pre">reporterCode</span></code>=None으로 하면 되는데, 이렇게 할 경우 Free API 인증키로 다운로드받을 수 있는 레코드 한계(이 경우 한 번에 10만 개 레코드)를 초과함으로써 오류 메지지가 나오게 된다.(아래 결과에서 보듯이 모든 나라를 대상으로 할 경우 관측 갯수가 총 549,162개이다.)
+</br></p></li>
+<li><p>그래서 불가피하게 나라 코드 리스트에 있는 252개<sup><a class="reference internal" href="#footnote1"><span class="xref myst">주1</span></a></sup> 나라 각각에 대해 데이터를 다운로드받아 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>의 <code class="docutils literal notranslate"><span class="pre">concat</span></code> 함수를 사용해 이를 병합(이 경우 세로로 쌓는 방식)해나가는 방식을 사용했다.</p>
+<p><small> <p id="footnote1">[주1]: UN Comtrade <a class="reference external" href="https://comtradeplus.un.org/ListOfReferences">List of References</a> “Reporter” 참조. </p> </small></p>
+</li>
+<li><p>개인의 컴퓨팅 환경에 따라 본 데이터를 다운로드받는 시간이 다르겠지만, 여기서는 55분 정도 소요됐다.
+</br></p></li>
+<li><p>Free API 구독자의 경우, 한 번에 다운로드받을 수 있는 레코드의 한계는 이런 식(즉, 루프 반복작업)으로 해결하면 되지만, UN Comtrade의 경우, 요청하는 데이터의 누적 용량에도 한도가 있다. 이 한도를 초과할 경우, “Out of call volume quota. Quota will be replenished in 11:05:25.”와 같은 메시지가 뜨면서 일정 시간 사용이 중단된다.
+</br></p></li>
+<li><p>추출된 데이터를 보면, 우리가 요청한 나라는 252개국이지만, 반환된 데이터세트에는 보고국이 144개국인 것으로 나타났다. 2022년 통계가 아직 입력되지 않은 나라도 있겠지만, 우리가 요청한 나라 리스트에는 동독(278: Dem. Rep. of Germany (…1990)), 서독(280: Fed. Rep. of Germany (…1990)) 등 2022년 현재 존재하지 않는 나라도 있기 때문이다.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>country_list = [  
+     4,   8,  12,  20,  24, 660,  28, 886,  32,  51, 533,  36,  40,
+    31,  44,  48,  50,  52, 112,  56,  58,  84, 204,  60,  64,  68,
+   535,  70,  72,  92,  76,  96, 100, 854, 108, 132, 116, 120, 124,
+   136, 140, 148, 152, 156, 344, 446, 170, 174, 178, 184, 188, 384,
+   191, 192, 531, 196, 203, 200, 408, 278, 180, 866, 720, 208, 262,
+   212, 214, 588, 218, 818, 222, 226, 232, 233, 748, 231, 230, 234,
+   280, 242, 246, 251, 254, 258, 583, 266, 270, 268, 276, 288, 292,
+   300, 304, 308, 312, 320, 324, 624, 328, 332, 336, 340, 348, 352,
+   699, 356, 360, 364, 368, 372, 376, 380, 388, 392, 400, 398, 404,
+   296, 414, 417, 418, 428, 422, 426, 430, 434, 440, 442, 450, 454,
+   458, 462, 466, 470, 584, 474, 478, 480, 175, 484, 496, 499, 500,
+   504, 508, 104, 580, 516, 520, 524, 528, 530, 532, 540, 554, 558,
+   562, 566, 570, 807, 579, 512, 582, 586, 585, 591, 590, 592, 598,
+   600, 459, 604, 608, 616, 620, 634, 410, 498, 868, 638, 717, 642,
+   643, 646, 461, 652, 654, 659, 658, 662, 534, 666, 670, 882, 674,
+   678, 682, 686, 688, 891, 690, 694, 702, 703, 705,  90, 706, 710,
+   728, 711, 724, 144, 275, 729, 736, 740, 752, 757, 760, 762, 835,
+   764, 626, 768, 772, 776, 780, 788, 792, 795, 796, 798, 800, 804,
+   784, 826, 834, 858, 850, 842, 841, 810, 860, 548, 862, 704, 876,
+   887, 890, 894, 836, 716
+]
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import time
+# 시작 시간 기록
+start_time = time.time()
+
+import pandas as pd
+
+# 각 호출로 얻은 데이터프레임을 저장할 리스트
+dataframes = []
+
+# country_list에서 각 국가의 데이터를 가져와 데이터프레임 리스트에 추가
+for country in country_list:
+    data = comtradeapicall.getFinalData(
+        subscription_key, 
+        typeCode=&#39;C&#39;,
+        freqCode=&#39;A&#39;, 
+        clCode=&#39;HS&#39;, 
+        period=&#39;2022&#39;, 
+        reporterCode=str(country), 
+        cmdCode=None, 
+        flowCode=&#39;X&#39;,
+        partnerCode=&#39;000&#39;, 
+        partner2Code=None, 
+        customsCode=None, 
+        motCode=None, 
+        maxRecords=None, 
+        format_output=&#39;JSON&#39;,
+        aggregateBy=None, 
+        breakdownMode=&#39;classic&#39;, 
+        countOnly=None, 
+        includeDesc=True
+    )
+    # 불러온 데이터프레임을 리스트에 추가
+    dataframes.append(data)
+
+# 리스트의 데이터프레임을 세로로 연결
+df = pd.concat(dataframes, ignore_index=True)
+
+# 최종 데이터프레임을 저장
+df.to_csv(&#39;../Data/comtrade_year.csv&#39;, index=False)
+
+# 종료 시간 기록
+end_time = time.time()
+# 실행 시간 계산
+execution_time = end_time - start_time
+# 분과 초로 변환
+minutes = int(execution_time // 60)
+seconds = int(execution_time % 60)
+print(f&quot;실행 시간: {minutes}분 {seconds}초&quot;)
+df
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>실행 시간: 54분 6초
+
+        typeCode	freqCode	refPeriodId	refYear	refMonth	period	reporterCode	reporterISO	reporterDesc	flowCode	flowDesc	partnerCode	partnerISO	partnerDesc	partner2Code	partner2ISO	partner2Desc	classificationCode	classificationSearchCode	isOriginalClassification	cmdCode	cmdDesc	aggrLevel	isLeaf	customsCode	customsDesc	mosCode	motCode	motDesc	qtyUnitCode	qtyUnitAbbr	qty	isQtyEstimated	altQtyUnitCode	altQtyUnitAbbr	altQty	isAltQtyEstimated	netWgt	isNetWgtEstimated	grossWgt	isGrossWgtEstimated	cifvalue	fobvalue	primaryValue	legacyEstimationFlag	isReported	isAggregate
+0	C	A	20220101	2022	52	2022	8	ALB	Albania	X	Export	0	W00	World	0	W00	World	H6	HS	True	01	Animals; live	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.0	False	-1	N/A	0.0	False	0.00	False	0.0	False	None	3.479846e+05	3.479846e+05	0	False	True
+1	C	A	20220101	2022	52	2022	8	ALB	Albania	X	Export	0	W00	World	0	W00	World	H6	HS	True	02	Meat and edible meat offal	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.0	False	-1	N/A	0.0	False	0.00	False	0.0	False	None	6.550805e+05	6.550805e+05	0	False	True
+2	C	A	20220101	2022	52	2022	8	ALB	Albania	X	Export	0	W00	World	0	W00	World	H6	HS	True	03	Fish and crustaceans, molluscs and other aquat...	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.0	False	-1	N/A	0.0	False	0.00	False	0.0	False	None	7.013100e+07	7.013100e+07	0	False	True
+3	C	A	20220101	2022	52	2022	8	ALB	Albania	X	Export	0	W00	World	0	W00	World	H6	HS	True	0302	Fish; fresh or chilled, excluding fish fillets...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.0	False	-1	N/A	0.0	False	0.00	False	0.0	False	None	7.950215e+05	7.950215e+05	0	False	True
+4	C	A	20220101	2022	52	2022	8	ALB	Albania	X	Export	0	W00	World	0	W00	World	H6	HS	True	04	Dairy produce; birds&#39; eggs; natural honey; edi...	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.0	False	-1	N/A	0.0	False	0.00	False	0.0	False	None	7.537882e+06	7.537882e+06	0	False	True
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+549157	C	A	20220101	2022	52	2022	716	ZWE	Zimbabwe	X	Export	0	W00	World	0	W00	World	H5	HS	True	9507	Fishing rods, fish-hooks and other line fishin...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.0	False	-1	N/A	0.0	False	7.64	False	0.0	False	None	3.096600e+02	3.096600e+02	0	False	True
+549158	C	A	20220101	2022	52	2022	716	ZWE	Zimbabwe	X	Export	0	W00	World	0	W00	World	H5	HS	True	9606	Buttons, press-fasteners, snap-fasteners and p...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	8	kg	51.0	False	8	kg	51.0	False	51.00	False	0.0	False	None	5.763900e+02	5.763900e+02	0	False	True
+549159	C	A	20220101	2022	52	2022	716	ZWE	Zimbabwe	X	Export	0	W00	World	0	W00	World	H5	HS	True	9610	Slates and boards, with writing or drawing sur...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	8	kg	15.0	False	8	kg	15.0	False	15.00	False	0.0	False	None	1.492000e+01	1.492000e+01	0	False	True
+549160	C	A	20220101	2022	52	2022	716	ZWE	Zimbabwe	X	Export	0	W00	World	0	W00	World	H5	HS	True	9704	Stamps, postage or revenue; stamp-postmarks, f...	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	8	kg	91.0	False	8	kg	91.0	False	91.00	False	0.0	False	None	8.953000e+01	8.953000e+01	0	False	True
+549161	C	A	20220101	2022	52	2022	716	ZWE	Zimbabwe	X	Export	0	W00	World	0	W00	World	H5	HS	True	970500	Collections and collectors&#39; pieces; of zoologi...	6	True	C00	TOTAL CPC	0	0	TOTAL MOT	8	kg	81530.5	False	8	kg	81530.5	False	81530.50	False	0.0	False	None	6.888609e+06	6.888609e+06	0	False	True
+
+549162 rows × 47 columns
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>한미일중의 2022년 상품 수출<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>country_list = [156, 392, 410, 842] # 중국, 일본, 한국, 미국
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>import time
+# 시작 시간 기록
+start_time = time.time()
+
+import pandas as pd
+
+# 각 호출로 얻은 데이터프레임을 저장할 리스트
+dataframes = []
+
+# country_list에서 각 국가의 데이터를 가져와 데이터프레임 리스트에 추가
+for country in country_list:
+    data = comtradeapicall.getFinalData(
+        subscription_key, 
+        typeCode=&#39;C&#39;,
+        freqCode=&#39;A&#39;, 
+        clCode=&#39;HS&#39;, 
+        period=&#39;2022&#39;, 
+        reporterCode=str(country), 
+        cmdCode=None, 
+        flowCode=&#39;X&#39;,
+        partnerCode=&#39;000&#39;, 
+        partner2Code=None, 
+        customsCode=None, 
+        motCode=None, 
+        maxRecords=None, 
+        format_output=&#39;JSON&#39;,
+        aggregateBy=None, 
+        breakdownMode=&#39;classic&#39;, 
+        countOnly=None, 
+        includeDesc=True
+    )
+    # 불러온 데이터프레임을 리스트에 추가
+    dataframes.append(data)
+
+# 리스트의 데이터프레임을 세로로 연결
+df = pd.concat(dataframes, ignore_index=True)
+
+# 최종 데이터프레임을 저장
+df.to_csv(&#39;../Data/comtrade_2022.csv&#39;, index=False)
+
+# 종료 시간 기록
+end_time = time.time()
+# 실행 시간 계산
+execution_time = end_time - start_time
+# 분과 초로 변환
+minutes = int(execution_time // 60)
+seconds = int(execution_time % 60)
+print(f&quot;실행 시간: {minutes}분 {seconds}초&quot;)
+df
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>실행 시간: 1분 12초
+
+    typeCode	freqCode	refPeriodId	refYear	refMonth	period	reporterCode	reporterISO	reporterDesc	flowCode	flowDesc	partnerCode	partnerISO	partnerDesc	partner2Code	partner2ISO	partner2Desc	classificationCode	classificationSearchCode	isOriginalClassification	cmdCode	cmdDesc	aggrLevel	isLeaf	customsCode	customsDesc	mosCode	motCode	motDesc	qtyUnitCode	qtyUnitAbbr	qty	isQtyEstimated	altQtyUnitCode	altQtyUnitAbbr	altQty	isAltQtyEstimated	netWgt	isNetWgtEstimated	grossWgt	isGrossWgtEstimated	cifvalue	fobvalue	primaryValue	legacyEstimationFlag	isReported	isAggregate
+0	C	A	20220101	2022	52	2022	156	CHN	China	X	Export	0	W00	World	0	W00	World	H6	HS	True	01	Animals; live	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	-1	N/A	0.0	False	0.0	True	0.0	False	None	5.423596e+08	5.423596e+08	4	False	True
+1	C	A	20220101	2022	52	2022	156	CHN	China	X	Export	0	W00	World	0	W00	World	H6	HS	True	0101	Horses, asses, mules and hinnies; live	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	-1	N/A	0.0	False	8000.0	False	0.0	False	None	1.200000e+04	1.200000e+04	0	False	True
+2	C	A	20220101	2022	52	2022	156	CHN	China	X	Export	0	W00	World	0	W00	World	H6	HS	True	010121	Horses; live, pure-bred breeding animals	6	True	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	8	kg	8000.0	False	8000.0	False	0.0	False	None	1.200000e+04	1.200000e+04	0	False	True
+3	C	A	20220101	2022	52	2022	156	CHN	China	X	Export	0	W00	World	0	W00	World	H6	HS	True	0102	Bovine animals; live	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	5	u	42382.455	True	-1	N/A	0.0	False	8260791.0	False	0.0	False	None	5.317696e+07	5.317696e+07	2	False	True
+4	C	A	20220101	2022	52	2022	156	CHN	China	X	Export	0	W00	World	0	W00	World	H6	HS	True	010290	Bovine animals; live, other than cattle and bu...	6	True	C00	TOTAL CPC	0	0	TOTAL MOT	5	u	42382.455	True	8	kg	8260791.0	False	8260791.0	False	0.0	False	None	5.317696e+07	5.317696e+07	2	False	True
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+25696	C	A	20220101	2022	52	2022	842	USA	USA	X	Export	0	W00	World	0	W00	World	H6	HS	True	970690	Antiques; of an age exceeding 100 years but no...	6	True	C00	TOTAL CPC	0	0	TOTAL MOT	8	kg	146974.000	False	8	kg	146974.0	False	146974.0	False	0.0	False	None	3.248431e+08	3.248431e+08	0	False	True
+25697	C	A	20220101	2022	52	2022	842	USA	USA	X	Export	0	W00	World	0	W00	World	H6	HS	True	99	Commodities not specified according to kind	2	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	-1	N/A	0.0	False	0.0	False	0.0	False	None	6.295756e+10	6.295756e+10	0	False	True
+25698	C	A	20220101	2022	52	2022	842	USA	USA	X	Export	0	W00	World	0	W00	World	H6	HS	True	9999	Commodities not specified according to kind	4	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	-1	N/A	0.0	False	0.0	False	0.0	False	None	1.567469e+11	1.567469e+11	0	False	True
+25699	C	A	20220101	2022	52	2022	842	USA	USA	X	Export	0	W00	World	0	W00	World	H6	HS	True	999999	Commodities not specified according to kind	6	True	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	-1	N/A	0.0	False	0.0	False	0.0	False	None	1.567469e+11	1.567469e+11	0	False	True
+25700	C	A	20220101	2022	52	2022	842	USA	USA	X	Export	0	W00	World	0	W00	World	H6	HS	True	TOTAL	All Commodities	0	False	C00	TOTAL CPC	0	0	TOTAL MOT	-1	N/A	0.000	False	-1	N/A	0.0	False	0.0	True	0.0	False	None	2.062090e+12	2.062090e+12	4	False	True
+
+25701 rows × 47 columns
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ais">
+<h2>5. AIS 기반 해상 무역량 데이터<a class="headerlink" href="#ais" title="Link to this heading">#</a></h2>
+<p>UN Comtrade 데이터베이스에는 AIS(선박자동식별시스템)<sup><a class="reference internal" href="#footnote2"><span class="xref myst">주2</span></a></sup> 데이터를 사용하여 해상 무역을 추정하는 실험적 데이터가 있다. IMF(국제통화기금)의 Cerdeiro 등의 연구진이 개발한 것이다.(Cerdeiro, D. A., Cerdeiro, M. D. A., Komaromi, A., Liu, Y., &amp; Saeed, M. (2020). World seaborne trade in real time: A proof of concept for building AIS-based nowcasts from scratch (No. 20-57). International Monetary Fund. <a class="reference external" href="https://www.imf.org/-/media/Files/Publications/WP/2020/English/wpiea2020057-print-pdf.ashx">논문 다운로드</a>)<br />
+<small> <p id="footnote2"> [주2]: AIS(Automatic Identification System)은 선박이 자신의 위치, 속도, 항로 등의 정보를 주기적으로 발신하여 다른 선박 및 해안 당국과 공유하는 시스템이다. 2002년 국제해사기구(IMO: International Maritime Organization)에 의해 도입되었다. 이후 대부분의 상업용 선박과 큰 여객선에 대해 AIS 탑재가 의무화되었다. 현재 AIS는 전 세계적으로 널리 사용되고 있으며, 해양 안전을 강화하고 해상 교통 관리, 사고 대응, 환경 모니터링, 무역 분석 등 다양한 분야에서 중요한 역할을 하고 있다. </p> </small></p>
+<p>해상 운송은 세계 무역의 핵심이며 실시간으로 추적할 수 있다. 유엔무역개발회의(UNCTAD, 2017)에 따르면 전 세계 상품 무역의 80% 이상이 해상 운송을 통해 이루어지며, 금액으로는 70% 이상을 차지한다. 화물선에는 주기적으로 신호를 전송하는 장치(AIS)가 장착되어 있으며, 선박의 위치, 속도, 흘수(draught) 등의 정보가 들어있다.</p>
+<p>Cerdeiro 등(2020)은 AIS 원시 데이터를 사용하여 세계 해상 무역 지표를 구축했다. 절차를 보면, 우선 AIS 메시지에 공간 클러스터링(spatial clustering) 알고리즘을 적용하여 잠재적인 입항 데이터 세트를 구축한다. 이 잠재적인 입항 세트를 공식적인 선박 수준의 미국 입항 기록 데이터와 결합시킨다. 이 공식 데이터를 사용하여 특정 잠재적 입항이 실제 입항인지 여부를 예측하는 분류기를 훈련시킨다. 이를 통해 두 항만 간의 무역량을 추정하고 수입, 수출, 국내 무역량을 식별한다. 요컨대, AIS 데이터에 머신러닝 기법을 적용하여 세계 전체, 양국, 그리고 국가 내 수준에서 무역량을 추정해내는 것이다.</p>
+<section id="id14">
+<h3>2024년 AIS기반 세계 해양 무역량 추출<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>세계 전체 국가 대상</p></li>
+<li><p>2024년 1월 1일부터 4월 30일까지 일별 데이터</p></li>
+<li><p>AIS 기반 항구 입항 횟수 및 무역량(재화중량톤수 및 미터톤수) 추정치</p></li>
+<li><p>선박 유형이 DRY BULK인 경우(컨테이너나 탱크가 아니라 곡류, 광석 등 포장하지 않고 입자나 분말상태 그대로 선창에 싣는 화물)를 선택.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>df_aistrade = comtradeapicall.getAIS(
+    subscription_key, 
+    countryareaCode=None, 
+    vesselTypeCode=&#39;1&#39;, 
+    dateFrom=&#39;2024-01-01&#39;, 
+    dateTo=&#39;2024-04-30&#39;
+)
+df_aistrade
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    typeCode	freqCode	countryareaCode	countryareaDesc	vesselTypeCode	vesselTypeDesc	flowCode	flowDesc	date	num_pc	mtc	dwt	num_pc_ma	mtc_ma	dwt_ma
+0	C	D	400	Jordan	1	Bulk	M	Imports	2024-03-21T00:00:00	0.0	0.00	0.0	0.167	3180.029	9091.967
+1	C	D	400	Jordan	1	Bulk	M	Imports	2024-03-22T00:00:00	0.0	0.00	0.0	0.167	3180.029	9091.967
+2	C	D	400	Jordan	1	Bulk	M	Imports	2024-03-23T00:00:00	0.0	0.00	0.0	0.167	3180.029	9091.967
+3	C	D	400	Jordan	1	Bulk	M	Imports	2024-03-24T00:00:00	0.0	0.00	0.0	0.167	3180.029	9091.967
+4	C	D	400	Jordan	1	Bulk	M	Imports	2024-03-25T00:00:00	0.0	0.00	0.0	0.167	3180.029	9091.967
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+31609	C	D	504	Morocco	1	Bulk	X	Exports	2024-04-26T00:00:00	1.0	32380.35	81641.0	2.067	34451.279	77027.067
+31610	C	D	504	Morocco	1	Bulk	X	Exports	2024-04-27T00:00:00	1.0	23533.03	37782.0	2.100	35235.713	78286.467
+31611	C	D	504	Morocco	1	Bulk	X	Exports	2024-04-28T00:00:00	2.0	35757.32	76438.0	2.167	36427.624	80834.400
+31612	C	D	504	Morocco	1	Bulk	X	Exports	2024-04-29T00:00:00	0.0	0.00	0.0	2.167	36427.624	80834.400
+31613	C	D	504	Morocco	1	Bulk	X	Exports	2024-04-30T00:00:00	1.0	23045.95	37000.0	2.167	36722.909	80783.433
+
+31614 rows × 15 columns
+</pre></div>
+</div>
+<p><strong>AIS 기반 데이터 항목 코드</strong></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>항목</p></th>
+<th class="head text-left"><p>내용</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p>typeCode</p></td>
+<td class="text-left"><p>제품 유형: 상품 또는 서비스</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>freqCode</p></td>
+<td class="text-left"><p>관측이 발생하는 시간 간격</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>date</p></td>
+<td class="text-left"><p>관측이 측정된 날짜</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>countryareaCode</p></td>
+<td class="text-left"><p>측정된 통계 현상이 관련된 국가 또는 지리적 지역</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>countryareaDesc</p></td>
+<td class="text-left"><p>국가 또는 지리적 지역에 대한 설명</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>vesselTypeCode</p></td>
+<td class="text-left"><p>상품을 운송하는 선박의 상위 분류</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>vesselTypeDescription</p></td>
+<td class="text-left"><p>선박 유형 설명</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>flowCode</p></td>
+<td class="text-left"><p>무역 흐름 (수출/수입)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>flowDesc</p></td>
+<td class="text-left"><p>무역 흐름에 대한 설명</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>num_pc</p></td>
+<td class="text-left"><p>항구 입항 횟수</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>num_pc_ma</p></td>
+<td class="text-left"><p>항구 입항 횟수의 30일 이동 평균</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>dwt</p></td>
+<td class="text-left"><p>재화중량톤수</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>dwt_ma</p></td>
+<td class="text-left"><p>재화중량톤수의 30일 이동 평균</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>mtc</p></td>
+<td class="text-left"><p>화물 미터톤수</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>mtc_ma</p></td>
+<td class="text-left"><p>화물 미터톤수의 30일 이동 평균</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>선박유형 코드</strong></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>vesselTypeCode</p></th>
+<th class="head"><p>vesselTypeDesc</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Total</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Bulk</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Container/general cargo</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Oil/chemicals</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Oil/chemicals bunker/movement</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Vehicles</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>LPG/LNG</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>Foodstuff</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>세계 모든 나라(<code class="docutils literal notranslate"><span class="pre">countryareaCode=None</span></code>)를 지정했는데, 아래 보는 것처럼 지역(Africa, Latin America, Euro Area, World)도 포함돼있다.</p></li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>df_aistrade[&#39;countryareaDesc&#39;].unique()
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>array([&#39;Jordan&#39;, &#39;Comoros&#39;, &#39;Kuwait&#39;, &#39;Latin America&#39;, &#39;Montenegro&#39;,
+       &#39;Madagascar&#39;, &#39;Myanmar&#39;, &#39;China, Macao SAR&#39;, &#39;N. Mariana Isds&#39;,
+       &#39;Mauritania&#39;, &#39;Malta&#39;, &#39;Mauritius&#39;, &#39;Maldives&#39;, &#39;Mexico&#39;,
+       &#39;Malaysia&#39;, &#39;Mozambique&#39;, &#39;Namibia&#39;, &#39;New Caledonia&#39;, &#39;Nigeria&#39;,
+       &#39;Nicaragua&#39;, &#39;Netherlands&#39;, &#39;Norway&#39;, &#39;New Zealand&#39;, &#39;Oman&#39;,
+       &#39;Peru&#39;, &#39;French Polynesia&#39;, &#39;Papua New Guinea&#39;, &#39;Philippines&#39;,
+       &#39;Pakistan&#39;, &#39;Poland&#39;, &#39;Portugal&#39;, &#39;Qatar&#39;, &#39;Romania&#39;,
+       &#39;Russian Federation&#39;, &#39;Saudi Arabia&#39;, &#39;Seychelles&#39;, &#39;Sudan&#39;,
+       &#39;Sweden&#39;, &#39;Singapore&#39;, &#39;Slovenia&#39;, &#39;Sierra Leone&#39;, &#39;Senegal&#39;,
+       &#39;Somalia&#39;, &#39;Suriname&#39;, &#39;El Salvador&#39;, &#39;Saint Maarten&#39;, &#39;Syria&#39;,
+       &#39;Togo&#39;, &#39;Thailand&#39;, &#39;Timor-Leste&#39;, &#39;Turkmenistan&#39;, &#39;Tunisia&#39;,
+       &#39;Türkiye&#39;, &#39;Trinidad and Tobago&#39;, &#39;Taiwan, Province of China&#39;,
+       &#39;United Rep. of Tanzania&#39;, &#39;Ukraine&#39;, &#39;USA&#39;, &#39;Uruguay&#39;,
+       &#39;Saint Vincent and the Grenadines&#39;, &#39;Venezuela&#39;, &#39;Viet Nam&#39;,
+       &#39;World&#39;, &#39;Yemen&#39;, &#39;South Africa&#39;, &#39;Africa&#39;, &#39;United Arab Emirates&#39;,
+       &#39;Angola&#39;, &#39;Argentina&#39;, &#39;Australia&#39;, &#39;Aruba&#39;, &#39;Azerbaijan&#39;,
+       &#39;Barbados&#39;, &#39;Bangladesh&#39;, &#39;Belgium&#39;, &#39;Bulgaria&#39;, &#39;Bahrain&#39;,
+       &#39;Benin&#39;, &#39;Bermuda&#39;, &#39;Brunei Darussalam&#39;, &#39;Bonaire&#39;, &#39;Brazil&#39;,
+       &#39;Bahamas&#39;, &#39;Canada&#39;, &#39;Dem. Rep. of the Congo&#39;, &#39;Congo&#39;,
+       &quot;Côte d&#39;Ivoire&quot;, &#39;Chile&#39;, &#39;Cameroon&#39;, &#39;China&#39;, &#39;Colombia&#39;,
+       &#39;Costa Rica&#39;, &#39;Cuba&#39;, &#39;Cabo Verde&#39;, &#39;Curaçao&#39;, &#39;Cyprus&#39;, &#39;Germany&#39;,
+       &#39;Djibouti&#39;, &#39;Denmark&#39;, &#39;Dominica&#39;, &#39;Dominican Rep.&#39;, &#39;Algeria&#39;,
+       &#39;Euro Area&#39;, &#39;Ecuador&#39;, &#39;Estonia&#39;, &#39;Egypt&#39;, &#39;Western Sahara&#39;,
+       &#39;Eritrea&#39;, &#39;Spain&#39;, &#39;Finland&#39;, &#39;Fiji&#39;, &#39;France&#39;, &#39;Gabon&#39;,
+       &#39;United Kingdom&#39;, &#39;Grenada&#39;, &#39;Georgia&#39;, &#39;Ghana&#39;, &#39;Gambia&#39;,
+       &#39;Guinea&#39;, &#39;Equatorial Guinea&#39;, &#39;Greece&#39;, &#39;Guatemala&#39;, &#39;Guam&#39;,
+       &#39;Lithuania&#39;, &#39;Guinea-Bissau&#39;, &#39;Guyana&#39;, &#39;China, Hong Kong SAR&#39;,
+       &#39;Honduras&#39;, &#39;Morocco&#39;, &#39;Croatia&#39;, &#39;Haiti&#39;, &#39;Indonesia&#39;, &#39;Ireland&#39;,
+       &#39;Israel&#39;, &#39;India&#39;, &#39;Iraq&#39;, &#39;Iran&#39;, &#39;Iceland&#39;, &#39;Italy&#39;, &#39;Jamaica&#39;,
+       &#39;Japan&#39;, &#39;Kenya&#39;, &#39;Rep. of Korea&#39;, &#39;Cayman Isds&#39;, &#39;Lebanon&#39;,
+       &#39;Liberia&#39;, &#39;Libya&#39;, &#39;Cambodia&#39;, &#39;Saint Lucia&#39;, &#39;Sri Lanka&#39;,
+       &#39;Latvia&#39;, &#39;Nauru&#39;, &#39;Solomon Isds&#39;, &#39;Antigua and Barbuda&#39;,
+       &#39;Albania&#39;], dtype=object)
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># 데이터프레임을 저장
+df_aistrade.to_csv(&#39;../Data/AIS_2024.csv&#39;, index=False)
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>2024년 세계 해양 무역량 분석<a class="headerlink" href="#id15" title="Link to this heading">#</a></h3>
+<section id="id16">
+<h4>데이터 로딩<a class="headerlink" href="#id16" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>2024년 1-4월 AIS 기반 추정치</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CSV 파일 읽어오기</span>
+<span class="n">df_aistrade</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../Data/AIS_2024.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>다운로드받은 원래의 데이터세트에 들어있는 <code class="docutils literal notranslate"><span class="pre">data</span></code> 변수에 pandas의 <code class="docutils literal notranslate"><span class="pre">to_datetime</span></code> 함수를 적용하여 <code class="docutils literal notranslate"><span class="pre">year_month</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code>, <code class="docutils literal notranslate"><span class="pre">year</span></code> 변수들을 분해해낸다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># change to date format, and add year_month column</span>
+<span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;year_month&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="p">)</span>
+<span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%b&#39;</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;)&#39;</span>
+<span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_aistrade</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+<span class="n">df_aistrade</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>typeCode</th>
+      <th>freqCode</th>
+      <th>countryareaCode</th>
+      <th>countryareaDesc</th>
+      <th>vesselTypeCode</th>
+      <th>vesselTypeDesc</th>
+      <th>flowCode</th>
+      <th>flowDesc</th>
+      <th>date</th>
+      <th>num_pc</th>
+      <th>mtc</th>
+      <th>dwt</th>
+      <th>num_pc_ma</th>
+      <th>mtc_ma</th>
+      <th>dwt_ma</th>
+      <th>year_month</th>
+      <th>month</th>
+      <th>year</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>C</td>
+      <td>D</td>
+      <td>400</td>
+      <td>Jordan</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>M</td>
+      <td>Imports</td>
+      <td>2024-03-21</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.167</td>
+      <td>3180.029</td>
+      <td>9091.967</td>
+      <td>2024-03</td>
+      <td>03(Mar)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>C</td>
+      <td>D</td>
+      <td>400</td>
+      <td>Jordan</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>M</td>
+      <td>Imports</td>
+      <td>2024-03-22</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.167</td>
+      <td>3180.029</td>
+      <td>9091.967</td>
+      <td>2024-03</td>
+      <td>03(Mar)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>C</td>
+      <td>D</td>
+      <td>400</td>
+      <td>Jordan</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>M</td>
+      <td>Imports</td>
+      <td>2024-03-23</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.167</td>
+      <td>3180.029</td>
+      <td>9091.967</td>
+      <td>2024-03</td>
+      <td>03(Mar)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>C</td>
+      <td>D</td>
+      <td>400</td>
+      <td>Jordan</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>M</td>
+      <td>Imports</td>
+      <td>2024-03-24</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.167</td>
+      <td>3180.029</td>
+      <td>9091.967</td>
+      <td>2024-03</td>
+      <td>03(Mar)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>C</td>
+      <td>D</td>
+      <td>400</td>
+      <td>Jordan</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>M</td>
+      <td>Imports</td>
+      <td>2024-03-25</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>0.167</td>
+      <td>3180.029</td>
+      <td>9091.967</td>
+      <td>2024-03</td>
+      <td>03(Mar)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>31609</th>
+      <td>C</td>
+      <td>D</td>
+      <td>504</td>
+      <td>Morocco</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>X</td>
+      <td>Exports</td>
+      <td>2024-04-26</td>
+      <td>1.0</td>
+      <td>32380.35</td>
+      <td>81641.0</td>
+      <td>2.067</td>
+      <td>34451.279</td>
+      <td>77027.067</td>
+      <td>2024-04</td>
+      <td>04(Apr)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>31610</th>
+      <td>C</td>
+      <td>D</td>
+      <td>504</td>
+      <td>Morocco</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>X</td>
+      <td>Exports</td>
+      <td>2024-04-27</td>
+      <td>1.0</td>
+      <td>23533.03</td>
+      <td>37782.0</td>
+      <td>2.100</td>
+      <td>35235.713</td>
+      <td>78286.467</td>
+      <td>2024-04</td>
+      <td>04(Apr)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>31611</th>
+      <td>C</td>
+      <td>D</td>
+      <td>504</td>
+      <td>Morocco</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>X</td>
+      <td>Exports</td>
+      <td>2024-04-28</td>
+      <td>2.0</td>
+      <td>35757.32</td>
+      <td>76438.0</td>
+      <td>2.167</td>
+      <td>36427.624</td>
+      <td>80834.400</td>
+      <td>2024-04</td>
+      <td>04(Apr)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>31612</th>
+      <td>C</td>
+      <td>D</td>
+      <td>504</td>
+      <td>Morocco</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>X</td>
+      <td>Exports</td>
+      <td>2024-04-29</td>
+      <td>0.0</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>2.167</td>
+      <td>36427.624</td>
+      <td>80834.400</td>
+      <td>2024-04</td>
+      <td>04(Apr)</td>
+      <td>2024</td>
+    </tr>
+    <tr>
+      <th>31613</th>
+      <td>C</td>
+      <td>D</td>
+      <td>504</td>
+      <td>Morocco</td>
+      <td>1</td>
+      <td>Bulk</td>
+      <td>X</td>
+      <td>Exports</td>
+      <td>2024-04-30</td>
+      <td>1.0</td>
+      <td>23045.95</td>
+      <td>37000.0</td>
+      <td>2.167</td>
+      <td>36722.909</td>
+      <td>80783.433</td>
+      <td>2024-04</td>
+      <td>04(Apr)</td>
+      <td>2024</td>
+    </tr>
+  </tbody>
+</table>
+<p>31614 rows × 18 columns</p>
+</div></div></div>
+</div>
+<ul class="simple">
+<li><p>나라가 아닌 4개의 지역(Africa, Latin America, Euro Area, World)은 제외시킨다.</p></li>
+<li><p>그런 다음 나라별로, 월별로, 수출/수입별로 그룹화하여 무역량(<code class="docutils literal notranslate"><span class="pre">mtc</span></code>, 미터톤수)을 합친다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Exclude specified observations</span>
+<span class="n">excluded_areas</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Africa&#39;</span><span class="p">,</span> <span class="s1">&#39;Latin America&#39;</span><span class="p">,</span> <span class="s1">&#39;Euro Area&#39;</span><span class="p">,</span> <span class="s1">&#39;World&#39;</span><span class="p">]</span>
+<span class="n">df_aistrade_country</span> <span class="o">=</span> <span class="n">df_aistrade</span><span class="p">[</span><span class="o">~</span><span class="n">df_aistrade</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">excluded_areas</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># countryareaCode, year_month, flowCode별로 그룹화한 후 mtc 값을 합산</span>
+<span class="n">df_aistrade_aggregated</span> <span class="o">=</span> <span class="n">df_aistrade_country</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">,</span> <span class="s1">&#39;year_month&#39;</span><span class="p">,</span> <span class="s1">&#39;flowCode&#39;</span><span class="p">])[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_aistrade_aggregated</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>countryareaDesc</th>
+      <th>year_month</th>
+      <th>flowCode</th>
+      <th>mtc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Albania</td>
+      <td>2024-01</td>
+      <td>X</td>
+      <td>6771.008</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Albania</td>
+      <td>2024-02</td>
+      <td>X</td>
+      <td>4849.861</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Albania</td>
+      <td>2024-03</td>
+      <td>X</td>
+      <td>12579.675</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Albania</td>
+      <td>2024-04</td>
+      <td>X</td>
+      <td>9301.868</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Algeria</td>
+      <td>2024-01</td>
+      <td>M</td>
+      <td>1045738.688</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1079</th>
+      <td>Yemen</td>
+      <td>2024-02</td>
+      <td>X</td>
+      <td>56840.047</td>
+    </tr>
+    <tr>
+      <th>1080</th>
+      <td>Yemen</td>
+      <td>2024-03</td>
+      <td>M</td>
+      <td>355716.590</td>
+    </tr>
+    <tr>
+      <th>1081</th>
+      <td>Yemen</td>
+      <td>2024-03</td>
+      <td>X</td>
+      <td>101040.546</td>
+    </tr>
+    <tr>
+      <th>1082</th>
+      <td>Yemen</td>
+      <td>2024-04</td>
+      <td>M</td>
+      <td>368492.200</td>
+    </tr>
+    <tr>
+      <th>1083</th>
+      <td>Yemen</td>
+      <td>2024-04</td>
+      <td>X</td>
+      <td>47794.513</td>
+    </tr>
+  </tbody>
+</table>
+<p>1084 rows × 4 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="dry-bulk-10">
+<h4>DRY BULK 해양 수출 상위 10개국<a class="headerlink" href="#dry-bulk-10" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 조건에 맞는 데이터 필터링</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df_aistrade_aggregated</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df_aistrade_aggregated</span><span class="p">[</span><span class="s1">&#39;year_month&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2024-01&#39;</span><span class="p">)</span> <span class="o">&amp;</span>\
+    <span class="p">(</span><span class="n">df_aistrade_aggregated</span><span class="p">[</span><span class="s1">&#39;flowCode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">)]</span>
+
+<span class="c1"># countryareaDesc별로 그룹화한 후 mtc 값을 합산</span>
+<span class="n">aggregated_df</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">)[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># mtc 전체 합계 계산</span>
+<span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;total_mtc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># mtc_ratio 컬럼 생성</span>
+<span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;total_mtc&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># mtc_ratio를 기준으로 내림차순 정렬</span>
+<span class="n">aggregated_df</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># 결과 출력</span>
+<span class="n">aggregated_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>countryareaDesc</th>
+      <th>mtc</th>
+      <th>total_mtc</th>
+      <th>mtc_ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5</th>
+      <td>Australia</td>
+      <td>4.403285e+07</td>
+      <td>1.540640e+08</td>
+      <td>28.580877</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Brazil</td>
+      <td>1.345683e+07</td>
+      <td>1.540640e+08</td>
+      <td>8.734569</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>China</td>
+      <td>1.084995e+07</td>
+      <td>1.540640e+08</td>
+      <td>7.042494</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>USA</td>
+      <td>9.750158e+06</td>
+      <td>1.540640e+08</td>
+      <td>6.328639</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>Russian Federation</td>
+      <td>7.832200e+06</td>
+      <td>1.540640e+08</td>
+      <td>5.083730</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>India</td>
+      <td>6.781434e+06</td>
+      <td>1.540640e+08</td>
+      <td>4.401698</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>South Africa</td>
+      <td>5.183941e+06</td>
+      <td>1.540640e+08</td>
+      <td>3.364796</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Canada</td>
+      <td>4.989243e+06</td>
+      <td>1.540640e+08</td>
+      <td>3.238421</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>Indonesia</td>
+      <td>4.751198e+06</td>
+      <td>1.540640e+08</td>
+      <td>3.083911</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>United Arab Emirates</td>
+      <td>4.397753e+06</td>
+      <td>1.540640e+08</td>
+      <td>2.854497</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 처음 10개 countryareaDesc를 선택하고 나머지는 &#39;Others&#39;로 표시</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;mtc_ratio&#39;</span><span class="p">)</span>
+<span class="n">Others</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="p">[</span><span class="o">~</span><span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">])]</span>
+
+<span class="c1"># &#39;Others&#39; 행 추가</span>
+<span class="n">Others_sum</span> <span class="o">=</span> <span class="n">Others</span><span class="p">[</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">Others_row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Others&#39;</span><span class="p">],</span> <span class="s1">&#39;mtc_ratio&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Others_sum</span><span class="p">]})</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">top_10</span><span class="p">,</span> <span class="n">Others_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># &#39;Others&#39;를 맨 마지막으로 이동</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">top_10</span><span class="p">[</span><span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Others&#39;</span><span class="p">]</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">top_10</span><span class="p">,</span> <span class="n">Others_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 도넛 차트 생성</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># 색상 설정 (마지막 &#39;Others&#39;를 회색으로)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">tab20</span><span class="o">.</span><span class="n">colors</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">top_10</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,)</span>
+
+<span class="c1"># 파이 차트 생성 및 도넛 모양으로 만들기 위해 중심에 구멍을 만듦</span>
+<span class="n">wedges</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">autotexts</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.0f%%</span><span class="s1">&#39;</span><span class="p">,</span>
+                                  <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">counterclock</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">wedgeprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">pctdistance</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+
+<span class="c1"># 파이 조각의 값을 하얀색으로 표시</span>
+<span class="k">for</span> <span class="n">autotext</span> <span class="ow">in</span> <span class="n">autotexts</span><span class="p">:</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_ha</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_va</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="c1"># 제목과 레전드 설정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 10 Countries for DRY BULK Seaborne Exports (Jan-Apr 2024)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">wedges</span><span class="p">,</span> <span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;center left&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># 레이아웃 조정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># 도표 표시</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/39b177f7718c3173af258c0e6fb4d5e720243d308e7a3e01e425575fc903323f.png" src="../_images/39b177f7718c3173af258c0e6fb4d5e720243d308e7a3e01e425575fc903323f.png" />
+</div>
+</div>
+</section>
+<section id="id17">
+<h4>DRY BULK 해양 수입 상위 10개국<a class="headerlink" href="#id17" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 조건에 맞는 데이터 필터링</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df_aistrade_aggregated</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df_aistrade_aggregated</span><span class="p">[</span><span class="s1">&#39;year_month&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2024-01&#39;</span><span class="p">)</span> <span class="o">&amp;</span>\
+    <span class="p">(</span><span class="n">df_aistrade_aggregated</span><span class="p">[</span><span class="s1">&#39;flowCode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;M&#39;</span><span class="p">)]</span>
+
+<span class="c1"># countryareaDesc별로 그룹화한 후 mtc 값을 합산</span>
+<span class="n">aggregated_df</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">)[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="c1"># mtc 전체 합계 계산</span>
+<span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;total_mtc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="c1"># mtc_ratio 컬럼 생성</span>
+<span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;mtc&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;total_mtc&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># mtc_ratio를 기준으로 내림차순 정렬</span>
+<span class="n">aggregated_df</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># 결과 출력</span>
+<span class="n">aggregated_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>countryareaDesc</th>
+      <th>mtc</th>
+      <th>total_mtc</th>
+      <th>mtc_ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21</th>
+      <td>China</td>
+      <td>5.943809e+07</td>
+      <td>1.628459e+08</td>
+      <td>36.499587</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>India</td>
+      <td>1.411652e+07</td>
+      <td>1.628459e+08</td>
+      <td>8.668634</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>Japan</td>
+      <td>1.132958e+07</td>
+      <td>1.628459e+08</td>
+      <td>6.957240</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>Rep. of Korea</td>
+      <td>7.693721e+06</td>
+      <td>1.628459e+08</td>
+      <td>4.724540</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>Singapore</td>
+      <td>7.431817e+06</td>
+      <td>1.628459e+08</td>
+      <td>4.563711</td>
+    </tr>
+    <tr>
+      <th>126</th>
+      <td>USA</td>
+      <td>3.540110e+06</td>
+      <td>1.628459e+08</td>
+      <td>2.173901</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>Türkiye</td>
+      <td>3.412849e+06</td>
+      <td>1.628459e+08</td>
+      <td>2.095753</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Brazil</td>
+      <td>3.079099e+06</td>
+      <td>1.628459e+08</td>
+      <td>1.890805</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>Taiwan, Province of China</td>
+      <td>2.803895e+06</td>
+      <td>1.628459e+08</td>
+      <td>1.721809</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>Spain</td>
+      <td>2.607585e+06</td>
+      <td>1.628459e+08</td>
+      <td>1.601259</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 처음 10개 countryareaDesc를 선택하고 나머지는 &#39;Others&#39;로 표시</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;mtc_ratio&#39;</span><span class="p">)</span>
+<span class="n">Others</span> <span class="o">=</span> <span class="n">aggregated_df</span><span class="p">[</span><span class="o">~</span><span class="n">aggregated_df</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">])]</span>
+
+<span class="c1"># &#39;Others&#39; 행 추가</span>
+<span class="n">Others_sum</span> <span class="o">=</span> <span class="n">Others</span><span class="p">[</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">Others_row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Others&#39;</span><span class="p">],</span> <span class="s1">&#39;mtc_ratio&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">Others_sum</span><span class="p">]})</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">top_10</span><span class="p">,</span> <span class="n">Others_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># &#39;Others&#39;를 맨 마지막으로 이동</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">top_10</span><span class="p">[</span><span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Others&#39;</span><span class="p">]</span>
+<span class="n">top_10</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">top_10</span><span class="p">,</span> <span class="n">Others_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># 도넛 차트 생성</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># 색상 설정 (마지막 &#39;Others&#39;를 회색으로)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">tab20</span><span class="o">.</span><span class="n">colors</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">top_10</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;lightgray&#39;</span><span class="p">,)</span>
+
+<span class="c1"># 파이 차트 생성 및 도넛 모양으로 만들기 위해 중심에 구멍을 만듦</span>
+<span class="n">wedges</span><span class="p">,</span> <span class="n">texts</span><span class="p">,</span> <span class="n">autotexts</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;mtc_ratio&#39;</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%1.0f%%</span><span class="s1">&#39;</span><span class="p">,</span>
+                                  <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">counterclock</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">wedgeprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mf">0.3</span><span class="p">),</span> <span class="n">pctdistance</span><span class="o">=</span><span class="mf">0.85</span><span class="p">)</span>
+
+<span class="c1"># 파이 조각의 값을 하얀색으로 표시</span>
+<span class="k">for</span> <span class="n">autotext</span> <span class="ow">in</span> <span class="n">autotexts</span><span class="p">:</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_ha</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+    <span class="n">autotext</span><span class="o">.</span><span class="n">set_va</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="c1"># 제목과 레전드 설정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Top 10 Countries for DRY BULK Seaborne Imports (Jan-Apr 2024)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">wedges</span><span class="p">,</span> <span class="n">top_10</span><span class="p">[</span><span class="s1">&#39;countryareaDesc&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;center left&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># 레이아웃 조정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="c1"># 도표 표시</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d950ab7cd1942201e109e234f1964d13c30b0ab07dc73f88225b39c400fdbf71.png" src="../_images/d950ab7cd1942201e109e234f1964d13c30b0ab07dc73f88225b39c400fdbf71.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">1 국제무역 데이터의 특징</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3 세계은행 WITS API 추출</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. 개요</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#un-comtrade">UN Comtrade 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#api">오픈 API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">UN Comtrade 데이터 API로 접근</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comtradeapicall">comtradeapicall 패키지</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 사전 작업</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">UN Comtrade API 인증키 획득</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">데이터베이스별 API 종류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">comtradeapicall 패키지 설치</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3. comtradeapicall 사용법</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">함수 종류</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">comtradeapicall 패키지 함수 사용법</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comtradeapicall-1">comtradeapicall 파라미터(1)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comtradeapicall-2">comtradeapicall 파라미터(2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">comtradeapicall 패키지 사용 절차</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comtrade">4. Comtrade 데이터 다운로드 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">한국의 2022년 상품 수출</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">전세계 2022년 상품 수출</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">한미일중의 2022년 상품 수출</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ais">5. AIS 기반 해상 무역량 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">2024년 AIS기반 세계 해양 무역량 추출</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">2024년 세계 해양 무역량 분석</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">데이터 로딩</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dry-bulk-10">DRY BULK 해양 수출 상위 10개국</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">DRY BULK 해양 수입 상위 10개국</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

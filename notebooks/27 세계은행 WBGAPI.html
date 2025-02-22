@@ -1,0 +1,3443 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>7 세계은행 WBGAPI &#8212; 파이썬을 활용한 무역데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/27 세계은행 WBGAPI';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="6 국제무역 빅데이터 관리" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="00%20%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="파이썬을 활용한 무역데이터 분석 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="파이썬을 활용한 무역데이터 분석 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00%20%EC%84%9C%EB%AC%B8.html">
+                    시작하며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 분석</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11%20%EC%9A%B0%EB%A6%AC%EB%82%98%EB%9D%BC%20%EB%AC%B4%EC%97%AD%EC%9D%98%EC%A1%B4%EB%8F%84%20%EC%B6%94%EC%9D%B4.html">1 우리나라 무역의존도 추이</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html">2 수출의 내용을 따져보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20%EC%88%98%EC%B6%9C%20%EB%8B%A4%EA%B0%81%ED%99%94%EB%A5%BC%20%EC%B8%A1%EC%A0%95%ED%95%B4%EB%B3%B4%EC%9E%90.html">3 수출 다각화를 측정해보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html">4 자동차 수출입을 동시에 한다</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15%20%EC%88%98%EC%B6%9C%20%EC%84%B1%EC%9E%A5%20%EB%B6%84%ED%95%B4%ED%95%98%EA%B8%B0.html">5 수출 성장 분해하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html">6 어떤 나라가 교역을 많이 할까</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html">7 관세 데이터 기초 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html">8 국제무역 중력 모형 추정</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 관리</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html">1 국제무역 데이터의 특징</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20UN%20Comtrade%20API%20%EC%B6%94%EC%B6%9C.html">2 UN Comtrade API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html">3 세계은행 WITS API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20WTO%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">4 WTO 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25%20%EA%B4%80%EC%84%B8%EC%B2%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">5 관세청 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html">6 국제무역 빅데이터 관리</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7 세계은행 WBGAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2/issues/new?title=Issue%20on%20page%20%2Fnotebooks/27 세계은행 WBGAPI.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/27 세계은행 WBGAPI.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7 세계은행 WBGAPI</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. WBGAPI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">개요</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">둘러보기</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. WBGAPI 레시피 모음</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">쿼리 및 검색</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">데이터 접근</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">차트 및 플로팅</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">빈곤인구비율 보고국 분포</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">4차원 데이터베이스</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">집계</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">그룹 집계</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">3. 구매력평가 환율 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ppp">PPP 관련 지표</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">한국 PPP 관련 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">한국 명목환율 및 PPP 환율 추이</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="wbgapi">
+<h1>7 세계은행 WBGAPI<a class="headerlink" href="#wbgapi" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1.-WBGAPI"><span class="xref myst">1. WBGAPI</span></a></p></li>
+<li><p><a class="reference internal" href="#2.-WBGAPI-%EB%A0%88%EC%8B%9C%ED%94%BC-%EB%AA%A8%EC%9D%8C"><span class="xref myst">2. WBGAPI 레시피 모음</span></a></p></li>
+<li><p><a class="reference internal" href="#3.-%EA%B5%AC%EB%A7%A4%EB%A0%A5%ED%8F%89%EA%B0%80-%ED%99%98%EC%9C%A8-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="xref myst">3. 구매력평가 환율 데이터</span></a></p></li>
+</ul>
+<section id="id1">
+<h2>1. WBGAPI<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>출처: <a class="reference external" href="https://pypi.org/project/wbgapi/">WBGAPI Project</a></p>
+<section id="id2">
+<h3>개요<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>WBGAPI는 World Bank의 오픈 데이터 API에 접근하기 위한 파이썬 패키지다. 다른 일부 파이썬 패키지와 달리, 이 패키지는 전체 API 대신 단일 API 데이터베이스를 참조하므로, 얻는 데이터에 대해 더 높은 투명성과 제어력을 제공한다.</p>
+<p>WBGAPI는 기본값(default)으로 World Development Indicators 데이터베이스(db=2)를 쿼리하지만, 이 기본값은 각 요청별 또는 전역적(globally)으로 변경할 수 있다. 이는 인구(<code class="docutils literal notranslate"><span class="pre">SP.POP.TOTL</span></code>)와 같은 지표(indicator)가 여러 다른 데이터베이스에 나타나거나, 데이터베이스마다 차원, 경제, 기간이 다를 때 혼란을 방지한다.</p>
+<p><strong>기타 주요 특징:</strong></p>
+<ul class="simple">
+<li><p>한 번의 요청으로 여러 시리즈, 경제(국가), 기간을 쉽게 선택할 수 있다.</p></li>
+<li><p>개별 연도, 범위, 최신값(MRV: most recent value)을 선택할 수 있다.</p></li>
+<li><p>메타데이터 쿼리 지원</p></li>
+</ul>
+<p><strong>설치</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %pip install wbgapi # 처음 한 번만 설치하면 됨</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>WBGAPI는 API가 여러 독립적인 시리즈, 국가, 시간 차원을 가진 수십 개의 서로 다른 데이터베이스로 구성되어 있지만, 이들 간에 강한 중복이 존재한다는 사실을 바탕으로 설계되었다.</p>
+<p>WBGAPI(wb)에는 API의 주요 구성요소에 해당하는 9개의 서브 모듈이 있다.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>그룹명</p></th>
+<th class="head text-left"><p>내용</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>source</p></td>
+<td class="text-left"><p>데이터베이스 (예: WDI, Doing Business, International Debt)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>series</p></td>
+<td class="text-left"><p>지표 (예: <code class="docutils literal notranslate"><span class="pre">SP.POP.TOTL</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>economy</p></td>
+<td class="text-left"><p>국가 및 경제 (일부 데이터베이스의 경우 하위 국가 수준일 수도 있음)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>data</p></td>
+<td class="text-left"><p>데이터</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>topic</p></td>
+<td class="text-left"><p>World Bank 주제 (이것은 전역 리스트이며, 시리즈의 Topic 메타데이터 필드와는 구분됨)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>time</p></td>
+<td class="text-left"><p>시간 (일반적으로 연간, 때로는 분기별 또는 월별)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>region</p></td>
+<td class="text-left"><p>World Bank 지역 (모든 데이터베이스에 대해 전역적임)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>income</p></td>
+<td class="text-left"><p>World Bank 소득 그룹 (역시 전역적임)</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>lending</p></td>
+<td class="text-left"><p>World Bank 대출 유형 (역시 전역적임)</p></td>
+</tr>
+</tbody>
+</table>
+<p>위의 각 그룹의 요소에 접근하기 위해 공통적으로 사용할 수 있는 함수들은 다음과 같다.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>함수</p></th>
+<th class="head"><p>설명</p></th>
+<th class="head"><p>예시</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>info()</p></td>
+<td><p>사람이 읽기 쉬운 표 형식으로 반환</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wb.time.info()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>list()</p></td>
+<td><p>요소를 하나씩 반환</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wb.economy.list()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>get()</p></td>
+<td><p>단일 요소를 반환</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wb.series.get('SP.POP.TOTL')</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Series()</p></td>
+<td><p>pandas Series를 반환</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">wb.income.Series()</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id3">
+<h3>둘러보기<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>API나 특정 데이터베이스에 어떤 내용이 있는지 탐색하는 데 <code class="docutils literal notranslate"><span class="pre">info</span></code> 함수가 매우 유용하다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wbgapi</span> <span class="k">as</span> <span class="nn">wb</span>
+
+<span class="c1"># 데이터베이스의 종류</span>
+<span class="n">wb</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>name                                                                </th><th>code  </th><th style="text-align: right;">  concepts</th><th>lastupdated  </th></tr>
+</thead>
+<tbody>
+<tr><td>1   </td><td>Doing Business                                                      </td><td>DBS   </td><td style="text-align: right;">         3</td><td>2021-08-18   </td></tr>
+<tr><td>2   </td><td>World Development Indicators                                        </td><td>WDI   </td><td style="text-align: right;">         3</td><td>2025-01-28   </td></tr>
+<tr><td>3   </td><td>Worldwide Governance Indicators                                     </td><td>WGI   </td><td style="text-align: right;">         3</td><td>2024-11-05   </td></tr>
+<tr><td>5   </td><td>Subnational Malnutrition Database                                   </td><td>SNM   </td><td style="text-align: right;">         3</td><td>2016-03-21   </td></tr>
+<tr><td>6   </td><td>International Debt Statistics                                       </td><td>IDS   </td><td style="text-align: right;">         4</td><td>2024-12-03   </td></tr>
+<tr><td>11  </td><td>Africa Development Indicators                                       </td><td>ADI   </td><td style="text-align: right;">         3</td><td>2013-02-22   </td></tr>
+<tr><td>12  </td><td>Education Statistics                                                </td><td>EDS   </td><td style="text-align: right;">         3</td><td>2024-06-25   </td></tr>
+<tr><td>13  </td><td>Enterprise Surveys                                                  </td><td>ESY   </td><td style="text-align: right;">         3</td><td>2022-03-25   </td></tr>
+<tr><td>14  </td><td>Gender Statistics                                                   </td><td>GDS   </td><td style="text-align: right;">         3</td><td>2024-12-17   </td></tr>
+<tr><td>15  </td><td>Global Economic Monitor                                             </td><td>GEM   </td><td style="text-align: right;">         3</td><td>2025-02-14   </td></tr>
+<tr><td>16  </td><td>Health Nutrition and Population Statistics                          </td><td>HNP   </td><td style="text-align: right;">         3</td><td>2024-12-16   </td></tr>
+<tr><td>18  </td><td>IDA Results Measurement System                                      </td><td>IDA   </td><td style="text-align: right;">         3</td><td>2021-07-23   </td></tr>
+<tr><td>19  </td><td>Millennium Development Goals                                        </td><td>MDG   </td><td style="text-align: right;">         3</td><td>2018-09-19   </td></tr>
+<tr><td>20  </td><td>Quarterly Public Sector Debt                                        </td><td>PSD   </td><td style="text-align: right;">         3</td><td>2025-02-18   </td></tr>
+<tr><td>22  </td><td>Quarterly External Debt Statistics SDDS                             </td><td>QDS   </td><td style="text-align: right;">         3</td><td>2025-01-31   </td></tr>
+<tr><td>23  </td><td>Quarterly External Debt Statistics GDDS                             </td><td>QDG   </td><td style="text-align: right;">         3</td><td>2025-01-31   </td></tr>
+<tr><td>25  </td><td>Jobs                                                                </td><td>JOB   </td><td style="text-align: right;">         3</td><td>2024-12-16   </td></tr>
+<tr><td>27  </td><td>Global Economic Prospects                                           </td><td>GEP   </td><td style="text-align: right;">         3</td><td>2025-01-16   </td></tr>
+<tr><td>28  </td><td>Global Financial Inclusion                                          </td><td>FDX   </td><td style="text-align: right;">         3</td><td>2024-03-28   </td></tr>
+<tr><td>29  </td><td>The Atlas of Social Protection: Indicators of Resilience and Equity </td><td>GSP   </td><td style="text-align: right;">         3</td><td>2024-02-13   </td></tr>
+<tr><td>30  </td><td>Exporter Dynamics Database – Indicators at Country-Year Level       </td><td>ED1   </td><td style="text-align: right;">         3</td><td>2016-03-31   </td></tr>
+<tr><td>31  </td><td>Country Policy and Institutional Assessment                         </td><td>CPI   </td><td style="text-align: right;">         3</td><td>2024-06-28   </td></tr>
+<tr><td>32  </td><td>Global Financial Development                                        </td><td>GFD   </td><td style="text-align: right;">         3</td><td>2022-09-23   </td></tr>
+<tr><td>33  </td><td>G20 Financial Inclusion Indicators                                  </td><td>G2F   </td><td style="text-align: right;">         3</td><td>2019-02-27   </td></tr>
+<tr><td>34  </td><td>Global Partnership for Education                                    </td><td>GPE   </td><td style="text-align: right;">         3</td><td>2013-04-12   </td></tr>
+<tr><td>35  </td><td>Sustainable Energy for All                                          </td><td>SE4   </td><td style="text-align: right;">         3</td><td>2018-06-30   </td></tr>
+<tr><td>37  </td><td>LAC Equity Lab                                                      </td><td>LEL   </td><td style="text-align: right;">         3</td><td>2016-04-06   </td></tr>
+<tr><td>38  </td><td>Subnational Poverty                                                 </td><td>SNP   </td><td style="text-align: right;">         3</td><td>2015-04-27   </td></tr>
+<tr><td>39  </td><td>Health Nutrition and Population Statistics by Wealth Quintile       </td><td>HNQ   </td><td style="text-align: right;">         3</td><td>2022-12-13   </td></tr>
+<tr><td>40  </td><td>Population estimates and projections                                </td><td>HPP   </td><td style="text-align: right;">         3</td><td>2024-12-16   </td></tr>
+<tr><td>41  </td><td>Country Partnership Strategy for India (FY2013 - 17)                </td><td>CPS   </td><td style="text-align: right;">         3</td><td>2015-05-22   </td></tr>
+<tr><td>43  </td><td>Adjusted Net Savings                                                </td><td>WAT   </td><td style="text-align: right;">         3</td><td>2023-06-08   </td></tr>
+<tr><td>45  </td><td>Indonesia Database for Policy and Economic Research                 </td><td>IDD   </td><td style="text-align: right;">         3</td><td>2022-08-11   </td></tr>
+<tr><td>46  </td><td>Sustainable Development Goals                                       </td><td>SDG   </td><td style="text-align: right;">         3</td><td>2022-07-22   </td></tr>
+<tr><td>50  </td><td>Subnational Population                                              </td><td>SNT   </td><td style="text-align: right;">         3</td><td>2017-09-21   </td></tr>
+<tr><td>54  </td><td>Joint External Debt Hub                                             </td><td>JED   </td><td style="text-align: right;">         3</td><td>2024-12-17   </td></tr>
+<tr><td>57  </td><td>WDI Database Archives                                               </td><td>WDA   </td><td style="text-align: right;">         4</td><td>2025-02-03   </td></tr>
+<tr><td>58  </td><td>Universal Health Coverage                                           </td><td>UHC   </td><td style="text-align: right;">         3</td><td>2019-04-25   </td></tr>
+<tr><td>59  </td><td>Wealth Accounts                                                     </td><td>WAC   </td><td style="text-align: right;">         3</td><td>2024-10-08   </td></tr>
+<tr><td>60  </td><td>Economic Fitness                                                    </td><td>EFT   </td><td style="text-align: right;">         3</td><td>2018-04-19   </td></tr>
+<tr><td>61  </td><td>PPPs Regulatory Quality                                             </td><td>PRQ   </td><td style="text-align: right;">         3</td><td>2019-04-25   </td></tr>
+<tr><td>62  </td><td>International Comparison Program (ICP) 2011                         </td><td>ICP   </td><td style="text-align: right;">         4</td><td>2020-08-24   </td></tr>
+<tr><td>63  </td><td>Human Capital Index                                                 </td><td>HCI   </td><td style="text-align: right;">         3</td><td>2020-09-21   </td></tr>
+<tr><td>64  </td><td>Worldwide Bureaucracy Indicators                                    </td><td>WBI   </td><td style="text-align: right;">         3</td><td>2022-09-20   </td></tr>
+<tr><td>65  </td><td>Health Equity and Financial Protection Indicators                   </td><td>HPI   </td><td style="text-align: right;">         3</td><td>2019-11-06   </td></tr>
+<tr><td>66  </td><td>Logistics Performance Index                                         </td><td>LPI   </td><td style="text-align: right;">         3</td><td>2024-03-26   </td></tr>
+<tr><td>67  </td><td>PEFA 2011                                                           </td><td>PF1   </td><td style="text-align: right;">         4</td><td>2024-12-04   </td></tr>
+<tr><td>68  </td><td>PEFA 2016                                                           </td><td>PF6   </td><td style="text-align: right;">         4</td><td>2025-01-31   </td></tr>
+<tr><td>69  </td><td>Global Financial Inclusion and Consumer Protection Survey           </td><td>RFA   </td><td style="text-align: right;">         3</td><td>2019-06-27   </td></tr>
+<tr><td>70  </td><td>Economic Fitness 2                                                  </td><td>EF2   </td><td style="text-align: right;">         3</td><td>2024-11-30   </td></tr>
+<tr><td>71  </td><td>International Comparison Program (ICP) 2005                         </td><td>IC5   </td><td style="text-align: right;">         4</td><td>2021-09-10   </td></tr>
+<tr><td>73  </td><td>Global Financial Inclusion and Consumer Protection Survey (Internal)</td><td>RFI   </td><td style="text-align: right;">         3</td><td>2019-06-27   </td></tr>
+<tr><td>75  </td><td>Environment, Social and Governance (ESG) Data                       </td><td>ESG   </td><td style="text-align: right;">         3</td><td>2024-04-16   </td></tr>
+<tr><td>76  </td><td>Remittance Prices Worldwide (Sending Countries)                     </td><td>RWS   </td><td style="text-align: right;">         3</td><td>2020-12-07   </td></tr>
+<tr><td>77  </td><td>Remittance Prices Worldwide (Receiving Countries)                   </td><td>RWR   </td><td style="text-align: right;">         3</td><td>2020-12-07   </td></tr>
+<tr><td>78  </td><td>ICP 2017                                                            </td><td>IC7   </td><td style="text-align: right;">         4</td><td>2020-10-21   </td></tr>
+<tr><td>79  </td><td>PEFA_GRPFM                                                          </td><td>GRP   </td><td style="text-align: right;">         4</td><td>2025-01-31   </td></tr>
+<tr><td>80  </td><td>Gender Disaggregated Labor Database (GDLD)                          </td><td>GDL   </td><td style="text-align: right;">         4</td><td>2020-07-25   </td></tr>
+<tr><td>81  </td><td>International Debt Statistics: DSSI                                 </td><td>DSI   </td><td style="text-align: right;">         4</td><td>2024-12-03   </td></tr>
+<tr><td>82  </td><td>Global Public Procurement                                           </td><td>GPP   </td><td style="text-align: right;">         3</td><td>2021-03-24   </td></tr>
+<tr><td>83  </td><td>Statistical Performance Indicators (SPI)                            </td><td>SPI   </td><td style="text-align: right;">         3</td><td>2024-11-11   </td></tr>
+<tr><td>84  </td><td>Education Policy                                                    </td><td>EDP   </td><td style="text-align: right;">         3</td><td>2024-10-03   </td></tr>
+<tr><td>85  </td><td>PEFA_2021_SNG                                                       </td><td>SNG   </td><td style="text-align: right;">         4</td><td>2024-04-29   </td></tr>
+<tr><td>86  </td><td>Global Jobs Indicators Database (JOIN)                              </td><td>JON   </td><td style="text-align: right;">         3</td><td>2023-05-22   </td></tr>
+<tr><td>87  </td><td>Country Climate and Development Report (CCDR)                       </td><td>CCD   </td><td style="text-align: right;">         3</td><td>2022-10-07   </td></tr>
+<tr><td>88  </td><td>Food Prices for Nutrition                                           </td><td>FPN   </td><td style="text-align: right;">         4</td><td>2024-12-20   </td></tr>
+<tr><td>89  </td><td>Identification for Development (ID4D) Data                          </td><td>ID4   </td><td style="text-align: right;">         3</td><td>2024-12-05   </td></tr>
+<tr><td>90  </td><td>ICP 2021                                                            </td><td>IC2   </td><td style="text-align: right;">         4</td><td>2024-08-04   </td></tr>
+<tr><td>91  </td><td>PEFA_CRPFM                                                          </td><td>CRP   </td><td style="text-align: right;">         4</td><td>2025-01-31   </td></tr>
+<tr><td>    </td><td>69 elements                                                         </td><td>      </td><td style="text-align: right;">          </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 개별 데이터베이스의 내용(지표), 너무 길어서 실행시키지 않음</span>
+<span class="c1"># wb.series.info() # 기본값은 WDI(db=2)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>   <span class="c1"># Debt Statistics 데이터베이스의 경제(국가) 정보</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>value                                             </th><th>region  </th><th>incomeLevel  </th></tr>
+</thead>
+<tbody>
+<tr><td>AFG </td><td>Afghanistan                                       </td><td>SAS     </td><td>LIC          </td></tr>
+<tr><td>AGO </td><td>Angola                                            </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>ALB </td><td>Albania                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>ARG </td><td>Argentina                                         </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>ARM </td><td>Armenia                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>AZE </td><td>Azerbaijan                                        </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>BDI </td><td>Burundi                                           </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>BEN </td><td>Benin                                             </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>BFA </td><td>Burkina Faso                                      </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>BGD </td><td>Bangladesh                                        </td><td>SAS     </td><td>LMC          </td></tr>
+<tr><td>BIH </td><td>Bosnia and Herzegovina                            </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>BLR </td><td>Belarus                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>BLZ </td><td>Belize                                            </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>BOL </td><td>Bolivia                                           </td><td>LCN     </td><td>LMC          </td></tr>
+<tr><td>BRA </td><td>Brazil                                            </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>BTN </td><td>Bhutan                                            </td><td>SAS     </td><td>LMC          </td></tr>
+<tr><td>BWA </td><td>Botswana                                          </td><td>SSF     </td><td>UMC          </td></tr>
+<tr><td>CAF </td><td>Central African Republic                          </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>CHN </td><td>China                                             </td><td>EAS     </td><td>UMC          </td></tr>
+<tr><td>CIV </td><td>Cote d&#x27;Ivoire                                     </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>CMR </td><td>Cameroon                                          </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>COD </td><td>Congo, Dem. Rep.                                  </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>COG </td><td>Congo, Rep.                                       </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>COL </td><td>Colombia                                          </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>COM </td><td>Comoros                                           </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>CPV </td><td>Cabo Verde                                        </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>CRI </td><td>Costa Rica                                        </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>DJI </td><td>Djibouti                                          </td><td>MEA     </td><td>LMC          </td></tr>
+<tr><td>DMA </td><td>Dominica                                          </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>DOM </td><td>Dominican Republic                                </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>DZA </td><td>Algeria                                           </td><td>MEA     </td><td>UMC          </td></tr>
+<tr><td>EAP </td><td>East Asia &amp; Pacific (excluding high income)       </td><td>        </td><td>             </td></tr>
+<tr><td>ECA </td><td>Europe &amp; Central Asia (excluding high income)     </td><td>        </td><td>             </td></tr>
+<tr><td>ECU </td><td>Ecuador                                           </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>EGY </td><td>Egypt, Arab Rep.                                  </td><td>MEA     </td><td>LMC          </td></tr>
+<tr><td>ERI </td><td>Eritrea                                           </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>ETH </td><td>Ethiopia                                          </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>FJI </td><td>Fiji                                              </td><td>EAS     </td><td>UMC          </td></tr>
+<tr><td>GAB </td><td>Gabon                                             </td><td>SSF     </td><td>UMC          </td></tr>
+<tr><td>GEO </td><td>Georgia                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>GHA </td><td>Ghana                                             </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>GIN </td><td>Guinea                                            </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>GMB </td><td>Gambia, The                                       </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>GNB </td><td>Guinea-Bissau                                     </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>GRD </td><td>Grenada                                           </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>GTM </td><td>Guatemala                                         </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>GUY </td><td>Guyana                                            </td><td>LCN     </td><td>HIC          </td></tr>
+<tr><td>HND </td><td>Honduras                                          </td><td>LCN     </td><td>LMC          </td></tr>
+<tr><td>HTI </td><td>Haiti                                             </td><td>LCN     </td><td>LMC          </td></tr>
+<tr><td>IDA </td><td>IDA total                                         </td><td>        </td><td>             </td></tr>
+<tr><td>IDN </td><td>Indonesia                                         </td><td>EAS     </td><td>UMC          </td></tr>
+<tr><td>IDX </td><td>IDA only                                          </td><td>        </td><td>             </td></tr>
+<tr><td>IND </td><td>India                                             </td><td>SAS     </td><td>LMC          </td></tr>
+<tr><td>IRN </td><td>Iran, Islamic Rep.                                </td><td>MEA     </td><td>UMC          </td></tr>
+<tr><td>IRQ </td><td>Iraq                                              </td><td>MEA     </td><td>UMC          </td></tr>
+<tr><td>JAM </td><td>Jamaica                                           </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>JOR </td><td>Jordan                                            </td><td>MEA     </td><td>LMC          </td></tr>
+<tr><td>KAZ </td><td>Kazakhstan                                        </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>KEN </td><td>Kenya                                             </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>KGZ </td><td>Kyrgyz Republic                                   </td><td>ECS     </td><td>LMC          </td></tr>
+<tr><td>KHM </td><td>Cambodia                                          </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>LAC </td><td>Latin America &amp; Caribbean (excluding high income) </td><td>        </td><td>             </td></tr>
+<tr><td>LAO </td><td>Lao PDR                                           </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>LBN </td><td>Lebanon                                           </td><td>MEA     </td><td>LMC          </td></tr>
+<tr><td>LBR </td><td>Liberia                                           </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>LCA </td><td>St. Lucia                                         </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>LDC </td><td>Least developed countries: UN classification      </td><td>        </td><td>             </td></tr>
+<tr><td>LIC </td><td>Low income                                        </td><td>        </td><td>             </td></tr>
+<tr><td>LKA </td><td>Sri Lanka                                         </td><td>SAS     </td><td>LMC          </td></tr>
+<tr><td>LMC </td><td>Lower middle income                               </td><td>        </td><td>             </td></tr>
+<tr><td>LMY </td><td>Low &amp; middle income                               </td><td>        </td><td>             </td></tr>
+<tr><td>LSO </td><td>Lesotho                                           </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>MAR </td><td>Morocco                                           </td><td>MEA     </td><td>LMC          </td></tr>
+<tr><td>MDA </td><td>Moldova                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>MDG </td><td>Madagascar                                        </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>MDV </td><td>Maldives                                          </td><td>SAS     </td><td>UMC          </td></tr>
+<tr><td>MEX </td><td>Mexico                                            </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>MIC </td><td>Middle income                                     </td><td>        </td><td>             </td></tr>
+<tr><td>MKD </td><td>North Macedonia                                   </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>MLI </td><td>Mali                                              </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>MMR </td><td>Myanmar                                           </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>MNA </td><td>Middle East &amp; North Africa (excluding high income)</td><td>        </td><td>             </td></tr>
+<tr><td>MNE </td><td>Montenegro                                        </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>MNG </td><td>Mongolia                                          </td><td>EAS     </td><td>UMC          </td></tr>
+<tr><td>MOZ </td><td>Mozambique                                        </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>MRT </td><td>Mauritania                                        </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>MUS </td><td>Mauritius                                         </td><td>SSF     </td><td>UMC          </td></tr>
+<tr><td>MWI </td><td>Malawi                                            </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>NER </td><td>Niger                                             </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>NGA </td><td>Nigeria                                           </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>NIC </td><td>Nicaragua                                         </td><td>LCN     </td><td>LMC          </td></tr>
+<tr><td>NPL </td><td>Nepal                                             </td><td>SAS     </td><td>LMC          </td></tr>
+<tr><td>PAK </td><td>Pakistan                                          </td><td>SAS     </td><td>LMC          </td></tr>
+<tr><td>PER </td><td>Peru                                              </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>PHL </td><td>Philippines                                       </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>PNG </td><td>Papua New Guinea                                  </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>PRY </td><td>Paraguay                                          </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>RWA </td><td>Rwanda                                            </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>SAS </td><td>South Asia                                        </td><td>        </td><td>             </td></tr>
+<tr><td>SDN </td><td>Sudan                                             </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>SEN </td><td>Senegal                                           </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>SLB </td><td>Solomon Islands                                   </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>SLE </td><td>Sierra Leone                                      </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>SLV </td><td>El Salvador                                       </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>SOM </td><td>Somalia                                           </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>SRB </td><td>Serbia                                            </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>SSA </td><td>Sub-Saharan Africa (excluding high income)        </td><td>        </td><td>             </td></tr>
+<tr><td>STP </td><td>Sao Tome and Principe                             </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>SUR </td><td>Suriname                                          </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>SWZ </td><td>Eswatini                                          </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>SYR </td><td>Syrian Arab Republic                              </td><td>MEA     </td><td>LIC          </td></tr>
+<tr><td>TCD </td><td>Chad                                              </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>TGO </td><td>Togo                                              </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>THA </td><td>Thailand                                          </td><td>EAS     </td><td>UMC          </td></tr>
+<tr><td>TJK </td><td>Tajikistan                                        </td><td>ECS     </td><td>LMC          </td></tr>
+<tr><td>TKM </td><td>Turkmenistan                                      </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>TLS </td><td>Timor-Leste                                       </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>TON </td><td>Tonga                                             </td><td>EAS     </td><td>UMC          </td></tr>
+<tr><td>TUN </td><td>Tunisia                                           </td><td>MEA     </td><td>LMC          </td></tr>
+<tr><td>TUR </td><td>Turkiye                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>TZA </td><td>Tanzania                                          </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>UGA </td><td>Uganda                                            </td><td>SSF     </td><td>LIC          </td></tr>
+<tr><td>UKR </td><td>Ukraine                                           </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>UMC </td><td>Upper middle income                               </td><td>        </td><td>             </td></tr>
+<tr><td>UZB </td><td>Uzbekistan                                        </td><td>ECS     </td><td>LMC          </td></tr>
+<tr><td>VCT </td><td>St. Vincent and the Grenadines                    </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>VNM </td><td>Viet Nam                                          </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>VUT </td><td>Vanuatu                                           </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>WSM </td><td>Samoa                                             </td><td>EAS     </td><td>LMC          </td></tr>
+<tr><td>XKX </td><td>Kosovo                                            </td><td>ECS     </td><td>UMC          </td></tr>
+<tr><td>YEM </td><td>Yemen, Rep.                                       </td><td>MEA     </td><td>LIC          </td></tr>
+<tr><td>ZAF </td><td>South Africa                                      </td><td>SSF     </td><td>UMC          </td></tr>
+<tr><td>ZMB </td><td>Zambia                                            </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>ZWE </td><td>Zimbabwe                                          </td><td>SSF     </td><td>LMC          </td></tr>
+<tr><td>    </td><td>134 elements                                      </td><td>        </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<p><strong>기본 데이터베이스를 변경하려면 다음과 같이 하면 된다.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="mi">12</span> <span class="c1"># Education Statistics 데이터베이스로 변경</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># wb.series.info() # Education Statistics 지표</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1">#기본값 데이터베이스 WDI로 돌아감</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># wb.economy.info() # WDI 데이터베이스의 경제(국가) 정보</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>지표 등의 내용 확인 방법</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id            </th><th>value                       </th></tr>
+</thead>
+<tbody>
+<tr><td>NY.GDP.PCAP.CD</td><td>GDP per capita (current US$)</td></tr>
+<tr><td>              </td><td>1 elements                  </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">info</span><span class="p">([</span><span class="s1">&#39;CAN&#39;</span><span class="p">,</span> <span class="s1">&#39;USA&#39;</span><span class="p">,</span> <span class="s1">&#39;MEX&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>value        </th><th>region  </th><th>incomeLevel  </th></tr>
+</thead>
+<tbody>
+<tr><td>CAN </td><td>Canada       </td><td>NAC     </td><td>HIC          </td></tr>
+<tr><td>MEX </td><td>Mexico       </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>USA </td><td>United States</td><td>NAC     </td><td>HIC          </td></tr>
+<tr><td>    </td><td>3 elements   </td><td>        </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<p><strong>키워드 쿼리</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;co2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id                        </th><th>value                                                                                     </th></tr>
+</thead>
+<tbody>
+<tr><td>EN.GHG.CO2.AG.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Agriculture (Mt CO2e)                                 </td></tr>
+<tr><td>EN.GHG.CO2.BU.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Building (Energy) (Mt CO2e)                           </td></tr>
+<tr><td>EN.GHG.CO2.FE.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Fugitive Emissions (Energy) (Mt CO2e)                 </td></tr>
+<tr><td>EN.GHG.CO2.IC.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Industrial Combustion (Energy) (Mt CO2e)              </td></tr>
+<tr><td>EN.GHG.CO2.IP.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Industrial Processes (Mt CO2e)                        </td></tr>
+<tr><td>EN.GHG.CO2.LU.DF.MT.CE.AR5</td><td>Carbon dioxide (CO2) net fluxes from LULUCF - Deforestation (Mt CO2e)                     </td></tr>
+<tr><td>EN.GHG.CO2.LU.FL.MT.CE.AR5</td><td>Carbon dioxide (CO2) net fluxes from LULUCF - Forest Land (Mt CO2e)                       </td></tr>
+<tr><td>EN.GHG.CO2.LU.MT.CE.AR5   </td><td>Carbon dioxide (CO2) net fluxes from LULUCF - Total excluding non-tropical fires (Mt CO2e)</td></tr>
+<tr><td>EN.GHG.CO2.LU.OL.MT.CE.AR5</td><td>Carbon dioxide (CO2) net fluxes from LULUCF - Other Land (Mt CO2e)                        </td></tr>
+<tr><td>EN.GHG.CO2.LU.OS.MT.CE.AR5</td><td>Carbon dioxide (CO2) net fluxes from LULUCF - Organic Soil (Mt CO2e)                      </td></tr>
+<tr><td>EN.GHG.CO2.MT.CE.AR5      </td><td>Carbon dioxide (CO2) emissions (total) excluding LULUCF (Mt CO2e)                         </td></tr>
+<tr><td>EN.GHG.CO2.PC.CE.AR5      </td><td>Carbon dioxide (CO2) emissions excluding LULUCF per capita (t CO2e/capita)                </td></tr>
+<tr><td>EN.GHG.CO2.PI.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Power Industry (Energy) (Mt CO2e)                     </td></tr>
+<tr><td>EN.GHG.CO2.TR.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Transport (Energy) (Mt CO2e)                          </td></tr>
+<tr><td>EN.GHG.CO2.WA.MT.CE.AR5   </td><td>Carbon dioxide (CO2) emissions from Waste (Mt CO2e)                                       </td></tr>
+<tr><td>EN.GHG.CO2.ZG.AR5         </td><td>Carbon dioxide (CO2) emissions (total) excluding LULUCF (% change from 1990)              </td></tr>
+<tr><td>                          </td><td>16 elements                                                                               </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;korea&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>value                    </th><th>region  </th><th>incomeLevel  </th></tr>
+</thead>
+<tbody>
+<tr><td>KOR </td><td>Korea, Rep.              </td><td>EAS     </td><td>HIC          </td></tr>
+<tr><td>PRK </td><td>Korea, Dem. People&#x27;s Rep.</td><td>EAS     </td><td>LIC          </td></tr>
+<tr><td>    </td><td>2 elements               </td><td>        </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<p><strong>참고</strong>: 키워드 쿼리는 지표 이름의 괄호 안 부분은 무시한다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">q='GDP'</span></code>는 “Gross domestic savings (% of GDP)”는 배제한다. 괄호 안 부분까지 검색하려면, 느낌표를 추가하여 <code class="docutils literal notranslate"><span class="pre">q='!GDP'</span></code>와 같이 하면 된다.</p>
+<p>만약 이것으로 원하는 결과가 나오지 않는다면, <code class="docutils literal notranslate"><span class="pre">search</span></code> 함수를 사용하여 현재 데이터베이스의 모든 메타데이터에 대해 더 깊은 검색을 수행할 수 있다. 이는 현재 데이터베이스의 메타데이터를 검색한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;Korea&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><h4>Country</h4><table>
+<thead>
+<tr><th>ID  </th><th>Name  </th><th>Field    </th><th>Value                                </th></tr>
+</thead>
+<tbody>
+<tr><td>KOR </td><td>      </td><td>LongName </td><td>Republic of Korea                    </td></tr>
+<tr><td>KOR </td><td>      </td><td>ShortName</td><td>Korea                                </td></tr>
+<tr><td>KOR </td><td>      </td><td>TableName</td><td>Korea, Rep.                          </td></tr>
+<tr><td>PRK </td><td>      </td><td>LongName </td><td>Democratic People&#x27;s Republic of Korea</td></tr>
+<tr><td>PRK </td><td>      </td><td>ShortName</td><td>Dem. People&#x27;s Rep. Korea             </td></tr>
+<tr><td>PRK </td><td>      </td><td>TableName</td><td>Korea, Dem. People&#x27;s Rep.            </td></tr>
+</tbody>
+</table><h4>Country-Series</h4><table>
+<thead>
+<tr><th>ID                 </th><th>Name  </th><th>Field         </th><th>Value                                                                      </th></tr>
+</thead>
+<tbody>
+<tr><td>KOR~IT.CEL.COVR.ZS </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.CEL.HOUS.ZS </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.CEL.SETS    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.CEL.SETS.P2 </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.CMP.HOUS.ZS </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.MLT.FALT.M2 </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.MLT.MAIN    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.MLT.MAIN.P2 </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.BBND    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.BBND.P2 </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.BNDW    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.BNDW.PC </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.HOUS.ZS </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.SUBR    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.SUBR.P2 </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.NET.USER.ZS </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.POP.TOTL.ITU</td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.TEL.EMPL.TO </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.TEL.INVS.CD </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.TEL.REVN.CD </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.TEL.TOTL    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.TVS.CABL    </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+<tr><td>KOR~IT.TVS.HOUS.ZS </td><td>      </td><td>Country-Series</td><td>Ministry of Information and Communication. Korea Communications Commission.</td></tr>
+</tbody>
+</table><h4>Series</h4><table>
+<thead>
+<tr><th>ID               </th><th>Name  </th><th>Field                           </th><th>Value                                                                                                                                                                  </th></tr>
+</thead>
+<tbody>
+<tr><td>DC.DAC.AUSL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.AUTL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.BELL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.CANL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.CECL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.CHEL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.CZEL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.DEUL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.DNKL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.ESPL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.ESTL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.FINL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.FRAL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.GBRL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.GRCL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.HUNL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.IRLL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.ISLL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.ITAL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.JPNL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.KORL.CD   </td><td>      </td><td>IndicatorName                   </td><td>Net bilateral aid flows from DAC donors, Korea, Rep. (current US$)                                                                                                     </td></tr>
+<tr><td>DC.DAC.KORL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.LTUL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.LUXL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.NLDL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.NORL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.NZLL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.OTHR.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.POLL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.PRTL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.SVKL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.SVNL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.SWEL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.TOTL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>DC.DAC.USAL.CD   </td><td>      </td><td>Longdefinition                  </td><td>... Finland, France, Germany, Greece, Hungary, Iceland, Ireland, Italy, Japan, Korea, Lithuania, Luxembourg, The Netherlands, New Zealand, Norway, Poland, Portugal,...</td></tr>
+<tr><td>IS.RRS.GOOD.MT.K6</td><td>      </td><td>Developmentrelevance            </td><td>...network covering virtually the whole continent. In India, China, South Korea and Japan, many millions use trains as regular transport. In the North America,...     </td></tr>
+<tr><td>IS.RRS.PASG.KM   </td><td>      </td><td>Developmentrelevance            </td><td>...network covering virtually the whole continent. In India, China, South Korea and Japan, many millions use trains as regular transport. In North America,...         </td></tr>
+<tr><td>IS.RRS.TOTL.KM   </td><td>      </td><td>Developmentrelevance            </td><td>...network covering virtually the whole continent. In India, China, South Korea and Japan, many millions use trains as regular transport. In the North America,...     </td></tr>
+<tr><td>SM.POP.TOTL      </td><td>      </td><td>Statisticalconceptandmethodology</td><td>...with no information including China, the Democratic People&#x27;s Republic of Korea, Eritrea and Somalia....                                                             </td></tr>
+<tr><td>SM.POP.TOTL.ZS   </td><td>      </td><td>Statisticalconceptandmethodology</td><td>...with no information including China, the Democratic People&#x27;s Republic of Korea, Eritrea and Somalia....                                                             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>2. WBGAPI 레시피 모음<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>출처: <a class="reference external" href="https://nbviewer.org/github/tgherzog/wbgapi/blob/master/examples/wbgapi-cookbook.ipynb">A Cookbook of WBGAPI Recipes</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">wbgapi</span> <span class="k">as</span> <span class="nn">wb</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id5">
+<h3>쿼리 및 검색<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">info</span></code> 함수는 API를 검색하기 위한 주요 도구다. <code class="docutils literal notranslate"><span class="pre">info()</span></code> 함수를 식별자(단일 값 또는 리스트)와 함께 호출하거나 키워드 검색을 추가하여 응답을 구할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;korea&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>value                    </th><th>region  </th><th>incomeLevel  </th></tr>
+</thead>
+<tbody>
+<tr><td>KOR </td><td>Korea, Rep.              </td><td>EAS     </td><td>HIC          </td></tr>
+<tr><td>PRK </td><td>Korea, Dem. People&#x27;s Rep.</td><td>EAS     </td><td>LIC          </td></tr>
+<tr><td>    </td><td>2 elements               </td><td>        </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">wb.search(q)</span></code>는 또 다른 옵션이다. 이는 현재 데이터베이스의 메타데이터를 검색한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;won&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><h4>Country</h4><table>
+<thead>
+<tr><th>ID  </th><th>Name  </th><th>Field       </th><th>Value                                     </th></tr>
+</thead>
+<tbody>
+<tr><td>KOR </td><td>      </td><td>CurrencyUnit</td><td>Korean won                                </td></tr>
+<tr><td>PRK </td><td>      </td><td>CurrencyUnit</td><td>Democratic People&#x27;s Republic of Korean won</td></tr>
+</tbody>
+</table><h4>Series</h4><table>
+<thead>
+<tr><th>ID            </th><th>Name  </th><th>Field                           </th><th>Value                                                                                                                                                               </th></tr>
+</thead>
+<tbody>
+<tr><td>SG.GEN.PARL.ZS</td><td>      </td><td>Statisticalconceptandmethodology</td><td>...It does not cover the upper chamber of bicameral parliaments. Seats are usually won by members in general parliamentary elections. Seats may also be filled by...</td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<p><strong>참고</strong>: <code class="docutils literal notranslate"><span class="pre">wb.search</span></code>는 출력에 적합한(print-friendly) 객체를 반환한다. 그렇지 않고 다음과 같이 <code class="docutils literal notranslate"><span class="pre">for</span></code> 루프를 사용하여 다음과 같이 프로그래밍적으로 검색 결과에 접근할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;won&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="c1"># k is the concept name</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>       <span class="c1"># element ID (column 1)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>     <span class="c1"># element name (column 2)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">elem</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span> <span class="c1"># dictionary of metadata fields and values</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Country
+KOR
+None
+{&#39;CurrencyUnit&#39;: &#39;Korean won&#39;}
+PRK
+None
+{&#39;CurrencyUnit&#39;: &quot;Democratic People&#39;s Republic of Korean won&quot;}
+Series
+SG.GEN.PARL.ZS
+None
+{&#39;Statisticalconceptandmethodology&#39;: &#39;The proportion of seats held by women in national parliaments is the number of seats held by women members in single or lower chambers of national parliaments, expressed as a percentage of all occupied seats; it is derived by dividing the total number of seats occupied by women by the total number of seats in parliament.\n\nNational parliaments can be bicameral or unicameral. This indicator covers the single chamber in unicameral parliaments and the lower chamber in bicameral parliaments. It does not cover the upper chamber of bicameral parliaments. Seats are usually won by members in general parliamentary elections. Seats may also be filled by nomination, appointment, indirect election, rotation of members and by-election. Seats refer to the number of parliamentary mandates, or the number of members of parliament.&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>또한, <code class="docutils literal notranslate"><span class="pre">info</span></code> 함수의 결과는 <code class="docutils literal notranslate"><span class="pre">list</span></code> 또는 <code class="docutils literal notranslate"><span class="pre">Series</span></code>를 호출하여 프로그래밍적으로 접근할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="s1">&#39;Korea&#39;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;id&#39;: &#39;DC.DAC.KORL.CD&#39;, &#39;value&#39;: &#39;Net bilateral aid flows from DAC donors, Korea, Rep. (current US$)&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h3>데이터 접근<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">data</span></code> 서브 패키지는 현재 데이터베이스에서 series, economy, time의 조합에 해당하는 데이터를 요청한다.
+<code class="docutils literal notranslate"><span class="pre">fetch</span></code> 함수를 사용하면 각 행을 딕셔너리 객체로 반환할 수 있다. 아래 예에서는 1인당 GDP(<code class="docutils literal notranslate"><span class="pre">NY.GDP.PCAP.CD</span></code>)와 인구(<code class="docutils literal notranslate"><span class="pre">SP.POP.TOTL</span></code>) 데이터를 반환해보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">info</span><span class="p">([</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">,</span> <span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id            </th><th>value                       </th></tr>
+</thead>
+<tbody>
+<tr><td>NY.GDP.PCAP.CD</td><td>GDP per capita (current US$)</td></tr>
+<tr><td>SP.POP.TOTL   </td><td>Population, total           </td></tr>
+<tr><td>              </td><td>2 elements                  </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">,</span> <span class="s1">&#39;KOR&#39;</span><span class="p">,</span> <span class="n">mrv</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># 한국의 최근 5년 데이터</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;value&#39;: 51712619, &#39;series&#39;: &#39;SP.POP.TOTL&#39;, &#39;economy&#39;: &#39;KOR&#39;, &#39;aggregate&#39;: False, &#39;time&#39;: &#39;YR2023&#39;}
+{&#39;value&#39;: 51672569, &#39;series&#39;: &#39;SP.POP.TOTL&#39;, &#39;economy&#39;: &#39;KOR&#39;, &#39;aggregate&#39;: False, &#39;time&#39;: &#39;YR2022&#39;}
+{&#39;value&#39;: 51769539, &#39;series&#39;: &#39;SP.POP.TOTL&#39;, &#39;economy&#39;: &#39;KOR&#39;, &#39;aggregate&#39;: False, &#39;time&#39;: &#39;YR2021&#39;}
+{&#39;value&#39;: 51836239, &#39;series&#39;: &#39;SP.POP.TOTL&#39;, &#39;economy&#39;: &#39;KOR&#39;, &#39;aggregate&#39;: False, &#39;time&#39;: &#39;YR2020&#39;}
+{&#39;value&#39;: 51764822, &#39;series&#39;: &#39;SP.POP.TOTL&#39;, &#39;economy&#39;: &#39;KOR&#39;, &#39;aggregate&#39;: False, &#39;time&#39;: &#39;YR2019&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>또는 <code class="docutils literal notranslate"><span class="pre">fetch</span></code> 대신 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> 함수를 사용해 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>데이터 프레임 형태로 데이터를 반환할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">,</span> <span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">],</span> <span class="s1">&#39;KOR&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># 모든 연도에 대해</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>series</th>
+      <th>NY.GDP.PCAP.CD</th>
+      <th>SP.POP.TOTL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>YR1960</th>
+      <td>158.274136</td>
+      <td>25012374.0</td>
+    </tr>
+    <tr>
+      <th>YR1961</th>
+      <td>93.831383</td>
+      <td>25765673.0</td>
+    </tr>
+    <tr>
+      <th>YR1962</th>
+      <td>106.159703</td>
+      <td>26513030.0</td>
+    </tr>
+    <tr>
+      <th>YR1963</th>
+      <td>146.302493</td>
+      <td>27261747.0</td>
+    </tr>
+    <tr>
+      <th>YR1964</th>
+      <td>123.606374</td>
+      <td>27984155.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>YR2019</th>
+      <td>31902.416905</td>
+      <td>51764822.0</td>
+    </tr>
+    <tr>
+      <th>YR2020</th>
+      <td>31721.298914</td>
+      <td>51836239.0</td>
+    </tr>
+    <tr>
+      <th>YR2021</th>
+      <td>35125.522498</td>
+      <td>51769539.0</td>
+    </tr>
+    <tr>
+      <th>YR2022</th>
+      <td>32394.683373</td>
+      <td>51672569.0</td>
+    </tr>
+    <tr>
+      <th>YR2023</th>
+      <td>33121.371289</td>
+      <td>51712619.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>각각의 파라미터(시리즈, 경제, 기간)는 단일 식별자, 식별자 리스트 또는 기본 키워드 <code class="docutils literal notranslate"><span class="pre">'all'</span></code>을 받을 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 아프리카 국가들의 인구 데이터를, 2010년부터 2019년까지 2년 간격으로 조회</span>
+<span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">,</span> <span class="n">wb</span><span class="o">.</span><span class="n">region</span><span class="o">.</span><span class="n">members</span><span class="p">(</span><span class="s1">&#39;AFR&#39;</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2010</span><span class="p">,</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YR2010</th>
+      <th>YR2012</th>
+      <th>YR2014</th>
+      <th>YR2016</th>
+      <th>YR2018</th>
+    </tr>
+    <tr>
+      <th>economy</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>AGO</th>
+      <td>23294825.0</td>
+      <td>25177394.0</td>
+      <td>27160769.0</td>
+      <td>29183070.0</td>
+      <td>31297155.0</td>
+    </tr>
+    <tr>
+      <th>BDI</th>
+      <td>9376444.0</td>
+      <td>10071028.0</td>
+      <td>10799785.0</td>
+      <td>11239451.0</td>
+      <td>11859446.0</td>
+    </tr>
+    <tr>
+      <th>BEN</th>
+      <td>9797484.0</td>
+      <td>10397657.0</td>
+      <td>11030004.0</td>
+      <td>11697842.0</td>
+      <td>12383347.0</td>
+    </tr>
+    <tr>
+      <th>BFA</th>
+      <td>16176498.0</td>
+      <td>17172287.0</td>
+      <td>18229461.0</td>
+      <td>19334856.0</td>
+      <td>20438288.0</td>
+    </tr>
+    <tr>
+      <th>BWA</th>
+      <td>2033111.0</td>
+      <td>2108617.0</td>
+      <td>2172044.0</td>
+      <td>2234776.0</td>
+      <td>2299141.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> 함수는 필요한 경우, 다중 인덱스(multi-index)를 사용한다(기본값을 변경하려면 <code class="docutils literal notranslate"><span class="pre">index</span></code>와 <code class="docutils literal notranslate"><span class="pre">columns</span></code> 파라미터를 사용하라).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">,</span> <span class="s1">&#39;EN.ATM.CO2E.KT&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2020</span><span class="p">),</span> 
+                  <span class="n">skipBlanks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;series&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>SP.POP.TOTL</th>
+    </tr>
+    <tr>
+      <th>economy</th>
+      <th>time</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">ABW</th>
+      <th>YR2000</th>
+      <td>90588.0</td>
+    </tr>
+    <tr>
+      <th>YR2001</th>
+      <td>91439.0</td>
+    </tr>
+    <tr>
+      <th>YR2002</th>
+      <td>92074.0</td>
+    </tr>
+    <tr>
+      <th>YR2003</th>
+      <td>93128.0</td>
+    </tr>
+    <tr>
+      <th>YR2004</th>
+      <td>95138.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">ZWE</th>
+      <th>YR2015</th>
+      <td>14399013.0</td>
+    </tr>
+    <tr>
+      <th>YR2016</th>
+      <td>14600294.0</td>
+    </tr>
+    <tr>
+      <th>YR2017</th>
+      <td>14812482.0</td>
+    </tr>
+    <tr>
+      <th>YR2018</th>
+      <td>15034452.0</td>
+    </tr>
+    <tr>
+      <th>YR2019</th>
+      <td>15271368.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5300 rows × 1 columns</p>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>의 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 메소드를 사용하여 인덱스를 0부터 시작하는 정수로 대체한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mi">2015</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>economy</th>
+      <th>Country</th>
+      <th>SP.POP.TOTL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>14399013.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ZMB</td>
+      <td>Zambia</td>
+      <td>16399089.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>YEM</td>
+      <td>Yemen, Rep.</td>
+      <td>31159379.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PSE</td>
+      <td>West Bank and Gaza</td>
+      <td>4270092.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>VIR</td>
+      <td>Virgin Islands (U.S.)</td>
+      <td>107712.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>261</th>
+      <td>CEB</td>
+      <td>Central Europe and the Baltics</td>
+      <td>103206007.0</td>
+    </tr>
+    <tr>
+      <th>262</th>
+      <td>CSS</td>
+      <td>Caribbean small states</td>
+      <td>2964524.0</td>
+    </tr>
+    <tr>
+      <th>263</th>
+      <td>ARB</td>
+      <td>Arab World</td>
+      <td>410190679.0</td>
+    </tr>
+    <tr>
+      <th>264</th>
+      <td>AFW</td>
+      <td>Africa Western and Central</td>
+      <td>418127845.0</td>
+    </tr>
+    <tr>
+      <th>265</th>
+      <td>AFE</td>
+      <td>Africa Eastern and Southern</td>
+      <td>607123269.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>266 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>대부분의 세계은행 데이터베이스는 series, economy and time의 3차원으로 구성되지만, WDI Archives와 같이 일부 데이터베이스는 4차원을 포함하고 있다. 이에 대해서는 다음과 같이 접근할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="mi">57</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>name                 </th><th>code  </th><th style="text-align: right;">  concepts</th><th>lastupdated  </th></tr>
+</thead>
+<tbody>
+<tr><td>57  </td><td>WDI Database Archives</td><td>WDA   </td><td style="text-align: right;">         4</td><td>2025-02-03   </td></tr>
+<tr><td>    </td><td>1 elements           </td><td>      </td><td style="text-align: right;">          </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">concepts</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="mi">57</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;economy&#39;: {&#39;key&#39;: &#39;country&#39;, &#39;value&#39;: &#39;Country&#39;},
+ &#39;series&#39;: {&#39;key&#39;: &#39;series&#39;, &#39;value&#39;: &#39;Series&#39;},
+ &#39;time&#39;: {&#39;key&#39;: &#39;time&#39;, &#39;value&#39;: &#39;Time&#39;},
+ &#39;version&#39;: {&#39;key&#39;: &#39;version&#39;, &#39;value&#39;: &#39;Version&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 브라질의 인구 추정치가 시간에 따라 수정되었는지 확인해보자.</span>
+<span class="c1"># 버전 식별자는 YYYYMM 형식이다. 이 예제는 2010년부터 2019년까지의 4월 버전을 조회한다.</span>
+<span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">,</span> <span class="s1">&#39;BRA&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2005</span><span class="p">),</span> 
+                  <span class="n">version</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">201004</span><span class="p">,</span><span class="mi">202004</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span> <span class="n">db</span><span class="o">=</span><span class="mi">57</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YR2000</th>
+      <th>YR2001</th>
+      <th>YR2002</th>
+      <th>YR2003</th>
+      <th>YR2004</th>
+    </tr>
+    <tr>
+      <th>version</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>201004</th>
+      <td>174174447.0</td>
+      <td>176659138.0</td>
+      <td>179123364.0</td>
+      <td>181537359.0</td>
+      <td>183863524.0</td>
+    </tr>
+    <tr>
+      <th>201104</th>
+      <td>174174447.0</td>
+      <td>176659138.0</td>
+      <td>179123364.0</td>
+      <td>181537359.0</td>
+      <td>183863524.0</td>
+    </tr>
+    <tr>
+      <th>201204</th>
+      <td>174425387.0</td>
+      <td>176877135.0</td>
+      <td>179289227.0</td>
+      <td>181633074.0</td>
+      <td>183873377.0</td>
+    </tr>
+    <tr>
+      <th>201304</th>
+      <td>174425387.0</td>
+      <td>176877135.0</td>
+      <td>179289227.0</td>
+      <td>181633074.0</td>
+      <td>183873377.0</td>
+    </tr>
+    <tr>
+      <th>201404</th>
+      <td>174504898.0</td>
+      <td>176968205.0</td>
+      <td>179393768.0</td>
+      <td>181752951.0</td>
+      <td>184010283.0</td>
+    </tr>
+    <tr>
+      <th>201504</th>
+      <td>174504898.0</td>
+      <td>176968205.0</td>
+      <td>179393768.0</td>
+      <td>181752951.0</td>
+      <td>184010283.0</td>
+    </tr>
+    <tr>
+      <th>201604</th>
+      <td>175786441.0</td>
+      <td>178419396.0</td>
+      <td>181045592.0</td>
+      <td>183627339.0</td>
+      <td>186116363.0</td>
+    </tr>
+    <tr>
+      <th>201704</th>
+      <td>175786441.0</td>
+      <td>178419396.0</td>
+      <td>181045592.0</td>
+      <td>183627339.0</td>
+      <td>186116363.0</td>
+    </tr>
+    <tr>
+      <th>201804</th>
+      <td>175287587.0</td>
+      <td>177750670.0</td>
+      <td>180151021.0</td>
+      <td>182482149.0</td>
+      <td>184738458.0</td>
+    </tr>
+    <tr>
+      <th>201904</th>
+      <td>175287587.0</td>
+      <td>177750670.0</td>
+      <td>180151021.0</td>
+      <td>182482149.0</td>
+      <td>184738458.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id7">
+<h3>차트 및 플로팅<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>기본적인 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 차트(예: <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> 사용)는 매우 간단하다. 물론, <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, <code class="docutils literal notranslate"><span class="pre">plotly</span></code> 등 원하는 어떤 플로팅 패키지도 사용할 수 있다. 아래는 ‘BRA’, ‘ARG’, ‘COL’ 3개국에 대해 2000년부터 2019년까지 20년간 1인당 소득을 그린 것이다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">500</span>  <span class="c1"># 전역적으로 선명도(해상도)를 높인다.</span>
+
+<span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;NY.GDP.PCAP.CD&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;BRA&#39;</span><span class="p">,</span> <span class="s1">&#39;ARG&#39;</span><span class="p">,</span> <span class="s1">&#39;COL&#39;</span><span class="p">],</span>
+                  <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2020</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e783882ada6147fd8c4a87cb118b08d179909eb43a576c2f32d8803f85c0f155.png" src="../_images/e783882ada6147fd8c4a87cb118b08d179909eb43a576c2f32d8803f85c0f155.png" />
+</div>
+</div>
+</section>
+<section id="id8">
+<h3>빈곤인구비율 보고국 분포<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>빈곤인구비율(SI.POV.NAHC) 보고국이 연도별로 몇 개 나라인지를 막대그래프로 그려보자. <code class="docutils literal notranslate"><span class="pre">mrnev</span></code>(most recent non-empty values) 파라미터를 1로 설정하면, 데이터 프레임에 시간 차원이 포함되지 않는다. 그러나 <code class="docutils literal notranslate"><span class="pre">columns</span></code> 또는 <code class="docutils literal notranslate"><span class="pre">index</span></code> 파라미터를 사용하여 이를 명시적으로 요청할 수 있으며, <code class="docutils literal notranslate"><span class="pre">numericTimeKeys=True</span></code>을 사용해 시간 차원의 값을 숫자형으로 반환하도록 요청할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;SI.POV.NAHC&#39;</span><span class="p">)</span> <span class="c1"># 국가 빈곤선 기준 빈곤 인구 비율 (전체 인구의 %)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id         </th><th>value                                                              </th></tr>
+</thead>
+<tbody>
+<tr><td>SI.POV.NAHC</td><td>Poverty headcount ratio at national poverty lines (% of population)</td></tr>
+<tr><td>           </td><td>1 elements                                                         </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;SI.POV.NAHC&#39;</span><span class="p">,</span> <span class="n">mrnev</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">numericTimeKeys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2006</th>
+      <th>2007</th>
+      <th>2009</th>
+      <th>2010</th>
+      <th>2011</th>
+      <th>2012</th>
+      <th>2013</th>
+      <th>2014</th>
+      <th>2015</th>
+      <th>2016</th>
+      <th>2017</th>
+      <th>2018</th>
+      <th>2019</th>
+      <th>2020</th>
+      <th>2021</th>
+      <th>2022</th>
+      <th>2023</th>
+    </tr>
+    <tr>
+      <th>economy</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>AFG</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>54.5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>AGO</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>32.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ALB</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ARG</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>39.2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ARM</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>24.8</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>XKX</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>17.6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>YEM</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>48.6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ZAF</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>55.5</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ZMB</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>60.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>ZWE</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>38.3</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>158 rows × 17 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">counts</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2006     2
+2007     1
+2009     2
+2010     1
+2011     4
+2012     8
+2013     4
+2014     6
+2015     8
+2016     8
+2017     8
+2018    14
+2019    12
+2020     4
+2021    41
+2022    32
+2023     3
+dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">counts</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2006</span><span class="p">,</span> <span class="mi">2023</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribution of Poverty Rate MRVs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/277ce338da2de12621ac4793eccd951fbf3d132368c7efb378fdd41e0bb7a23d.png" src="../_images/277ce338da2de12621ac4793eccd951fbf3d132368c7efb378fdd41e0bb7a23d.png" />
+</div>
+</div>
+</section>
+<section id="id9">
+<h3>4차원 데이터베이스<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>대부분의 세계은행 데이터베이스는 series, economy and time의 3차원으로 구성되지만, WDI Archives와 같이 일부 데이터베이스는 4차원을 포함하고 있으며, 이전 버전의 지표들을 가져올 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="mi">57</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>name                 </th><th>code  </th><th style="text-align: right;">  concepts</th><th>lastupdated  </th></tr>
+</thead>
+<tbody>
+<tr><td>57  </td><td>WDI Database Archives</td><td>WDA   </td><td style="text-align: right;">         4</td><td>2025-02-03   </td></tr>
+<tr><td>    </td><td>1 elements           </td><td>      </td><td style="text-align: right;">          </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">concepts</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="mi">57</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;economy&#39;: {&#39;key&#39;: &#39;country&#39;, &#39;value&#39;: &#39;Country&#39;},
+ &#39;series&#39;: {&#39;key&#39;: &#39;series&#39;, &#39;value&#39;: &#39;Series&#39;},
+ &#39;time&#39;: {&#39;key&#39;: &#39;time&#39;, &#39;value&#39;: &#39;Time&#39;},
+ &#39;version&#39;: {&#39;key&#39;: &#39;version&#39;, &#39;value&#39;: &#39;Version&#39;}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">wb</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">features</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">57</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>198904    1989 Apr
+199004    1990 Apr
+199009    1990 Sep
+199104    1991 Apr
+199109    1991 Sep
+            ...   
+202407    2024 Jul
+202409    2024 Sep
+202410    2024 Oct
+202411    2024 Nov
+202412    2024 Dec
+Name: value, Length: 131, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p>브라질의 인구 추정치가 시간에 따라 수정되었는지 확인해보자. 이 예제에서는 <code class="docutils literal notranslate"><span class="pre">version</span></code> 파라미터가 WDI 개정판의 연도와 월을 지정한다. 버전 식별자는 YYYYMM 형식이기 때문에 201004에서 시작해 100 단위로 버전을 요청하면 요청한 범위에서 매년 4월 릴리스를 가져올 수 있다. 이를 통해 서로 다른 데이터베이스 버전 간의 값을 비교하여 변경되었는지 확인할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">,</span> <span class="s1">&#39;BRA&#39;</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="mi">57</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2020</span><span class="p">),</span>
+                       <span class="n">version</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">201004</span><span class="p">,</span> <span class="mi">202004</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>201004</th>
+      <th>201104</th>
+      <th>201204</th>
+      <th>201304</th>
+      <th>201404</th>
+      <th>201504</th>
+      <th>201604</th>
+      <th>201704</th>
+      <th>201804</th>
+      <th>201904</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>YR2000</th>
+      <td>174174447.0</td>
+      <td>174174447.0</td>
+      <td>174425387.0</td>
+      <td>174425387.0</td>
+      <td>174504898.0</td>
+      <td>174504898.0</td>
+      <td>175786441.0</td>
+      <td>175786441.0</td>
+      <td>175287587.0</td>
+      <td>175287587.0</td>
+    </tr>
+    <tr>
+      <th>YR2001</th>
+      <td>176659138.0</td>
+      <td>176659138.0</td>
+      <td>176877135.0</td>
+      <td>176877135.0</td>
+      <td>176968205.0</td>
+      <td>176968205.0</td>
+      <td>178419396.0</td>
+      <td>178419396.0</td>
+      <td>177750670.0</td>
+      <td>177750670.0</td>
+    </tr>
+    <tr>
+      <th>YR2002</th>
+      <td>179123364.0</td>
+      <td>179123364.0</td>
+      <td>179289227.0</td>
+      <td>179289227.0</td>
+      <td>179393768.0</td>
+      <td>179393768.0</td>
+      <td>181045592.0</td>
+      <td>181045592.0</td>
+      <td>180151021.0</td>
+      <td>180151021.0</td>
+    </tr>
+    <tr>
+      <th>YR2003</th>
+      <td>181537359.0</td>
+      <td>181537359.0</td>
+      <td>181633074.0</td>
+      <td>181633074.0</td>
+      <td>181752951.0</td>
+      <td>181752951.0</td>
+      <td>183627339.0</td>
+      <td>183627339.0</td>
+      <td>182482149.0</td>
+      <td>182482149.0</td>
+    </tr>
+    <tr>
+      <th>YR2004</th>
+      <td>183863524.0</td>
+      <td>183863524.0</td>
+      <td>183873377.0</td>
+      <td>183873377.0</td>
+      <td>184010283.0</td>
+      <td>184010283.0</td>
+      <td>186116363.0</td>
+      <td>186116363.0</td>
+      <td>184738458.0</td>
+      <td>184738458.0</td>
+    </tr>
+    <tr>
+      <th>YR2005</th>
+      <td>186074634.0</td>
+      <td>186074634.0</td>
+      <td>185986964.0</td>
+      <td>185986964.0</td>
+      <td>186142403.0</td>
+      <td>186142403.0</td>
+      <td>188479240.0</td>
+      <td>188479240.0</td>
+      <td>186917361.0</td>
+      <td>186917361.0</td>
+    </tr>
+    <tr>
+      <th>YR2006</th>
+      <td>188158438.0</td>
+      <td>188158438.0</td>
+      <td>187958211.0</td>
+      <td>187958211.0</td>
+      <td>188134315.0</td>
+      <td>188134315.0</td>
+      <td>190698241.0</td>
+      <td>190698241.0</td>
+      <td>189012412.0</td>
+      <td>189012412.0</td>
+    </tr>
+    <tr>
+      <th>YR2007</th>
+      <td>190119995.0</td>
+      <td>190119995.0</td>
+      <td>189798070.0</td>
+      <td>189798070.0</td>
+      <td>189996976.0</td>
+      <td>189996976.0</td>
+      <td>192784521.0</td>
+      <td>192784521.0</td>
+      <td>191026637.0</td>
+      <td>191026637.0</td>
+    </tr>
+    <tr>
+      <th>YR2008</th>
+      <td>191971506.0</td>
+      <td>191971506.0</td>
+      <td>191543237.0</td>
+      <td>191543237.0</td>
+      <td>191765567.0</td>
+      <td>191765567.0</td>
+      <td>194769696.0</td>
+      <td>194769696.0</td>
+      <td>192979029.0</td>
+      <td>192979029.0</td>
+    </tr>
+    <tr>
+      <th>YR2009</th>
+      <td>NaN</td>
+      <td>193733795.0</td>
+      <td>193246610.0</td>
+      <td>193246610.0</td>
+      <td>193490922.0</td>
+      <td>193490922.0</td>
+      <td>196701298.0</td>
+      <td>196701298.0</td>
+      <td>194895996.0</td>
+      <td>194895996.0</td>
+    </tr>
+    <tr>
+      <th>YR2010</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>194946000.0</td>
+      <td>194946470.0</td>
+      <td>195210154.0</td>
+      <td>195210154.0</td>
+      <td>198614208.0</td>
+      <td>198614208.0</td>
+      <td>196796269.0</td>
+      <td>196796269.0</td>
+    </tr>
+    <tr>
+      <th>YR2011</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>196655014.0</td>
+      <td>196935134.0</td>
+      <td>196935134.0</td>
+      <td>200517584.0</td>
+      <td>200517584.0</td>
+      <td>198686688.0</td>
+      <td>198686688.0</td>
+    </tr>
+    <tr>
+      <th>YR2012</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>198656019.0</td>
+      <td>198656019.0</td>
+      <td>202401584.0</td>
+      <td>202401584.0</td>
+      <td>200560983.0</td>
+      <td>200560983.0</td>
+    </tr>
+    <tr>
+      <th>YR2013</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>200361925.0</td>
+      <td>204259377.0</td>
+      <td>204259377.0</td>
+      <td>202408632.0</td>
+      <td>202408632.0</td>
+    </tr>
+    <tr>
+      <th>YR2014</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>206077898.0</td>
+      <td>206077898.0</td>
+      <td>204213133.0</td>
+      <td>204213133.0</td>
+    </tr>
+    <tr>
+      <th>YR2015</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>207847528.0</td>
+      <td>205962108.0</td>
+      <td>205962108.0</td>
+    </tr>
+    <tr>
+      <th>YR2016</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>207652865.0</td>
+      <td>207652865.0</td>
+    </tr>
+    <tr>
+      <th>YR2017</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>209288000.0</td>
+      <td>209288278.0</td>
+    </tr>
+    <tr>
+      <th>YR2018</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>210868000.0</td>
+    </tr>
+    <tr>
+      <th>YR2019</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Population estimates over time by WDI version&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2bae358b8cf717afc2b5e6ea123a7f96d70196acbf939b6723aec95228cd634e.png" src="../_images/2bae358b8cf717afc2b5e6ea123a7f96d70196acbf939b6723aec95228cd634e.png" />
+</div>
+</div>
+</section>
+<section id="id10">
+<h3>집계<a class="headerlink" href="#id10" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pandas</span></code>에서는 집계(aggregation)가 매우 간단하다. 예를 들어, 평균값은 다음과 같이 구한다.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>df.mean()
+</pre></div>
+</div>
+<p>아래에서는 예시적으로 브라질, 콜롬비아, 페루 3개국의 1990년부터 1995년에 걸친 <code class="docutils literal notranslate"><span class="pre">EG.ELC.ACCS.ZS</span></code>(전기접근성, 전체 인구의 %) 지표에 대해 각 연도별로 3개국의 평균값을 구해보자.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">info</span><span class="p">([</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id            </th><th>value                                  </th></tr>
+</thead>
+<tbody>
+<tr><td>EG.ELC.ACCS.ZS</td><td>Access to electricity (% of population)</td></tr>
+<tr><td>              </td><td>1 elements                             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">info</span><span class="p">([</span><span class="s1">&#39;BRA&#39;</span><span class="p">,</span> <span class="s1">&#39;COL&#39;</span><span class="p">,</span> <span class="s1">&#39;PER&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="wbgapi"><table>
+<thead>
+<tr><th>id  </th><th>value     </th><th>region  </th><th>incomeLevel  </th></tr>
+</thead>
+<tbody>
+<tr><td>BRA </td><td>Brazil    </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>COL </td><td>Colombia  </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>PER </td><td>Peru      </td><td>LCN     </td><td>UMC          </td></tr>
+<tr><td>    </td><td>3 elements</td><td>        </td><td>             </td></tr>
+</tbody>
+</table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;BRA&#39;</span><span class="p">,</span> <span class="s1">&#39;COL&#39;</span><span class="p">,</span> <span class="s1">&#39;PER&#39;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1990</span><span class="p">,</span><span class="mi">1996</span><span class="p">))</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YR1990</th>
+      <th>YR1991</th>
+      <th>YR1992</th>
+      <th>YR1993</th>
+      <th>YR1994</th>
+      <th>YR1995</th>
+    </tr>
+    <tr>
+      <th>economy</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>BRA</th>
+      <td>87.475116</td>
+      <td>90.606544</td>
+      <td>88.803833</td>
+      <td>89.999927</td>
+      <td>91.883728</td>
+      <td>91.728598</td>
+    </tr>
+    <tr>
+      <th>COL</th>
+      <td>89.900000</td>
+      <td>91.836655</td>
+      <td>92.132660</td>
+      <td>92.427994</td>
+      <td>92.721962</td>
+      <td>91.200000</td>
+    </tr>
+    <tr>
+      <th>PER</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>70.100000</td>
+      <td>64.748993</td>
+      <td>66.052933</td>
+      <td>67.354836</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>YR1990    88.687558
+YR1991    91.221600
+YR1992    83.678831
+YR1993    82.392305
+YR1994    83.552874
+YR1995    83.427811
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>가중 평균</strong></p>
+<p>여기서는 예시적으로 인구를 가중치로 사용한다. 가중치를 적용할 값들과 동일한 차원을 가진 인구(<code class="docutils literal notranslate"><span class="pre">SP.POP.TOTL</span></code>) 데이터 프레임이 필요하다. 가장 간단한 방법은 동일한 economy와 time에 대해 두 지표를 단일의 데이터 프레임으로 만드는 것이다. 이 경우, 다음과 같은 방식으로 <code class="docutils literal notranslate"><span class="pre">index</span></code> 파라미터를 사용하여 다중 인덱스를 가진 데이터 프레임을 생성하면 된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">combined</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">,</span> <span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;BRA&#39;</span><span class="p">,</span> <span class="s1">&#39;COL&#39;</span><span class="p">,</span> <span class="s1">&#39;PER&#39;</span><span class="p">],</span>
+                             <span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1990</span><span class="p">,</span><span class="mi">1996</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;series&#39;</span><span class="p">,</span> <span class="s1">&#39;economy&#39;</span><span class="p">])</span>
+<span class="n">combined</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>YR1990</th>
+      <th>YR1991</th>
+      <th>YR1992</th>
+      <th>YR1993</th>
+      <th>YR1994</th>
+      <th>YR1995</th>
+    </tr>
+    <tr>
+      <th>series</th>
+      <th>economy</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">EG.ELC.ACCS.ZS</th>
+      <th>BRA</th>
+      <td>8.747512e+01</td>
+      <td>9.060654e+01</td>
+      <td>8.880383e+01</td>
+      <td>8.999993e+01</td>
+      <td>9.188373e+01</td>
+      <td>9.172860e+01</td>
+    </tr>
+    <tr>
+      <th>COL</th>
+      <td>8.990000e+01</td>
+      <td>9.183665e+01</td>
+      <td>9.213266e+01</td>
+      <td>9.242799e+01</td>
+      <td>9.272196e+01</td>
+      <td>9.120000e+01</td>
+    </tr>
+    <tr>
+      <th>PER</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.010000e+01</td>
+      <td>6.474899e+01</td>
+      <td>6.605293e+01</td>
+      <td>6.735484e+01</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">SP.POP.TOTL</th>
+      <th>BRA</th>
+      <td>1.491432e+08</td>
+      <td>1.517243e+08</td>
+      <td>1.542751e+08</td>
+      <td>1.567946e+08</td>
+      <td>1.592650e+08</td>
+      <td>1.617351e+08</td>
+    </tr>
+    <tr>
+      <th>COL</th>
+      <td>3.244007e+07</td>
+      <td>3.309837e+07</td>
+      <td>3.376057e+07</td>
+      <td>3.444147e+07</td>
+      <td>3.512741e+07</td>
+      <td>3.580466e+07</td>
+    </tr>
+    <tr>
+      <th>PER</th>
+      <td>2.201477e+07</td>
+      <td>2.248378e+07</td>
+      <td>2.294634e+07</td>
+      <td>2.341378e+07</td>
+      <td>2.388149e+07</td>
+      <td>2.434892e+07</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>그런 다음, 집계 변수(<code class="docutils literal notranslate"><span class="pre">EG.ELC.ACCS.ZS</span></code>)에서 NaN으로 돼있는 관측값에 대해 가중치 변수(<code class="docutils literal notranslate"><span class="pre">SP.POP.TOTL</span></code>)에도 이들을 마스킹(제외) 처리해야 한다. 그렇지 않으면 가중 평균 계산에서 분모가 잘못 계산된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">elec_access</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">)</span> <span class="c1"># 집계 변수 데이터 프레임</span>
+<span class="n">combined</span> <span class="o">=</span> <span class="n">combined</span><span class="p">[</span><span class="n">elec_access</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span> <span class="c1"># 다른 변수들에서 NaN 값을 마스킹 처리함</span>
+<span class="n">combined</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>YR1990</th>
+      <th>YR1991</th>
+      <th>YR1992</th>
+      <th>YR1993</th>
+      <th>YR1994</th>
+      <th>YR1995</th>
+    </tr>
+    <tr>
+      <th>series</th>
+      <th>economy</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="3" valign="top">EG.ELC.ACCS.ZS</th>
+      <th>BRA</th>
+      <td>8.747512e+01</td>
+      <td>9.060654e+01</td>
+      <td>8.880383e+01</td>
+      <td>8.999993e+01</td>
+      <td>9.188373e+01</td>
+      <td>9.172860e+01</td>
+    </tr>
+    <tr>
+      <th>COL</th>
+      <td>8.990000e+01</td>
+      <td>9.183665e+01</td>
+      <td>9.213266e+01</td>
+      <td>9.242799e+01</td>
+      <td>9.272196e+01</td>
+      <td>9.120000e+01</td>
+    </tr>
+    <tr>
+      <th>PER</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.010000e+01</td>
+      <td>6.474899e+01</td>
+      <td>6.605293e+01</td>
+      <td>6.735484e+01</td>
+    </tr>
+    <tr>
+      <th rowspan="3" valign="top">SP.POP.TOTL</th>
+      <th>BRA</th>
+      <td>1.491432e+08</td>
+      <td>1.517243e+08</td>
+      <td>1.542751e+08</td>
+      <td>1.567946e+08</td>
+      <td>1.592650e+08</td>
+      <td>1.617351e+08</td>
+    </tr>
+    <tr>
+      <th>COL</th>
+      <td>3.244007e+07</td>
+      <td>3.309837e+07</td>
+      <td>3.376057e+07</td>
+      <td>3.444147e+07</td>
+      <td>3.512741e+07</td>
+      <td>3.580466e+07</td>
+    </tr>
+    <tr>
+      <th>PER</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2.294634e+07</td>
+      <td>2.341378e+07</td>
+      <td>2.388149e+07</td>
+      <td>2.434892e+07</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>이렇게 하면, 가중치가 적용된 값의 합을 가중치의 합으로 나눈 가중 평균을 쉽게 계산할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">elec_access</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">)</span>
+<span class="n">pop</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">elec_access</span><span class="o">*</span><span class="n">pop</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">pop</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>YR1990    87.908324
+YR1991    90.826835
+YR1992    87.302276
+YR1993    87.635175
+YR1994    89.192463
+YR1995    88.968650
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id11">
+<h3>그룹 집계<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p>그룹 집계는 앞서 설명한 방법을 확장한 것이다. 평균을 계산하기 전에, 그룹을 정의하는 변수(예: 국가 이름의 첫 글자)를 기준으로 지표 데이터 프레임들을 결합하면 된다. 여기서는 국가 이름의 첫 글자를 기준으로 간단한 그룹을 정의해보자. 첫 번째 단계로, 국가의 첫 글자들로 이루어진 pandas 시리즈를 생성해야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">c</span><span class="p">[</span><span class="s1">&#39;Initial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">initial</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;Initial&#39;</span><span class="p">]</span>
+
+<span class="c1"># another way to the same thing</span>
+<span class="n">initial</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">economy</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Initial&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">initial</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ABW    A
+AFE    A
+AFG    A
+AFW    A
+AGO    A
+      ..
+XKX    K
+YEM    Y
+ZAF    S
+ZMB    Z
+ZWE    Z
+Name: Initial, Length: 266, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 모든 국가를 불러온다. World나 Sub-Saharan Africa와 같은 집계 지역은 제외한다(skipAggs=True).</span>
+<span class="n">combined</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">,</span> <span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">],</span> <span class="n">skipAggs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                             <span class="n">time</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1990</span><span class="p">,</span> <span class="mi">1996</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;series&#39;</span><span class="p">,</span> <span class="s1">&#39;economy&#39;</span><span class="p">])</span>
+<span class="n">elec_access</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;EG.ELC.ACCS.ZS&#39;</span><span class="p">)</span>
+
+<span class="c1"># 집계 변수에 없는 가중치 변수의 관측값을 마스킹 처리한다.</span>
+<span class="n">combined</span> <span class="o">=</span> <span class="n">combined</span><span class="p">[</span><span class="n">elec_access</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span>
+
+<span class="n">pop</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;SP.POP.TOTL&#39;</span><span class="p">)</span>
+
+<span class="n">numerator</span>   <span class="o">=</span> <span class="p">(</span><span class="n">elec_access</span> <span class="o">*</span> <span class="n">pop</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Initial&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="n">pop</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Initial&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>YR1990</th>
+      <th>YR1991</th>
+      <th>YR1992</th>
+      <th>YR1993</th>
+      <th>YR1994</th>
+      <th>YR1995</th>
+    </tr>
+    <tr>
+      <th>Initial</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>A</th>
+      <td>95.780387</td>
+      <td>95.952820</td>
+      <td>96.126616</td>
+      <td>96.297750</td>
+      <td>96.468972</td>
+      <td>96.640102</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>89.838599</td>
+      <td>62.530803</td>
+      <td>59.826296</td>
+      <td>59.682781</td>
+      <td>62.342033</td>
+      <td>62.355179</td>
+    </tr>
+    <tr>
+      <th>C</th>
+      <td>95.191828</td>
+      <td>88.595383</td>
+      <td>88.954841</td>
+      <td>89.166747</td>
+      <td>83.116034</td>
+      <td>81.322167</td>
+    </tr>
+    <tr>
+      <th>D</th>
+      <td>100.000000</td>
+      <td>87.222188</td>
+      <td>89.663119</td>
+      <td>90.051993</td>
+      <td>90.447886</td>
+      <td>90.856901</td>
+    </tr>
+    <tr>
+      <th>E</th>
+      <td>100.000000</td>
+      <td>76.332513</td>
+      <td>92.076353</td>
+      <td>93.946373</td>
+      <td>94.263941</td>
+      <td>91.881157</td>
+    </tr>
+    <tr>
+      <th>F</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <th>G</th>
+      <td>99.999760</td>
+      <td>99.999807</td>
+      <td>99.999854</td>
+      <td>88.494521</td>
+      <td>88.253563</td>
+      <td>86.068557</td>
+    </tr>
+    <tr>
+      <th>H</th>
+      <td>100.000000</td>
+      <td>89.096623</td>
+      <td>89.898608</td>
+      <td>90.270005</td>
+      <td>91.039354</td>
+      <td>76.030206</td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td>100.000000</td>
+      <td>62.177695</td>
+      <td>75.262775</td>
+      <td>54.384301</td>
+      <td>54.690727</td>
+      <td>56.554949</td>
+    </tr>
+    <tr>
+      <th>J</th>
+      <td>99.365228</td>
+      <td>99.515891</td>
+      <td>99.529516</td>
+      <td>99.543140</td>
+      <td>99.557136</td>
+      <td>99.571669</td>
+    </tr>
+    <tr>
+      <th>K</th>
+      <td>99.892055</td>
+      <td>99.918957</td>
+      <td>99.946693</td>
+      <td>69.348543</td>
+      <td>66.386924</td>
+      <td>72.708653</td>
+    </tr>
+    <tr>
+      <th>L</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>71.539519</td>
+      <td>68.672293</td>
+      <td>67.803997</td>
+    </tr>
+    <tr>
+      <th>M</th>
+      <td>99.801353</td>
+      <td>99.808214</td>
+      <td>71.247142</td>
+      <td>73.941854</td>
+      <td>74.291011</td>
+      <td>74.398664</td>
+    </tr>
+    <tr>
+      <th>N</th>
+      <td>42.095137</td>
+      <td>48.265436</td>
+      <td>45.680094</td>
+      <td>46.882341</td>
+      <td>47.269657</td>
+      <td>47.825363</td>
+    </tr>
+    <tr>
+      <th>O</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <th>P</th>
+      <td>98.644944</td>
+      <td>98.771710</td>
+      <td>90.286212</td>
+      <td>77.838038</td>
+      <td>79.140048</td>
+      <td>79.684509</td>
+    </tr>
+    <tr>
+      <th>Q</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <th>R</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>95.806765</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>100.000000</td>
+    </tr>
+    <tr>
+      <th>S</th>
+      <td>85.925218</td>
+      <td>84.501869</td>
+      <td>84.505296</td>
+      <td>80.307182</td>
+      <td>80.289492</td>
+      <td>80.303349</td>
+    </tr>
+    <tr>
+      <th>T</th>
+      <td>88.700000</td>
+      <td>91.053909</td>
+      <td>6.839962</td>
+      <td>2.373276</td>
+      <td>23.054019</td>
+      <td>24.001586</td>
+    </tr>
+    <tr>
+      <th>U</th>
+      <td>100.000000</td>
+      <td>95.521974</td>
+      <td>99.967750</td>
+      <td>99.969418</td>
+      <td>94.955537</td>
+      <td>95.185852</td>
+    </tr>
+    <tr>
+      <th>V</th>
+      <td>100.000000</td>
+      <td>100.000000</td>
+      <td>97.831235</td>
+      <td>98.248316</td>
+      <td>97.735132</td>
+      <td>98.364642</td>
+    </tr>
+    <tr>
+      <th>W</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Y</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>44.100000</td>
+      <td>40.774715</td>
+      <td>41.985134</td>
+      <td>43.193512</td>
+    </tr>
+    <tr>
+      <th>Z</th>
+      <td>13.900000</td>
+      <td>12.752703</td>
+      <td>24.302090</td>
+      <td>23.784013</td>
+      <td>22.297841</td>
+      <td>24.710103</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h2>3. 구매력평가 환율 데이터<a class="headerlink" href="#id12" title="Link to this heading">#</a></h2>
+<section id="ppp">
+<h3>PPP 관련 지표<a class="headerlink" href="#ppp" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>WDI(World Development Indicators) 데이터베이스에서 PPP 관련 지표</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Indicator</p></th>
+<th class="head"><p>English Description</p></th>
+<th class="head"><p>Korean Translation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PA.NUS.FCRF</p></td>
+<td><p>Official exchange rate (LCU per USD, period average)</p></td>
+<td><p>공식 환율 (LCU per USD, 기간 평균)</p></td>
+</tr>
+<tr class="row-odd"><td><p>PA.NUS.PPP</p></td>
+<td><p>PPP conversion factor, GDP (LCU per international dollar)</p></td>
+<td><p>GDP에 대한 PPP 환산계수 (LCU per 국제 달러)</p></td>
+</tr>
+<tr class="row-even"><td><p>PA.NUS.PPPC.RF</p></td>
+<td><p>Price level ratio of PPP conversion factor (GDP) to market exchange rate</p></td>
+<td><p>PPP 환산계수(GDP)와 시장 환율 간의 물가 수준 비율</p></td>
+</tr>
+<tr class="row-odd"><td><p>PA.NUS.PRVT.PP</p></td>
+<td><p>PPP conversion factor, private consumption (LCU per international dollar)</p></td>
+<td><p>개인 소비에 대한 PPP 환산계수 (LCU per 국제 달러)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id13">
+<h3>한국 PPP 관련 데이터<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">&#39;PA.NUS.FCRF&#39;</span><span class="p">,</span> <span class="s1">&#39;PA.NUS.PPP&#39;</span><span class="p">,</span> <span class="s1">&#39;PA.NUS.PPPC.RF&#39;</span><span class="p">,</span> <span class="s1">&#39;PA.NUS.PRVT.PP&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;KOR&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">numericTimeKeys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># 모든 연도에 대해</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>series</th>
+      <th>PA.NUS.FCRF</th>
+      <th>PA.NUS.PPP</th>
+      <th>PA.NUS.PPPC.RF</th>
+      <th>PA.NUS.PRVT.PP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1960</th>
+      <td>63.125000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1961</th>
+      <td>124.791667</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1962</th>
+      <td>130.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1963</th>
+      <td>130.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1964</th>
+      <td>213.846667</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2019</th>
+      <td>1165.357500</td>
+      <td>847.547829</td>
+      <td>0.727286</td>
+      <td>984.097663</td>
+    </tr>
+    <tr>
+      <th>2020</th>
+      <td>1180.265833</td>
+      <td>829.359157</td>
+      <td>0.702688</td>
+      <td>971.479342</td>
+    </tr>
+    <tr>
+      <th>2021</th>
+      <td>1143.951667</td>
+      <td>836.818048</td>
+      <td>0.731515</td>
+      <td>960.988192</td>
+    </tr>
+    <tr>
+      <th>2022</th>
+      <td>1291.446667</td>
+      <td>823.672950</td>
+      <td>0.637791</td>
+      <td>933.120991</td>
+    </tr>
+    <tr>
+      <th>2023</th>
+      <td>1305.662500</td>
+      <td>836.252596</td>
+      <td>0.640481</td>
+      <td>932.176827</td>
+    </tr>
+  </tbody>
+</table>
+<p>64 rows × 4 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">series</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">series</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Value&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Yearly Trends for 4 Series&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d7e87c5b56a1ec30492395893396fc4a5b9e555463213634ba61f3cc737928b5.png" src="../_images/d7e87c5b56a1ec30492395893396fc4a5b9e555463213634ba61f3cc737928b5.png" />
+</div>
+</div>
+</section>
+<section id="id14">
+<h3>한국 명목환율 및 PPP 환율 추이<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;PA.NUS.FCRF&#39;</span><span class="p">,</span> <span class="s1">&#39;PA.NUS.PPP&#39;</span><span class="p">,</span> <span class="s1">&#39;PA.NUS.PRVT.PP&#39;</span><span class="p">]]</span>
+<span class="n">df_sub</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Official exchange rate&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;PPP conversion factor (GDP)&#39;</span><span class="p">,</span> 
+                  <span class="s1">&#39;PPP conversion factor (private consumption)&#39;</span><span class="p">]</span>
+<span class="n">df_sub</span> <span class="o">=</span> <span class="n">df_sub</span><span class="p">[</span><span class="n">df_sub</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1990</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_sub</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">df_sub</span><span class="p">[</span><span class="n">series</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">series</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Trends in Official Exchange Rate and PPP Conversion Factor for Korea&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4d467eaf3dfb925bcbaffcd15ed5a0748c26d57f312aa26862b99aab45e78eb1.png" src="../_images/4d467eaf3dfb925bcbaffcd15ed5a0748c26d57f312aa26862b99aab45e78eb1.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6 국제무역 빅데이터 관리</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. WBGAPI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">개요</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">둘러보기</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2. WBGAPI 레시피 모음</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">쿼리 및 검색</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">데이터 접근</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">차트 및 플로팅</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">빈곤인구비율 보고국 분포</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">4차원 데이터베이스</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">집계</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">그룹 집계</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">3. 구매력평가 환율 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ppp">PPP 관련 지표</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">한국 PPP 관련 데이터</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">한국 명목환율 및 PPP 환율 추이</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

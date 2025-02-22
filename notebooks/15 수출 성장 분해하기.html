@@ -1,0 +1,1207 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>5 수출 성장 분해하기 &#8212; 파이썬을 활용한 무역데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/15 수출 성장 분해하기';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6 어떤 나라가 교역을 많이 할까" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html" />
+    <link rel="prev" title="4 자동차 수출입을 동시에 한다" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="00%20%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="파이썬을 활용한 무역데이터 분석 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="파이썬을 활용한 무역데이터 분석 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00%20%EC%84%9C%EB%AC%B8.html">
+                    시작하며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 분석</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11%20%EC%9A%B0%EB%A6%AC%EB%82%98%EB%9D%BC%20%EB%AC%B4%EC%97%AD%EC%9D%98%EC%A1%B4%EB%8F%84%20%EC%B6%94%EC%9D%B4.html">1 우리나라 무역의존도 추이</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html">2 수출의 내용을 따져보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20%EC%88%98%EC%B6%9C%20%EB%8B%A4%EA%B0%81%ED%99%94%EB%A5%BC%20%EC%B8%A1%EC%A0%95%ED%95%B4%EB%B3%B4%EC%9E%90.html">3 수출 다각화를 측정해보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html">4 자동차 수출입을 동시에 한다</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5 수출 성장 분해하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html">6 어떤 나라가 교역을 많이 할까</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html">7 관세 데이터 기초 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html">8 국제무역 중력 모형 추정</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 관리</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html">1 국제무역 데이터의 특징</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20UN%20Comtrade%20API%20%EC%B6%94%EC%B6%9C.html">2 UN Comtrade API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html">3 세계은행 WITS API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20WTO%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">4 WTO 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25%20%EA%B4%80%EC%84%B8%EC%B2%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">5 관세청 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html">6 국제무역 빅데이터 관리</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WBGAPI.html">7 세계은행 WBGAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2/issues/new?title=Issue%20on%20page%20%2Fnotebooks/15 수출 성장 분해하기.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/15 수출 성장 분해하기.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5 수출 성장 분해하기</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 개요</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#oecd-6">OECD 6개국 사례 분석</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3. 수출 성장 분해</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>5 수출 성장 분해하기<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>출처: UNCTAD (2012), <a class="reference external" href="https://unctad.org/topic/trade-analysis/trade-policy-analysis"><em>A Practical Guide to Trade Policy Analysis</em></a>, <a class="reference external" href="https://unctad.org/system/files/official-document/gds2012d2_ch1_en.pdf">Chapter 1</a>.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1.-%EA%B0%9C%EC%9A%94"><span class="xref myst">1. 개요</span></a></p></li>
+<li><p><a class="reference internal" href="#2.-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="xref myst">2. 데이터</span></a></p></li>
+<li><p><a class="reference internal" href="#3.-%EC%88%98%EC%B6%9C-%EC%84%B1%EC%9E%A5-%EB%B6%84%ED%95%B4"><span class="xref myst">3. 수출 성장 분해</span></a></p></li>
+</ul>
+<section id="id2">
+<h2>1. 개요<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>무역 패턴은 고정된 것이 아니라 끊임없이 변화한다. 수출 확대는 제품 또는 목적지 측면에서 <strong>내연적 증가</strong>(intensive margin), <strong>외연적 증가</strong>(extensive margin), 그리고 <strong>지속가능성 증가</strong>(sustainability margin)로 구분될 수 있다. 내연적 증가는 기존 수출품의 동일 목적지로의 수출 증가를 의미하고, 외연적 증가는 신규 수출품 또는 신규 목적지 개척을 의미하며, 지속가능성 증가는 수출 지속 기간의 증가를 의미한다.</p>
+<p>이를 유용하게 분해하는 방식은 다음과 같다. 기준 연도의 자국 수출품 집합을 <span class="math notranslate nohighlight">\(K_0\)</span>, 비교 연도의 수출품 집합을 <span class="math notranslate nohighlight">\(K_1\)</span>으로 정의하자. 기준 연도의 수출 총액은 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+X_0 = \sum_{k \in K_0} X_k
+\]</div>
+<p>그리고 비교 연도의 수출 총액은 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+X_1 = \sum_{k \in K_1} X_k
+\]</div>
+<p>두 연도 사이 총수출의 가치 변화는 다음과 같이 분해할 수 있다.</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta X = \sum_{k \in K_0 \cap K_1} \Delta X_k + \sum_{k \in K_1 \setminus K_0} X_k - \sum_{k \in K_0 \setminus K_1} X_k, \tag{1}
+\]</div>
+<p>여기서 첫 번째 항은 내연적 증가(기존 수출품의 가치 변화), 두 번째 항은 외연적 증가(새롭게 수출된 제품의 가치), 세 번째 항은 제품소멸 변화(중단된 수출품의 가치)다. 즉, 수출 성장은 기존 제품의 수출량 증가, 신규 제품의 수출 증가, 그리고 기존 제품의 수출 중단에 따른 수출 감소를 통해 이루어진다. 이와 같은 분해 방식은 제품과 목적지를 조합하여 보다 복잡한 형태로 확대시킬 수도 있다.</p>
+<p>일반적으로 수출 성장에서 외연적 증가가 기여하는 비중이 크지 않다. 그 이유는 두 가지로 나뉜다. 첫 번째는 <strong>기술적 이유</strong>로, 특정 제품이 외연적 증가에 속하는 것은 처음 수출된 연도에 한정되며, 이후에는 내연적 증가에 포함되기 때문이다. 따라서, 기업이 첫해부터 대규모 수출을 개시하지 않는 한, 외연적 증가가 전체 수출 성장에 미치는 기여도는 작을 수밖에 없다.</p>
+<p>두 번째는 <strong>본질적 이유</strong>로, 대부분의 신규 수출품은 도입된 후 얼마 지나지 않아 실패한다는 점이다. 개발도상국의 수출 지속 기간 중위값은 약 2년에 불과하다. 즉, 많은 기업이 수출을 시도하지만 상당수가 곧 시장에서 퇴출된다. 이는 무역 지원 정책에서 수출의 지속가능성을 높이는 것(즉, 수출 실패율이 높은 이유를 파악하는 것)이 중요한 과제라는 것을 의미한다.</p>
+</section>
+<section id="id3">
+<h2>2. 데이터<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<section id="oecd-6">
+<h3>OECD 6개국 사례 분석<a class="headerlink" href="#oecd-6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>1995년과 2004년의 UN Comtrade 데이터를 활용한다.</p></li>
+<li><p>여기에는 전체 수출국의 (모든 목적지에 대한) 제품별 총수출 데이터가 담겨있다.</p></li>
+<li><p>이 데이터세트를 활용해 OECD 6개국(미국, 일본, 독일, 프랑스, 영국, 이탈리아)의 총수출 가치 변화를 위 식 1의 방식으로 분해한다.</p></li>
+<li><p>아래 결과를 보면, OECD 국가의 경우에도 수출 변동의 거의 대부분은 기존 수출 관계의 확대에 의해 설명된다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># comtrade_exports.dta 파일 읽기 (Comtrade 데이터)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s2">&quot;../Data/comtrade_exports.dta&quot;</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>reporter</th>
+      <th>reportername</th>
+      <th>partner</th>
+      <th>partnername</th>
+      <th>year</th>
+      <th>productname</th>
+      <th>flowname</th>
+      <th>product</th>
+      <th>tradevalue000</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AIA</td>
+      <td>Anguila</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Frozen boneless bovine meat</td>
+      <td>Gross Exp.</td>
+      <td>020230</td>
+      <td>1.657</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AIA</td>
+      <td>Anguila</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Animal products, nes; dead animals</td>
+      <td>Gross Exp.</td>
+      <td>051199</td>
+      <td>2.593</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AIA</td>
+      <td>Anguila</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Potatoes, frozen</td>
+      <td>Gross Exp.</td>
+      <td>071010</td>
+      <td>2.543</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AIA</td>
+      <td>Anguila</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Mixtures of vegetables, frozen</td>
+      <td>Gross Exp.</td>
+      <td>071090</td>
+      <td>1.042</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AIA</td>
+      <td>Anguila</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Curry</td>
+      <td>Gross Exp.</td>
+      <td>091050</td>
+      <td>0.384</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>641035</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Tailors' dummies/lay figures; autom</td>
+      <td>Gross Exp.</td>
+      <td>961800</td>
+      <td>0.265</td>
+    </tr>
+    <tr>
+      <th>641036</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Paintings,drawings and pastels exec</td>
+      <td>Gross Exp.</td>
+      <td>970110</td>
+      <td>27.663</td>
+    </tr>
+    <tr>
+      <th>641037</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Collages and similar decorative pla</td>
+      <td>Gross Exp.</td>
+      <td>970190</td>
+      <td>26.088</td>
+    </tr>
+    <tr>
+      <th>641038</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Original sculptures and statuary, i</td>
+      <td>Gross Exp.</td>
+      <td>970300</td>
+      <td>2458.594</td>
+    </tr>
+    <tr>
+      <th>641039</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>WLD</td>
+      <td>World</td>
+      <td>2004</td>
+      <td>Coll &amp; coll pce of zoo,bot,mineral,</td>
+      <td>Gross Exp.</td>
+      <td>970500</td>
+      <td>6874.195</td>
+    </tr>
+  </tbody>
+</table>
+<p>641040 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p><br></br><strong>변수 설명</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reporter</span></code>: 보고국 코드</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reportername</span></code>: 보고국 이름</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">partner</span></code>: 상대국 코드</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">partnername</span></code>: 상대국 이름</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">year</span></code>: 연도</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">productname</span></code>: 제품 이름</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flowname</span></code>: 무역 흐름의 종류(예: 총수출)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">product</span></code>: 제품 코드</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tradevalue000</span></code>: 거래 금액(천 달러)</p></li>
+</ul>
+<p><strong>reporter와 product별로, year를 열로 하여 세계 총수출액(tradevalue000)을 피벗</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reporter&quot;</span><span class="p">,</span> <span class="s2">&quot;product&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;tradevalue000&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_wide</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>reporter</th>
+      <th>product</th>
+      <th>1995</th>
+      <th>2004</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AIA</td>
+      <td>020230</td>
+      <td>NaN</td>
+      <td>1.657</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AIA</td>
+      <td>051199</td>
+      <td>NaN</td>
+      <td>2.593</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AIA</td>
+      <td>071010</td>
+      <td>NaN</td>
+      <td>2.543</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AIA</td>
+      <td>071090</td>
+      <td>NaN</td>
+      <td>1.042</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AIA</td>
+      <td>091050</td>
+      <td>NaN</td>
+      <td>0.384</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>421790</th>
+      <td>ZWE</td>
+      <td>970190</td>
+      <td>34.583</td>
+      <td>26.088</td>
+    </tr>
+    <tr>
+      <th>421791</th>
+      <td>ZWE</td>
+      <td>970200</td>
+      <td>13.899</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>421792</th>
+      <td>ZWE</td>
+      <td>970300</td>
+      <td>7139.766</td>
+      <td>2458.594</td>
+    </tr>
+    <tr>
+      <th>421793</th>
+      <td>ZWE</td>
+      <td>970500</td>
+      <td>7341.143</td>
+      <td>6874.195</td>
+    </tr>
+    <tr>
+      <th>421794</th>
+      <td>ZWE</td>
+      <td>970600</td>
+      <td>20.841</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>421795 rows × 4 columns</p>
+</div></div></div>
+</div>
+<p><strong>열 이름 1995, 2004를 “tradevalue0001995”, “tradevalue0002004”로 변경</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_wide</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">1995</span><span class="p">:</span> <span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">,</span> 
+                                  <span class="mi">2004</span><span class="p">:</span> <span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">})</span>
+<span class="c1"># 데이터 확인</span>
+<span class="n">df_wide</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>year</th>
+      <th>reporter</th>
+      <th>product</th>
+      <th>tradevalue0001995</th>
+      <th>tradevalue0002004</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>421790</th>
+      <td>ZWE</td>
+      <td>970190</td>
+      <td>34.583</td>
+      <td>26.088</td>
+    </tr>
+    <tr>
+      <th>421791</th>
+      <td>ZWE</td>
+      <td>970200</td>
+      <td>13.899</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>421792</th>
+      <td>ZWE</td>
+      <td>970300</td>
+      <td>7139.766</td>
+      <td>2458.594</td>
+    </tr>
+    <tr>
+      <th>421793</th>
+      <td>ZWE</td>
+      <td>970500</td>
+      <td>7341.143</td>
+      <td>6874.195</td>
+    </tr>
+    <tr>
+      <th>421794</th>
+      <td>ZWE</td>
+      <td>970600</td>
+      <td>20.841</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>3. 수출 성장 분해<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p><strong>각 나라별로 각 연도의 총수출액 및 변화를 계산</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reporter별로 각 연도의 총합을 계산</span>
+<span class="n">totals</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;reporter&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="n">tot_trade_all_6_dgt_1995</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">),</span>
+    <span class="n">tot_trade_all_6_dgt_2004</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">totals</span><span class="p">[</span><span class="s2">&quot;change_tot_trade_all_6_dgt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;tot_trade_all_6_dgt_2004&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">totals</span><span class="p">[</span><span class="s2">&quot;tot_trade_all_6_dgt_1995&quot;</span><span class="p">]</span>
+
+<span class="c1"># totals를 원본 데이터에 병합</span>
+<span class="n">df_wide</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">totals</span><span class="p">[[</span><span class="s2">&quot;reporter&quot;</span><span class="p">,</span> <span class="s2">&quot;change_tot_trade_all_6_dgt&quot;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;reporter&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="c1"># 데이터 확인</span>
+<span class="n">df_wide</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>reporter</th>
+      <th>product</th>
+      <th>tradevalue0001995</th>
+      <th>tradevalue0002004</th>
+      <th>change_tot_trade_all_6_dgt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>421790</th>
+      <td>ZWE</td>
+      <td>970190</td>
+      <td>34.583</td>
+      <td>26.088</td>
+      <td>87318.318</td>
+    </tr>
+    <tr>
+      <th>421791</th>
+      <td>ZWE</td>
+      <td>970200</td>
+      <td>13.899</td>
+      <td>NaN</td>
+      <td>87318.318</td>
+    </tr>
+    <tr>
+      <th>421792</th>
+      <td>ZWE</td>
+      <td>970300</td>
+      <td>7139.766</td>
+      <td>2458.594</td>
+      <td>87318.318</td>
+    </tr>
+    <tr>
+      <th>421793</th>
+      <td>ZWE</td>
+      <td>970500</td>
+      <td>7341.143</td>
+      <td>6874.195</td>
+      <td>87318.318</td>
+    </tr>
+    <tr>
+      <th>421794</th>
+      <td>ZWE</td>
+      <td>970600</td>
+      <td>20.841</td>
+      <td>NaN</td>
+      <td>87318.318</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>내연적 증가(x1) 계산</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 각 행별 계산: 기존 거래 관계의 무역량 증가(두 연도 모두 값이 존재하는 경우)</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;temp1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">(),</span>
+    <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="p">)</span>
+
+<span class="c1"># 나라별 t1: 기존 거래에서의 변화량 총합 (delta의 합계)</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;reporter&quot;</span><span class="p">)[</span><span class="s2">&quot;temp1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>외연적 증가(x2) 계산</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tradevalue0002004가 존재하고 tradevalue0001995는 결측인 경우</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;temp2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span>
+    <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="p">)</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;reporter&quot;</span><span class="p">)[</span><span class="s2">&quot;temp2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>제품소멸 변화(x3) 계산</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># tradevalue0002004가 결측이고 tradevalue0001995는 존재하는 경우</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;temp3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0002004&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">(),</span>
+    <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;tradevalue0001995&quot;</span><span class="p">],</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="p">)</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;reporter&quot;</span><span class="p">)[</span><span class="s2">&quot;temp3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>항목별 기여도</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># dx = x1 + x2 - x3</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x3&quot;</span><span class="p">]</span>
+
+<span class="c1"># 각 마진별 기여도 계산</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x1&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]</span>   <span class="c1"># 내연적(기존 거래) 증가 기여도</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x2&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]</span>   <span class="c1"># 외연적 증가 기여도</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;x3&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;dx&quot;</span><span class="p">]</span>   <span class="c1"># 제품소멸 변화</span>
+<span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c1&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c2&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_wide</span><span class="p">[</span><span class="s2">&quot;c3&quot;</span><span class="p">]</span>
+
+<span class="c1"># 필요한 변수만 유지 (중복 제거)</span>
+<span class="n">df_result</span> <span class="o">=</span> <span class="n">df_wide</span><span class="p">[[</span><span class="s2">&quot;reporter&quot;</span><span class="p">,</span> <span class="s2">&quot;change_tot_trade_all_6_dgt&quot;</span><span class="p">,</span> <span class="s2">&quot;dx&quot;</span><span class="p">,</span> <span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;x2&quot;</span><span class="p">,</span> <span class="s2">&quot;x3&quot;</span><span class="p">,</span> <span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="s2">&quot;c3&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df_result</span> <span class="o">=</span> <span class="n">df_result</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;change_tot_trade_all_6_dgt&quot;</span><span class="p">:</span> <span class="s2">&quot;change&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>1995–2004년 수출 성장 분해, OECD 상위 6개국</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># GDP 데이터와 병합</span>
+<span class="n">gdp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s2">&quot;../Data/gdp_data.dta&quot;</span><span class="p">)</span>
+
+<span class="c1"># reporter를 기준으로 merge</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_result</span><span class="p">,</span> <span class="n">gdp</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;reporter&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># avg_gdp_95_04 기준 내림차순 정렬 후, 상위 6개 행 출력</span>
+<span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_merged</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;avg_gdp_95_04&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1995–2004년 수출 성장 분해, OECD 상위 6개국&quot;</span><span class="p">)</span>
+<span class="n">df_merged</span><span class="p">[[</span><span class="s2">&quot;reporter&quot;</span><span class="p">,</span> <span class="s2">&quot;c1&quot;</span><span class="p">,</span> <span class="s2">&quot;c2&quot;</span><span class="p">,</span> <span class="s2">&quot;c3&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1995–2004년 수출 성장 분해, OECD 상위 6개국
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>reporter</th>
+      <th>c1</th>
+      <th>c2</th>
+      <th>c3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>259</th>
+      <td>USA</td>
+      <td>0.978453</td>
+      <td>0.043298</td>
+      <td>0.021751</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>JPN</td>
+      <td>1.011665</td>
+      <td>0.013764</td>
+      <td>0.025429</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>DEU</td>
+      <td>1.002045</td>
+      <td>0.007966</td>
+      <td>0.010011</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>FRA</td>
+      <td>0.966314</td>
+      <td>0.048183</td>
+      <td>0.014498</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>GBR</td>
+      <td>0.977226</td>
+      <td>0.117817</td>
+      <td>0.095043</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>ITA</td>
+      <td>0.953962</td>
+      <td>0.063254</td>
+      <td>0.017216</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4 자동차 수출입을 동시에 한다</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6 어떤 나라가 교역을 많이 할까</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 개요</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#oecd-6">OECD 6개국 사례 분석</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3. 수출 성장 분해</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

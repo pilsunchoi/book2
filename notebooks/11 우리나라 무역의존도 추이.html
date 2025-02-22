@@ -1,0 +1,1283 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>1 우리나라 무역의존도 추이 &#8212; 파이썬을 활용한 무역데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/11 우리나라 무역의존도 추이';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2 수출의 내용을 따져보자" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html" />
+    <link rel="prev" title="시작하며" href="00%20%EC%84%9C%EB%AC%B8.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="00%20%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="파이썬을 활용한 무역데이터 분석 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="파이썬을 활용한 무역데이터 분석 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00%20%EC%84%9C%EB%AC%B8.html">
+                    시작하며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 분석</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1 우리나라 무역의존도 추이</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html">2 수출의 내용을 따져보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20%EC%88%98%EC%B6%9C%20%EB%8B%A4%EA%B0%81%ED%99%94%EB%A5%BC%20%EC%B8%A1%EC%A0%95%ED%95%B4%EB%B3%B4%EC%9E%90.html">3 수출 다각화를 측정해보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html">4 자동차 수출입을 동시에 한다</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15%20%EC%88%98%EC%B6%9C%20%EC%84%B1%EC%9E%A5%20%EB%B6%84%ED%95%B4%ED%95%98%EA%B8%B0.html">5 수출 성장 분해하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html">6 어떤 나라가 교역을 많이 할까</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html">7 관세 데이터 기초 분석</a></li>
+<li class="toctree-l1"><a class="reference internal" href="18%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EC%A4%91%EB%A0%A5%20%EB%AA%A8%ED%98%95%20%EC%B6%94%EC%A0%95.html">8 국제무역 중력 모형 추정</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 관리</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html">1 국제무역 데이터의 특징</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20UN%20Comtrade%20API%20%EC%B6%94%EC%B6%9C.html">2 UN Comtrade API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html">3 세계은행 WITS API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20WTO%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">4 WTO 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25%20%EA%B4%80%EC%84%B8%EC%B2%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">5 관세청 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html">6 국제무역 빅데이터 관리</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WBGAPI.html">7 세계은행 WBGAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2/issues/new?title=Issue%20on%20page%20%2Fnotebooks/11 우리나라 무역의존도 추이.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/11 우리나라 무역의존도 추이.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1 우리나라 무역의존도 추이</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 대외개방도</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ppp">참고: 경상 PPP 기준의 의미</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3. 주요국 대외개방도 비교</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">20대 경제대국의 대외개방도</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">대외개방도 최상위 10개국</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">한미일중 대외개방도 변화 추이</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>1 우리나라 무역의존도 추이<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1.-%EB%8C%80%EC%99%B8%EA%B0%9C%EB%B0%A9%EB%8F%84"><span class="xref myst">1. 대외개방도</span></a></p></li>
+<li><p><a class="reference internal" href="#2.-%EB%8D%B0%EC%9D%B4%ED%84%B0"><span class="xref myst">2. 데이터</span></a></p></li>
+<li><p><a class="reference internal" href="#3.-%EC%A3%BC%EC%9A%94%EA%B5%AD-%EB%8C%80%EC%99%B8%EA%B0%9C%EB%B0%A9%EB%8F%84-%EB%B9%84%EA%B5%90"><span class="xref myst">3. 주요국 대외개방도 비교</span></a></p></li>
+</ul>
+<section id="id2">
+<h2>1. 대외개방도<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>한 나라의 세계 경제 통합 정도를 가장 자연스럽게 측정할 수 있는 지표는 개방도(openness)이다. 어떤 나라 <span class="math notranslate nohighlight">\(i\)</span>의 총수출(<span class="math notranslate nohighlight">\(X_i\)</span>), 총수입(<span class="math notranslate nohighlight">\(M_i\)</span>), GDP(<span class="math notranslate nohighlight">\(Y_i\)</span>)를 사용해 <span class="math notranslate nohighlight">\(i\)</span>국의 대외개방도를 계산하면 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+O_i = \frac{X_i + M_i}{Y_i}
+\]</div>
+<p>이를 <strong>무역의존도</strong>라 부르기도 한다. <span class="math notranslate nohighlight">\(O_i\)</span> 값이 높을수록 해당 국가는 더 개방적이다. 싱가포르와 같은 작은 개방 경제의 경우, 이 개방도 지표는 1을 훨씬 초과한다. 이 개방도 지표는 시간에 따라 추적할 수 있다. <a class="reference external" href="https://www.rug.nl/ggdc/productivity/pwt/">Penn World Tables(PWT)</a>는 여러 연도를 포괄하는 개방도 지표를 제공한다.</p>
+</section>
+<section id="id3">
+<h2>2. 데이터<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>데이터 출처: <a class="reference external" href="https://www.rug.nl/ggdc/productivity/pwt/">PWT 10.01, Penn World Table version 10.01</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 데이터 읽기</span>
+<span class="c1">#df = pd.read_excel(&quot;https://dataverse.nl/api/access/datafile/354095&quot;, sheet_name=&quot;Data&quot;)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">&quot;../Data/pwt1001.xlsx&quot;</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>countrycode</th>
+      <th>country</th>
+      <th>currency_unit</th>
+      <th>year</th>
+      <th>rgdpe</th>
+      <th>rgdpo</th>
+      <th>pop</th>
+      <th>emp</th>
+      <th>avh</th>
+      <th>hc</th>
+      <th>...</th>
+      <th>csh_x</th>
+      <th>csh_m</th>
+      <th>csh_r</th>
+      <th>pl_c</th>
+      <th>pl_i</th>
+      <th>pl_g</th>
+      <th>pl_x</th>
+      <th>pl_m</th>
+      <th>pl_n</th>
+      <th>pl_k</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>12805</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>US Dollar</td>
+      <td>2015</td>
+      <td>40141.617188</td>
+      <td>39798.644531</td>
+      <td>13.814629</td>
+      <td>6.393752</td>
+      <td>NaN</td>
+      <td>2.584653</td>
+      <td>...</td>
+      <td>0.140172</td>
+      <td>-0.287693</td>
+      <td>-0.051930</td>
+      <td>0.479228</td>
+      <td>0.651287</td>
+      <td>0.541446</td>
+      <td>0.616689</td>
+      <td>0.533235</td>
+      <td>0.425715</td>
+      <td>1.778124</td>
+    </tr>
+    <tr>
+      <th>12806</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>US Dollar</td>
+      <td>2016</td>
+      <td>41875.203125</td>
+      <td>40963.191406</td>
+      <td>14.030331</td>
+      <td>6.504374</td>
+      <td>NaN</td>
+      <td>2.616257</td>
+      <td>...</td>
+      <td>0.131920</td>
+      <td>-0.251232</td>
+      <td>-0.016258</td>
+      <td>0.470640</td>
+      <td>0.651027</td>
+      <td>0.539631</td>
+      <td>0.619789</td>
+      <td>0.519718</td>
+      <td>0.419446</td>
+      <td>1.728804</td>
+    </tr>
+    <tr>
+      <th>12807</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>US Dollar</td>
+      <td>2017</td>
+      <td>44672.175781</td>
+      <td>44316.742188</td>
+      <td>14.236595</td>
+      <td>6.611773</td>
+      <td>NaN</td>
+      <td>2.648248</td>
+      <td>...</td>
+      <td>0.126722</td>
+      <td>-0.202827</td>
+      <td>-0.039897</td>
+      <td>0.473560</td>
+      <td>0.639560</td>
+      <td>0.519956</td>
+      <td>0.619739</td>
+      <td>0.552042</td>
+      <td>0.418681</td>
+      <td>1.756007</td>
+    </tr>
+    <tr>
+      <th>12808</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>US Dollar</td>
+      <td>2018</td>
+      <td>44325.109375</td>
+      <td>43420.898438</td>
+      <td>14.438802</td>
+      <td>6.714952</td>
+      <td>NaN</td>
+      <td>2.680630</td>
+      <td>...</td>
+      <td>0.144485</td>
+      <td>-0.263658</td>
+      <td>-0.020791</td>
+      <td>0.543757</td>
+      <td>0.655473</td>
+      <td>0.529867</td>
+      <td>0.641361</td>
+      <td>0.561526</td>
+      <td>0.426527</td>
+      <td>1.830088</td>
+    </tr>
+    <tr>
+      <th>12809</th>
+      <td>ZWE</td>
+      <td>Zimbabwe</td>
+      <td>US Dollar</td>
+      <td>2019</td>
+      <td>42296.062500</td>
+      <td>40826.570312</td>
+      <td>14.645468</td>
+      <td>6.831017</td>
+      <td>NaN</td>
+      <td>2.713408</td>
+      <td>...</td>
+      <td>0.213562</td>
+      <td>-0.270959</td>
+      <td>-0.089798</td>
+      <td>0.494755</td>
+      <td>0.652439</td>
+      <td>0.500927</td>
+      <td>0.487763</td>
+      <td>0.430082</td>
+      <td>0.419883</td>
+      <td>1.580885</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 52 columns</p>
+</div></div></div>
+</div>
+<p><strong>변수</strong></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>변수명</p></th>
+<th class="head text-left"><p>변수 설명</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>식별 변수</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>countrycode</p></td>
+<td class="text-left"><p>3자리 ISO 국가 코드</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>country</p></td>
+<td class="text-left"><p>국가명</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>currency_unit</p></td>
+<td class="text-left"><p>통화 단위</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>year</p></td>
+<td class="text-left"><p>연도</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>실질 GDP, 고용 및 인구 수준</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>rgdpe</p></td>
+<td class="text-left"><p>지출 측면 실질 GDP (연쇄 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>rgdpo</p></td>
+<td class="text-left"><p>생산 측면 실질 GDP (연쇄 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>pop</p></td>
+<td class="text-left"><p>인구 (백만 명)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>emp</p></td>
+<td class="text-left"><p>종사자 수 (백만 명)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>avh</p></td>
+<td class="text-left"><p>종사자의 연평균 근로 시간</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>hc</p></td>
+<td class="text-left"><p>인적 자본 지수 (교육 연수 및 교육 수익률 기반, PWT9의 인적 자본 참고)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>경상 가격 GDP, 자본, 총요소생산성(TFP)</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>ccon</p></td>
+<td class="text-left"><p>가계 및 정부의 실질 소비 (경상 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>cda</p></td>
+<td class="text-left"><p>실질 국내 absorption (실질 소비 + 투자, 경상 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>cgdpe</p></td>
+<td class="text-left"><p>지출 측면 실질 GDP (경상 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>cgdpo</p></td>
+<td class="text-left"><p>생산 측면 실질 GDP (경상 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>cn</p></td>
+<td class="text-left"><p>자본 스톡 (경상 PPP, 2017년 기준 백만 달러)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ck</p></td>
+<td class="text-left"><p>자본 서비스 수준 (경상 PPP, 미국 = 1)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>ctfp</p></td>
+<td class="text-left"><p>총요소생산성(TFP) 수준 (경상 PPP, 미국 = 1)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>cwtfp</p></td>
+<td class="text-left"><p>복지 관련 총요소생산성(TFP) 수준 (경상 PPP, 미국 = 1)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>국민계정 기반 변수</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>rgdpna</p></td>
+<td class="text-left"><p>실질 GDP (2017년 불변 가격, 백만 달러)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>rconna</p></td>
+<td class="text-left"><p>실질 소비 (2017년 불변 가격, 백만 달러)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>rdana</p></td>
+<td class="text-left"><p>실질 국내 absorption (2017년 불변 가격, 백만 달러)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>rnna</p></td>
+<td class="text-left"><p>자본 스톡 (2017년 불변 가격, 백만 달러)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>rkna</p></td>
+<td class="text-left"><p>자본 서비스 수준 (2017년 불변 가격, 2017년 = 1)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>rtfpna</p></td>
+<td class="text-left"><p>총요소생산성(TFP) 수준 (2017년 불변 가격, 2017년 = 1)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>rwtfpna</p></td>
+<td class="text-left"><p>복지 관련 총요소생산성(TFP) 수준 (2017년 불변 가격, 2017년 = 1)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>labsh</p></td>
+<td class="text-left"><p>GDP에서 노동 보상의 비율 (경상 국가 가격 기준)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>irr</p></td>
+<td class="text-left"><p>실질 내부 수익률</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>delta</p></td>
+<td class="text-left"><p>자본 스톡의 평균 감가상각률</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>환율 및 GDP 물가 수준</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>xr</p></td>
+<td class="text-left"><p>환율 (해당국 통화/USD, 시장 + 추정치)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>pl_con</p></td>
+<td class="text-left"><p>CCON(PPP/XR)의 가격 수준, 2017년 미국 GDPo의 가격 수준 = 1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>pl_da</p></td>
+<td class="text-left"><p>CDA(PPP/XR)의 가격 수준, 2017년 미국 GDPo의 가격 수준 = 1</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>pl_gdpo</p></td>
+<td class="text-left"><p>CGDPo(PPP/XR)의 가격 수준, 2017년 미국 GDPo의 가격 수준 = 1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>데이터 정보 변수</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>i_cig</p></td>
+<td class="text-left"><p>0/1/2/3/4: 소비, 투자, 정부 부문의 상대 가격 데이터가 외삽(0), 기준값(1), 보간(2), ICP PPP 시계열: 기준값 또는 보간(3), ICP PPP 시계열: 외삽(4)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>i_xm</p></td>
+<td class="text-left"><p>0/1/2: 수출 및 수입의 상대 가격 데이터가 외삽(0), 기준값(1), 보간(2)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>i_xr</p></td>
+<td class="text-left"><p>0/1: 환율이 시장 기반(0) 또는 추정값(1)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>i_outlier</p></td>
+<td class="text-left"><p>0/1: pl_gdpe 또는 pl_gdpo의 관측치가 이상치가 아님(0) 또는 이상치(1)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>i_irr</p></td>
+<td class="text-left"><p>0/1/2/3: irr 관측치가 이상치가 아님(0), 낮은 자본 비율로 인해 편향될 가능성 있음(1), 하한 1%에 도달(2), 이상치(3)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>cor_exp</p></td>
+<td class="text-left"><p>해당국과 미국 간 지출 비율의 상관관계 (기준값 관측치만 포함)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>statcap</p></td>
+<td class="text-left"><p>통계 역량 지표 (출처: 세계은행, 개발도상국만)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>CGDPo 대비 비율</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>csh_c</p></td>
+<td class="text-left"><p>경상 PPP 기준 가계 소비 비율</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>csh_i</p></td>
+<td class="text-left"><p>경상 PPP 기준 총 자본 형성 비율</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>csh_g</p></td>
+<td class="text-left"><p>경상 PPP 기준 정부 소비 비율</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>csh_x</p></td>
+<td class="text-left"><p>경상 PPP 기준 상품 수출 비율</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>csh_m</p></td>
+<td class="text-left"><p>경상 PPP 기준 상품 수입 비율(마이너스로 표현)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>csh_r</p></td>
+<td class="text-left"><p>경상 PPP 기준 잔여 무역 및 GDP 통계적 불일치 비율</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>가격 수준, 지출 범주 및 자본</strong></p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>pl_c</p></td>
+<td class="text-left"><p>가계 소비 가격 수준, 2017년 미국 GDPo 기준=1</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>pl_i</p></td>
+<td class="text-left"><p>자본 형성 가격 수준, 2017년 미국 GDPo 기준=1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>pl_g</p></td>
+<td class="text-left"><p>정부 소비 가격 수준, 2017년 미국 GDPo 기준=1</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>pl_x</p></td>
+<td class="text-left"><p>수출 가격 수준, 2017년 미국 GDPo 기준=1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>pl_m</p></td>
+<td class="text-left"><p>수입 가격 수준, 2017년 미국 GDPo 기준=1</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>pl_n</p></td>
+<td class="text-left"><p>자본 스톡 가격 수준, 2017년 미국 기준=1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>pl_k</p></td>
+<td class="text-left"><p>자본 서비스 가격 수준, 미국 기준=1</p></td>
+</tr>
+</tbody>
+</table>
+<section id="ppp">
+<h3>참고: 경상 PPP 기준의 의미<a class="headerlink" href="#ppp" title="Link to this heading">#</a></h3>
+<p>2005년 미국과 한국의 명목 GDP가 다음과 같다고 해보자.</p>
+<ul class="simple">
+<li><p>미국 GDP: 15조 달러</p></li>
+<li><p>한국 GDP: 1,000조 원</p></li>
+<li><p>명목환율: 1달러 = 1,000원</p></li>
+</ul>
+<p>이 경우, 시장 환율을 사용하여 한국과 미국의 경제 규모를 비교하면, 한국의 GDP는 1조 달러로 미국의 1/15이다. 거꾸로 미국의 GDP는 한국의 15배다.</p>
+<p>그런데 2005년 한국에서 1,000원(1달러)으로 살 수 있는 물건과 미국에서 1달러로 살 수 있는 물건은 다르다. 한국의 물가가 상대적으로 낮기 때문에, 동일한 금액으로 한국에서 더 많은 재화와 서비스를 구매할 수 있다. 간단히 말해 양국 통화의 구매력이 다른 것이다.</p>
+<ul class="simple">
+<li><p>2005년 미국에서 빅맥 햄버거 한 개가 5달러인데, 한국에서는 같은 빅맥이 3,500원(3.5달러)에 구매 가능하다고 해보자. 물가가 낮은 한국에서는 3.5달러로 빅맥 1개를 살 수 있지만, 미국에서는 그 돈으로 빅맥 1개를 살 수 없는 것이다.</p></li>
+<li><p>이런 사정을 반영하여 양국 통화의 구매력을 동일하게 만들어주는 <strong>PPP</strong>(Purchasing Power Parity) 환율을 산출해볼 수 있다. 이 예에서는 5달러 = 3,500원, 즉 1달러 = 700원이다.</p></li>
+</ul>
+<p>이렇게 산출한 PPP 환율을 적용하여 한국의 GDP를 다시 계산해 보면 1,000조 원 ÷ 700원 = 약 1.43조 달러다. 이것이 <strong>경상(current) PPP 기준</strong> GDP의 의미다.</p>
+<p>이제 2005년 미국과 한국의 GDP를 경상 PPP 기준으로 비교하면:</p>
+<ul class="simple">
+<li><p>미국 GDP (경상 PPP 기준): 15조 달러</p></li>
+<li><p>한국 GDP (경상 PPP 기준): 1.43조 달러</p></li>
+</ul>
+<p>2005년 미국과 한국의 명목 GDP를 시장 환율로 비교하면, 미국 GDP는 한국의 15배지만, 경상 PPP 기준으로는 미국 GDP는 한국의 10.5배 수준으로 줄어든다. 한국 기준으로 말하면, 시장 환율을 적용할 경우 한국 GDP는 미국의 1/15이지만, PPP 환율을 적용하면 한국 GDP는 미국의 1.43/15 수준으로 늘어난다.</p>
+</section>
+</section>
+<section id="id4">
+<h2>3. 주요국 대외개방도 비교<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p><strong>대외개방도 계산</strong></p>
+<ul class="simple">
+<li><p>Penn World Tables(PWT) 통계에서 대외개방도를 구하기 위해서는 경상 PPP 기준 상품 수출 비율(<code class="docutils literal notranslate"><span class="pre">csh_x</span></code>)과 경상 PPP 기준 상품 수입 비율(<code class="docutils literal notranslate"><span class="pre">csh_m</span></code>에 마이너스를 취한 값)을 더하면 된다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;csh_x&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;csh_m&quot;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id5">
+<h3>20대 경제대국의 대외개방도<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>아래 결과를 보면, 2019년 경상 PPP 기준 20대 경제대국 중 한국의 대외개방도는 86.9%로 독일(115.5%) 다음으로 높은 2위를 차지했다.</p></li>
+<li><p>경상 PPP 기준으로는 인도네시아나 브라질의 경제규모가 10위권 안에 들어오는 것도 눈에 띈다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2019년 기준으로 df[&quot;cgdpo&quot;]가 가장 큰 20개국 필터링</span>
+<span class="n">top_20_countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s2">&quot;cgdpo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># df[&quot;open&quot;] 값을 기준으로 랭킹 매기기 (내림차순)</span>
+<span class="n">top_20_countries</span><span class="p">[</span><span class="s2">&quot;open_rank&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_20_countries</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;dense&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># open 소수점 1자리로 변환</span>
+<span class="n">top_20_countries</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_20_countries</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 결과 반환 (index 제거)</span>
+<span class="n">top_20_countries</span> <span class="o">=</span> <span class="n">top_20_countries</span><span class="p">[[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="s2">&quot;open_rank&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">top_20_countries</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>open</th>
+      <th>open_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>United States</td>
+      <td>27.7</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>China</td>
+      <td>36.0</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>India</td>
+      <td>12.9</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Japan</td>
+      <td>38.2</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Germany</td>
+      <td>115.5</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Russian Federation</td>
+      <td>26.5</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Indonesia</td>
+      <td>17.1</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Brazil</td>
+      <td>27.1</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>United Kingdom</td>
+      <td>57.4</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>France</td>
+      <td>60.2</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Italy</td>
+      <td>59.9</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Mexico</td>
+      <td>55.6</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Turkey</td>
+      <td>26.7</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Republic of Korea</td>
+      <td>86.9</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Spain</td>
+      <td>58.4</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Canada</td>
+      <td>70.1</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Saudi Arabia</td>
+      <td>38.4</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Australia</td>
+      <td>55.9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Poland</td>
+      <td>63.2</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Egypt</td>
+      <td>11.8</td>
+      <td>20</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id6">
+<h3>대외개방도 최상위 10개국<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>경제규모와 상관없이 따졌을 때, 2019년 경상 PPP 기준으로 세계에서 대외개방도가 가장 높은 경제는 홍콩으로 444.6%이다.</p></li>
+<li><p>벨기에(261.1%), 싱가포르(226.7%), 네덜란드(177.5%) 등이 10위권에 속한다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2019년 기준으로 df[&quot;open&quot;]가 가장 큰 10개국 필터링</span>
+<span class="n">top_10_countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># df[&quot;open&quot;] 값을 기준으로 랭킹 매기기 (내림차순)</span>
+<span class="n">top_10_countries</span><span class="p">[</span><span class="s2">&quot;open_rank&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_10_countries</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;dense&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># open 소수점 1자리로 변환</span>
+<span class="n">top_10_countries</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">top_10_countries</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 결과 반환</span>
+<span class="n">top_10_countries</span> <span class="o">=</span> <span class="n">top_10_countries</span><span class="p">[[</span><span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="s2">&quot;open_rank&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">top_10_countries</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>country</th>
+      <th>open</th>
+      <th>open_rank</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>China, Hong Kong SAR</td>
+      <td>444.6</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Anguilla</td>
+      <td>392.6</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>British Virgin Islands</td>
+      <td>316.0</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Djibouti</td>
+      <td>275.8</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Belgium</td>
+      <td>261.1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Singapore</td>
+      <td>226.7</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Cayman Islands</td>
+      <td>226.6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Aruba</td>
+      <td>206.5</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Slovakia</td>
+      <td>187.9</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Netherlands</td>
+      <td>177.5</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="id7">
+<h3>한미일중 대외개방도 변화 추이<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 4개국 필터링</span>
+<span class="n">selected_countries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;KOR&quot;</span><span class="p">,</span> <span class="s2">&quot;USA&quot;</span><span class="p">,</span> <span class="s2">&quot;JPN&quot;</span><span class="p">,</span> <span class="s2">&quot;CHN&quot;</span><span class="p">]</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;countrycode&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">selected_countries</span><span class="p">)]</span>
+
+<span class="c1"># 선 그래프 그리기</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">selected_countries</span><span class="p">:</span>
+    <span class="n">country_data</span> <span class="o">=</span> <span class="n">filtered_df</span><span class="p">[</span><span class="n">filtered_df</span><span class="p">[</span><span class="s2">&quot;countrycode&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">country</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">country_data</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span> <span class="n">country_data</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">country</span><span class="p">)</span>
+
+<span class="c1"># 그래프 설정</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Openness (%)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Openness Trend by Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Country&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/790180e5549847fe7fd7a45465311670d71eda5ef2f203f39c4fb560c8f4eb39.png" src="../_images/790180e5549847fe7fd7a45465311670d71eda5ef2f203f39c4fb560c8f4eb39.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="00%20%EC%84%9C%EB%AC%B8.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">시작하며</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2 수출의 내용을 따져보자</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 대외개방도</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 데이터</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ppp">참고: 경상 PPP 기준의 의미</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3. 주요국 대외개방도 비교</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">20대 경제대국의 대외개방도</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">대외개방도 최상위 10개국</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">한미일중 대외개방도 변화 추이</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
