@@ -1,0 +1,1780 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>8 국제무역 중력 모형 추정 &#8212; 파이썬을 활용한 무역데이터 분석</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/18 국제무역 중력 모형 추정';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1 국제무역 데이터의 특징" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html" />
+    <link rel="prev" title="7 관세 데이터 기초 분석" href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="00%20%EC%84%9C%EB%AC%B8.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="파이썬을 활용한 무역데이터 분석 - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="파이썬을 활용한 무역데이터 분석 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00%20%EC%84%9C%EB%AC%B8.html">
+                    시작하며
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 분석</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="11%20%EC%9A%B0%EB%A6%AC%EB%82%98%EB%9D%BC%20%EB%AC%B4%EC%97%AD%EC%9D%98%EC%A1%B4%EB%8F%84%20%EC%B6%94%EC%9D%B4.html">1 우리나라 무역의존도 추이</a></li>
+<li class="toctree-l1"><a class="reference internal" href="12%20%EC%88%98%EC%B6%9C%EC%9D%98%20%EB%82%B4%EC%9A%A9%EC%9D%84%20%EB%94%B0%EC%A0%B8%EB%B3%B4%EC%9E%90.html">2 수출의 내용을 따져보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="13%20%EC%88%98%EC%B6%9C%20%EB%8B%A4%EA%B0%81%ED%99%94%EB%A5%BC%20%EC%B8%A1%EC%A0%95%ED%95%B4%EB%B3%B4%EC%9E%90.html">3 수출 다각화를 측정해보자</a></li>
+<li class="toctree-l1"><a class="reference internal" href="14%20%EC%9E%90%EB%8F%99%EC%B0%A8%20%EC%88%98%EC%B6%9C%EC%9E%85%EC%9D%84%20%EB%8F%99%EC%8B%9C%EC%97%90%20%ED%95%9C%EB%8B%A4.html">4 자동차 수출입을 동시에 한다</a></li>
+<li class="toctree-l1"><a class="reference internal" href="15%20%EC%88%98%EC%B6%9C%20%EC%84%B1%EC%9E%A5%20%EB%B6%84%ED%95%B4%ED%95%98%EA%B8%B0.html">5 수출 성장 분해하기</a></li>
+<li class="toctree-l1"><a class="reference internal" href="16%20%EC%96%B4%EB%96%A4%20%EB%82%98%EB%9D%BC%EA%B0%80%20%EA%B5%90%EC%97%AD%EC%9D%84%20%EB%A7%8E%EC%9D%B4%20%ED%95%A0%EA%B9%8C.html">6 어떤 나라가 교역을 많이 할까</a></li>
+<li class="toctree-l1"><a class="reference internal" href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html">7 관세 데이터 기초 분석</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8 국제무역 중력 모형 추정</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">데이터 관리</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html">1 국제무역 데이터의 특징</a></li>
+<li class="toctree-l1"><a class="reference internal" href="22%20UN%20Comtrade%20API%20%EC%B6%94%EC%B6%9C.html">2 UN Comtrade API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="23%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WITS%20API%20%EC%B6%94%EC%B6%9C.html">3 세계은행 WITS API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="24%20WTO%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">4 WTO 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="25%20%EA%B4%80%EC%84%B8%EC%B2%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20API%20%EC%B6%94%EC%B6%9C.html">5 관세청 데이터 API 추출</a></li>
+<li class="toctree-l1"><a class="reference internal" href="26%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B4%80%EB%A6%AC.html">6 국제무역 빅데이터 관리</a></li>
+<li class="toctree-l1"><a class="reference internal" href="27%20%EC%84%B8%EA%B3%84%EC%9D%80%ED%96%89%20WBGAPI.html">7 세계은행 WBGAPI</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/pilsunchoi/book2/issues/new?title=Issue%20on%20page%20%2Fnotebooks/18 국제무역 중력 모형 추정.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/18 국제무역 중력 모형 추정.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8 국제무역 중력 모형 추정</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 중력 방정식 이론</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gme">2. GME 패키지 소개 및 설치</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">소개</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">GME 패키지 설치</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 기본 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">STEP 1: 필요 패키지 불러들이기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">STEP 2: 데이터 규정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3">STEP 3:  모형 규정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4">STEP 4:  모형 추정</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 중력 모형 추정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">데이터 불러오기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimationdata">EstimationData 다루기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">모형 생성 및 추정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">결과 보기, 포맷팅 및 출력</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">5. GME 패키지 추정 방법론</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ppml">PPML 방식</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">추정 절차</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">PPML 구현의 기술적 세부 사항</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">추정값이 존재하지 않는 경우</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">수렴하지 않는 경우</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>8 국제무역 중력 모형 추정<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>출처: <a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/">GME Package Documentation</a></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#1.-%EC%A4%91%EB%A0%A5-%EB%B0%A9%EC%A0%95%EC%8B%9D-%EC%9D%B4%EB%A1%A0"><span class="xref myst">1. 중력 방정식 이론</span></a></p></li>
+<li><p><a class="reference internal" href="#2.-GME-%ED%8C%A8%ED%82%A4%EC%A7%80-%EC%86%8C%EA%B0%9C-%EB%B0%8F-%EC%84%A4%EC%B9%98"><span class="xref myst">2. GME 패키지 소개 및 설치</span></a></p></li>
+<li><p><a class="reference internal" href="#3.-%EA%B8%B0%EB%B3%B8-%EC%98%88%EC%A0%9C"><span class="xref myst">3. 기본 예제</span></a></p></li>
+<li><p><a class="reference internal" href="#4.-%EC%A4%91%EB%A0%A5-%EB%AA%A8%ED%98%95-%EC%B6%94%EC%A0%95"><span class="xref myst">4. 중력 모형 추정</span></a></p></li>
+<li><p><a class="reference internal" href="#5.-GME-%ED%8C%A8%ED%82%A4%EC%A7%80-%EC%B6%94%EC%A0%95-%EB%B0%A9%EB%B2%95%EB%A1%A0"><span class="xref myst">5. GME 패키지 추정 방법론</span></a></p></li>
+</ul>
+<section id="id2">
+<h2>1. 중력 방정식 이론<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p><strong>중력 모형</strong>(gravity model)은 두 나라 간의 무역 흐름을, 마치 물리학에서 두 물체가 서로 끌어당기는 것처럼, 국가의 경제 규모와 거리 등의 요인에 기반하여 설명하는 모델이다. 쉽게 말해, 경제 규모가 큰 국가는 더 많은 무역을 하게 되고, 거리가 가까울수록 무역 비용이 낮아져 무역이 활성화된다는 기본 원리에 착안한다. 또한, 각 국가의 무역 접근성이나 시장 구조 등 다양한 요인을 고려하여, 실제 무역량이 왜 그렇게 나타나는지를 보다 정밀하게 분석한다.</p>
+<p>미국국제무역위원회(USITC)가 제공하는 <code class="docutils literal notranslate"><span class="pre">GME</span></code> 모듈은 일반선형모형(GLM: Generalized Linear Model) 프레임워크에서 포아송 준최대가능도(<strong>PPML</strong>: Poisson Pseudo Maximum Likelihood) 기법을 사용하여 다음과 같은 중력 방정식(structural gravity equation)을 추정한다.</p>
+<div class="math notranslate nohighlight">
+\[
+X_{ij} = \frac{Y_i E_j}{Y} \left( t_{ij} S_i P_j \right)^{1-\sigma}
+\tag {1}
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(X_{ij}\)</span> : <span class="math notranslate nohighlight">\(i\)</span>국에서 <span class="math notranslate nohighlight">\(j\)</span>국으로의 수출액</p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_i\)</span> : <span class="math notranslate nohighlight">\(i\)</span>국의 국내 생산량</p></li>
+<li><p><span class="math notranslate nohighlight">\(E_j\)</span> : <span class="math notranslate nohighlight">\(j\)</span>국의 총지출</p></li>
+<li><p><span class="math notranslate nohighlight">\(Y\)</span> : 전세계 생산량</p></li>
+<li><p><span class="math notranslate nohighlight">\(t_{ij}\)</span> : <span class="math notranslate nohighlight">\(i\)</span>국과 <span class="math notranslate nohighlight">\(j\)</span>국 간의 양자간 무역 비용</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma\)</span> : 서로 다른 원산지의 상품간 대체탄력성</p></li>
+</ul>
+<p>위 식에서 <span class="math notranslate nohighlight">\(S_i\)</span>와 <span class="math notranslate nohighlight">\(P_j\)</span>는 각각 수출국과 수입국 내에서의 다자간 저항(resistance)을 나타내는데, 이는 <span class="math notranslate nohighlight">\(i\)</span>국의 수출 시장 접근 용이성과 <span class="math notranslate nohighlight">\(j\)</span>국의 수입 시장 접근 용이성을 의미한다.</p>
+<p>식 (1)을 PPML을 사용하여 데이터에 적용할 때, 다양한 고정효과(fixed effect)를 포함시킬 수 있다. 패널 데이터를 사용할 경우, <strong>중력 방정식 추정식</strong> 형태는 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+X_{ijt} = \exp\Bigl[ \gamma_{it} + \eta_{jt} + \lambda_{ij} + \beta Z_{ijt} \Bigr] + \varepsilon_{ijt}
+\tag {2}
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\gamma_{it}\)</span> : 수출국의 시간에 따라 변하지 않는 고정효과</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta_{jt}\)</span> : 수입국의 시간에 따라 변하지 않는 고정효과</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda_{ij}\)</span> : 수출국-수입국 간 시간에 따라 변하지 않는 고정효과</p></li>
+<li><p><span class="math notranslate nohighlight">\(Z_{ijt}\)</span> : 관세 수준처럼 시간에 따라 변하는 양자간 무역 결정 요인들의 벡터</p></li>
+</ul>
+<p>만약 횡단면(cross-section) 데이터만 사용할 경우, 중력 방정식 추정식의 형태는 다음과 같다.</p>
+<div class="math notranslate nohighlight">
+\[
+X_{ij} = \exp\Bigl[ \gamma_{i} + \eta_{j} + \beta Z_{ij} \Bigr] + \varepsilon_{ij}
+\tag {3}
+\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\gamma_i\)</span> : 수출국 고정효과</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta_j\)</span> : 수입국 고정효과</p></li>
+<li><p><span class="math notranslate nohighlight">\(Z_{ij}\)</span> : 거리 등 양자간 무역 결정 요인들의 벡터</p></li>
+</ul>
+<p><strong>PPML</strong> 추정 기법을 사용하는 이유는 무역 데이터의 특성과 문제점을 효과적으로 다루기 위해서다. 무역 데이터는 종종 일부 국가 쌍에서 무역액이 0인 경우가 많고, 관측값의 분산이 평균에 비례하지 않는 경우가 있다. 이러한 상황에서는 전통적인 선형 추정 방법이 부적합할 수 있다. PPML은 이러한 제로 무역값과 이분산성(heteroskedasticity) 문제를 자연스럽게 처리하면서, 데이터의 조건부 평균을 올바르게 규정하여 추정값의 일관성을 보장한다.</p>
+</section>
+<section id="gme">
+<h2>2. GME 패키지 소개 및 설치<a class="headerlink" href="#gme" title="Link to this heading">#</a></h2>
+<section id="id3">
+<h3>소개<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>미국국제무역위원회(USITC)의 Gravity Modeling Environment(<code class="docutils literal notranslate"><span class="pre">GME</span></code>) 패키지는 중력 무역 분석에 사용하기 위해 Python으로 작성된 도구들의 모음이다. 중력 모형, <code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지, 다양한 데이터 등에 대한 자세한 정보를 원한다면, <a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/#:~:text=USITC%20gravity%20portal">USITC gravity portal</a>을 방문하면 된다.</p>
+<p>현재 릴리스된 <code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지는 세 가지 주요 구성 요소로 이루어져 있다: <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 객체, <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code> 객체, <code class="docutils literal notranslate"><span class="pre">estimate()</span></code> 함수 등이다.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 객체는 추정에 사용될 데이터와 데이터에 관한 정보, 그리고 데이터의 기술적 분석을 용이하게 하는 도구 집합을 포함한다.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code> 객체는 모형 추정을 위한 명세(specification)를 설정하고 최종 결과 및 진단 정보를 저장하는 데 사용된다.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">estimate()</span></code> 함수는 <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code> 설정에 따라 PPML 추정을 실행한다.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>GME 패키지 설치<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지는 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code>, <code class="docutils literal notranslate"><span class="pre">patsy</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code> 패키지를 필요로 한다. 만약 시스템에 이들이 아직 설치되어 있지 않다면, <code class="docutils literal notranslate"><span class="pre">GME</span></code>를 설치할 때 자동으로 설치된다.</p>
+<p><strong>설치</strong><br />
+아래와 같이 <code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지를 다운로드하여 설치한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install gme # 처음 한 번만 설치하면 됨</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>3. 기본 예제<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<section id="step-1">
+<h3>STEP 1: 필요 패키지 불러들이기<a class="headerlink" href="#step-1" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gme</span> <span class="k">as</span> <span class="nn">gme</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2">
+<h3>STEP 2: 데이터 규정<a class="headerlink" href="#step-2" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지는 <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>라는 데이터 객체를 기반으로 구축된다. <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>는 pandas 데이터 프레임 형태로 저장된 데이터와 함께, 다음과 같은 정보 및 도구들을 포함한다.</p>
+<ul class="simple">
+<li><p>데이터 이력(Log): 데이터를 읽어온 파일의 위치나 수정 내역 등, 데이터에 대한 기록.</p></li>
+<li><p>메타데이터(Metadata): 수입국, 수출국, 연도 정보가 포함된 열의 이름 등, 매번 따로 제공할 필요 없이 포함되는 정보.</p></li>
+<li><p>요약 통계 및 기타 기술적(descriptive) 정보 도구: 자주 사용되는 기술적 정보를 산출하는 여러 도구.</p></li>
+</ul>
+<p><strong>예제 데이터 불러들이기</strong></p>
+<p>여기에서는 예제 무역 데이터(<a class="reference external" href="https://www.usitc.gov/data/gravity/example_trade_and_grav_data_small.csv">example_trade_and_grav_data_small.csv</a>)를 로드한다. 참고로 USITC가 제공하는 데이터세트 <a class="reference external" href="https://www.usitc.gov/data/gravity/itpde.htm">International Trade and Production Database for Estimation (ITPD-E)</a>는 1986년부터 2019년까지 265개국의 국제 및 국내 무역 데이터를 포함하며, 농업, 광업, 에너지, 제조업, 서비스 분야의 170개 산업에 대한 데이터를 포함하는 방대한 데이터세트다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s1">&#39;https://www.usitc.gov/data/gravity/example_trade_and_grav_data_small.csv&#39;</span><span class="p">)</span>
+<span class="n">sample_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>importer</th>
+      <th>exporter</th>
+      <th>year</th>
+      <th>trade_value</th>
+      <th>agree_pta</th>
+      <th>common_language</th>
+      <th>contiguity</th>
+      <th>log_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AUS</td>
+      <td>BRA</td>
+      <td>1989</td>
+      <td>3.035469e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.553332</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AUS</td>
+      <td>CAN</td>
+      <td>1989</td>
+      <td>8.769946e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.637676</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AUS</td>
+      <td>CHE</td>
+      <td>1989</td>
+      <td>4.005245e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.687557</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AUS</td>
+      <td>DEU</td>
+      <td>1989</td>
+      <td>2.468977e+09</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.675007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUS</td>
+      <td>DNK</td>
+      <td>1989</td>
+      <td>1.763072e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.657311</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>98607</th>
+      <td>VEN</td>
+      <td>TWN</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.684672</td>
+    </tr>
+    <tr>
+      <th>98608</th>
+      <td>VEN</td>
+      <td>ZAF</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.303873</td>
+    </tr>
+    <tr>
+      <th>98609</th>
+      <td>VEN</td>
+      <td>KEN</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.363437</td>
+    </tr>
+    <tr>
+      <th>98610</th>
+      <td>VEN</td>
+      <td>KWT</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.381265</td>
+    </tr>
+    <tr>
+      <th>98611</th>
+      <td>VEN</td>
+      <td>URY</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>8.521421</td>
+    </tr>
+  </tbody>
+</table>
+<p>98612 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p><strong>변수 설명</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">importer</span></code>: 수입국 국가 코드</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exporter</span></code>: 수출국 국가 코드</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">year</span></code>: 무역 흐름이 발생한 연도</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trade_value</span></code>: 무역 가치(화폐 단위로 측정)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">agree_pta</span></code>: 양국간 특혜무역협정(PTA: Preferential Trade Agreement) 더미 변수 (1: 체결, 0: 미체결)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">common_language</span></code>: 양국 공통 언어 사용 여부 더미 변수 (1: 공통 언어 존재, 0: 없음)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">contiguity</span></code>: 양국이 국경을 접하는지 여부 더미 변수 (1: 국경 공유, 0: 공유하지 않음)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">log_distance</span></code>: 두 국가간 거리를 자연 로그로 변환한 값</p></li>
+</ul>
+<p><strong>데이터 규정</strong></p>
+<p>다음으로, 위에서 불러들인 “sample_data”를 사용하여 <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 인스턴스를 생성시켜 <code class="docutils literal notranslate"><span class="pre">gme_data</span></code>라는 이름으로 지정한다. 이를 위해서는 아래 방식으로 수입국/수출국, 무역 흐름, 연도, sector(해당되는 경우)와 같은 특정 주요 열의 이름을 제공해야 한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">print</span></code> 명령어는 <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>에 포함된 기본 요약 통계를 출력한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gme_data</span> <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationData</span><span class="p">(</span><span class="n">data_frame</span> <span class="o">=</span> <span class="n">sample_data</span><span class="p">,</span>
+                              <span class="n">imp_var_name</span> <span class="o">=</span> <span class="s1">&#39;importer&#39;</span><span class="p">,</span>
+                              <span class="n">exp_var_name</span> <span class="o">=</span> <span class="s1">&#39;exporter&#39;</span><span class="p">,</span>
+                              <span class="n">trade_var_name</span> <span class="o">=</span> <span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                              <span class="n">year_var_name</span> <span class="o">=</span> <span class="s1">&#39;year&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gme_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>number of countries: 62 
+number of exporters: 62 
+number of importers: 62 
+number of years: 27 
+number of sectors: not_applicable 
+dimensions: (98612, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>의 인자(argument), 속성(attribute), 메소드, 사용예 등에 대해서는 <a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/EstimationData/">https://www.usitc.gov/data/gravity/gme_docs/api_docs/EstimationData/</a> 참조.</strong></p></li>
+</ul>
+</section>
+<section id="step-3">
+<h3>STEP 3:  모형 규정<a class="headerlink" href="#step-3" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 객체를 만든 후에는 이를 기반으로 <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code> 객체를 생성해야 한다. 이를 위해서는 데이터 객체인 <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>와 함께 모형 명세(specification)를 제공해야 한다. 아래에서는 <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code> 인스턴스 생성에 필요한 인자를 제공하고 이를 <code class="docutils literal notranslate"><span class="pre">gme_model</span></code>이라는 이름으로 지정한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gme_model</span> <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationModel</span><span class="p">(</span><span class="n">estimation_data</span> <span class="o">=</span> <span class="n">gme_data</span><span class="p">,</span>
+                                <span class="n">lhs_var</span> <span class="o">=</span> <span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                                <span class="n">rhs_var</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;log_distance&#39;</span><span class="p">,</span><span class="s1">&#39;agree_pta&#39;</span><span class="p">,</span><span class="s1">&#39;common_language&#39;</span><span class="p">,</span><span class="s1">&#39;contiguity&#39;</span><span class="p">],</span>
+                                <span class="n">fixed_effects</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;importer&#39;</span><span class="p">,</span> <span class="s1">&#39;exporter&#39;</span><span class="p">],</span>
+                                <span class="n">keep_years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2015</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>의 인자(Argument), 속성(Attribute), 메소드, 사용예 등에 대해서는 <a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/EstimationModel/">https://www.usitc.gov/data/gravity/gme_docs/api_docs/EstimationModel/</a> 참조.</strong></p></li>
+</ul>
+</section>
+<section id="step-4">
+<h3>STEP 4:  모형 추정<a class="headerlink" href="#step-4" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>이 정의되면, <code class="docutils literal notranslate"><span class="pre">estimate()</span></code> 메소드를 적용하여 모형을 추정할 수 있다.(코드 실행 과정에서 실행 상태에 대한 몇 가지 정보가 나오게끔 돼있다.)</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">estimate()</span></code> 메소드에 대한 자세한 설명은 <a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/estimate_method/">https://www.usitc.gov/data/gravity/gme_docs/api_docs/estimate_method/</a> 참조.</strong></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gme_model</span><span class="o">.</span><span class="n">estimate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimation began at 12:10 PM  on Feb 22, 2025
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Omitted Regressors: [&#39;importer_fe_ARG&#39;, &#39;importer_fe_AUT&#39;, &#39;importer_fe_BEL&#39;, &#39;importer_fe_CHN&#39;, &#39;importer_fe_COL&#39;, &#39;importer_fe_DZA&#39;, &#39;importer_fe_EGY&#39;, &#39;importer_fe_GHA&#39;, &#39;importer_fe_IDN&#39;, &#39;importer_fe_IRN&#39;, &#39;importer_fe_ISR&#39;, &#39;importer_fe_KEN&#39;, &#39;importer_fe_KOR&#39;, &#39;importer_fe_KWT&#39;, &#39;importer_fe_LBY&#39;, &#39;importer_fe_MAR&#39;, &#39;importer_fe_NGA&#39;, &#39;importer_fe_NLD&#39;, &#39;importer_fe_PAK&#39;, &#39;importer_fe_SAU&#39;, &#39;importer_fe_SGP&#39;, &#39;importer_fe_THA&#39;, &#39;importer_fe_TUN&#39;, &#39;importer_fe_TWN&#39;, &#39;importer_fe_URY&#39;, &#39;importer_fe_VEN&#39;, &#39;importer_fe_ZAF&#39;, &#39;exporter_fe_ZAF&#39;]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimation completed at 12:10 PM  on Feb 22, 2025
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;all&#39;: &lt;statsmodels.genmod.generalized_linear_model.GLMResultsWrapper at 0x1f53d2331d0&gt;}
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>추정 결과 반환</strong></p>
+<ul class="simple">
+<li><p>결과는 <code class="docutils literal notranslate"><span class="pre">format_regression_table</span></code> 함수를 사용하여 간단한 표로 반환시킬 수 있다.</p></li>
+<li><p>아래 표에서 볼 수 있듯이 2015년 횡단면 데이터로 중력 모형을 추정한 결과, 양국간 특혜무역협정(<code class="docutils literal notranslate"><span class="pre">agree_pta</span></code>)은 교역량을 유의하게 증가시킨다.</p></li>
+<li><p>또한 국경을 접하는 나라(<code class="docutils literal notranslate"><span class="pre">contiguity</span></code>) 간에 교역량이 증가하는 경향이 통계적으로 유의하다.</p></li>
+<li><p>그러나 공통 언어 사용(<code class="docutils literal notranslate"><span class="pre">common_language</span></code>)이 교역에 미치는 영향은 통계적으로 유의하지 않은 것으로 나타났다.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gme_model</span><span class="o">.</span><span class="n">format_regression_table</span><span class="p">(</span><span class="nb">format</span> <span class="o">=</span> <span class="s2">&quot;txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Variable</th>
+      <th>all</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a_agree_pta</th>
+      <td>agree_pta</td>
+      <td>0.338***</td>
+    </tr>
+    <tr>
+      <th>a_agree_pta_se</th>
+      <td></td>
+      <td>(0.088)</td>
+    </tr>
+    <tr>
+      <th>a_common_language</th>
+      <td>common_language</td>
+      <td>0.063</td>
+    </tr>
+    <tr>
+      <th>a_common_language_se</th>
+      <td></td>
+      <td>(0.071)</td>
+    </tr>
+    <tr>
+      <th>a_contiguity</th>
+      <td>contiguity</td>
+      <td>0.211**</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>a_log_distance_se</th>
+      <td></td>
+      <td>(0.051)</td>
+    </tr>
+    <tr>
+      <th>b_aic</th>
+      <td>AIC</td>
+      <td>1806014725995.583</td>
+    </tr>
+    <tr>
+      <th>b_bic</th>
+      <td>BIC</td>
+      <td>1806014667986.695</td>
+    </tr>
+    <tr>
+      <th>b_llf</th>
+      <td>Likelihood</td>
+      <td>-903007362899.792</td>
+    </tr>
+    <tr>
+      <th>b_nobs</th>
+      <td>Obs.</td>
+      <td>2040</td>
+    </tr>
+  </tbody>
+</table>
+<p>200 rows × 2 columns</p>
+</div></div></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GME</span></code> 모듈의 <strong>결과 반환(Results Manipulation) 함수</strong>에는 <a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/format_regression_table/"><code class="docutils literal notranslate"><span class="pre">format_regression_table</span></code></a>,
+<a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/combine_sector_results/"><code class="docutils literal notranslate"><span class="pre">combine_sector_results</span></code></a>,
+<a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/load_estimation/"><code class="docutils literal notranslate"><span class="pre">load_estimation</span></code></a>,
+<a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/save_estimation/"><code class="docutils literal notranslate"><span class="pre">save_estimation</span></code></a>,
+<a class="reference external" href="https://www.usitc.gov/data/gravity/gme_docs/api_docs/SlimResults/"><code class="docutils literal notranslate"><span class="pre">SlimResults</span></code></a> 등이 있다.</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>4. 중력 모형 추정<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>이 튜토리얼은 데이터를 불러오고, 일부 요약 통계를 구성하며, 모형을 추정하고, 여러 가능한 형식으로 결과를 출력하는 기본적인 중력 분석을 시연한다.</p>
+<section id="id7">
+<h3>데이터 불러오기<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>데이터는 앞 절에서 사용한 예제 무역 데이터(<a class="reference external" href="https://www.usitc.gov/data/gravity/example_trade_and_grav_data_small.csv">example_trade_and_grav_data_small.csv</a>)를 다시 한 번 사용한다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">gme</span></code> 패키지는 데이터를 저장하기 위해 <code class="docutils literal notranslate"><span class="pre">gme.EstimationData</span></code> 객체를 사용한다. <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>는 추정에 사용되는 데이터세트(pandas DataFrame)와 해당 데이터에 관한 추가 정보, 그리고 데이터를 요약/조작하는 데 사용할 수 있는 다양한 메소드를 포함한다. 본 튜토리얼에서는 이러한 기능 중 일부를 시연한다.</p>
+<p>먼저, <code class="docutils literal notranslate"><span class="pre">gme.EstimationData</span></code>를 생성하는 것부터 시작한다. 이를 위해서는 원하는 데이터세트(pandas DataFrame)와 데이터를 설명하는 여러 “메타데이터”를 입력해야 한다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gme</span> <span class="k">as</span> <span class="nn">gme</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">gravity_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s1">&#39;https://www.usitc.gov/data/gravity/example_trade_and_grav_data_small.csv&#39;</span><span class="p">)</span>
+<span class="n">gravity_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>importer</th>
+      <th>exporter</th>
+      <th>year</th>
+      <th>trade_value</th>
+      <th>agree_pta</th>
+      <th>common_language</th>
+      <th>contiguity</th>
+      <th>log_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>AUS</td>
+      <td>BRA</td>
+      <td>1989</td>
+      <td>3.035469e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.553332</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>AUS</td>
+      <td>CAN</td>
+      <td>1989</td>
+      <td>8.769946e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.637676</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>AUS</td>
+      <td>CHE</td>
+      <td>1989</td>
+      <td>4.005245e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.687557</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>AUS</td>
+      <td>DEU</td>
+      <td>1989</td>
+      <td>2.468977e+09</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.675007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>AUS</td>
+      <td>DNK</td>
+      <td>1989</td>
+      <td>1.763072e+08</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>9.657311</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>98607</th>
+      <td>VEN</td>
+      <td>TWN</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.684672</td>
+    </tr>
+    <tr>
+      <th>98608</th>
+      <td>VEN</td>
+      <td>ZAF</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.303873</td>
+    </tr>
+    <tr>
+      <th>98609</th>
+      <td>VEN</td>
+      <td>KEN</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.363437</td>
+    </tr>
+    <tr>
+      <th>98610</th>
+      <td>VEN</td>
+      <td>KWT</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>9.381265</td>
+    </tr>
+    <tr>
+      <th>98611</th>
+      <td>VEN</td>
+      <td>URY</td>
+      <td>2015</td>
+      <td>0.000000e+00</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>8.521421</td>
+    </tr>
+  </tbody>
+</table>
+<p>98612 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 인스턴스 생성</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gme_data</span> <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationData</span><span class="p">(</span><span class="n">data_frame</span><span class="o">=</span><span class="n">gravity_data</span><span class="p">,</span>
+                              <span class="n">imp_var_name</span><span class="o">=</span><span class="s1">&#39;importer&#39;</span><span class="p">,</span>
+                              <span class="n">exp_var_name</span><span class="o">=</span><span class="s1">&#39;exporter&#39;</span><span class="p">,</span>
+                              <span class="n">trade_var_name</span><span class="o">=</span><span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                              <span class="n">year_var_name</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+                              <span class="n">notes</span><span class="o">=</span><span class="s1">&#39;Downloaded from https://www.usitc.gov/data/gravity/example_trade_and_grav_data_small.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 객체의 인스턴스를 생성하기 위해서는 원하는 데이터세트 이름과 함께 위에서 보듯이 여러 종류의 설명 인자(argument)들을 제공해야 한다. 이러한 인자들(<code class="docutils literal notranslate"><span class="pre">imp_var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">exp_var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">trade_var_name</span></code>, <code class="docutils literal notranslate"><span class="pre">year_var_name</span></code>)은 제공된 데이터세트에서 중력 모형 추정에 포함될 정보(각각 수입국, 수출국, 무역액, 연도 변수 이름)를 지정한다. 마지막으로, <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>에는 선택적으로 사용자가 나중에 참조할 수 있도록 문자열 리스트를 저장시킬 수 있다. 위 예에서는, 데이터 출처를 담은 <code class="docutils literal notranslate"><span class="pre">notes</span></code>를 입력하였다.</p>
+</section>
+<section id="estimationdata">
+<h3>EstimationData 다루기<a class="headerlink" href="#estimationdata" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">gme.EstimationData</span></code>는 <code class="docutils literal notranslate"><span class="pre">gme.EstimationModel</span></code>과 소통할 수 있는 객체 클래스를 제공하는 것이 주업무지만, 그것 이외에도 데이터 요약 및 조작을 위한 다양한 도구들을 함께 제공한다. 예를 들어, 아래에서처럼 객체를 단순히 호출(또는 출력)하면 데이터의 범위에 대한 요약 정보가 반환된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gme_data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>number of countries: 62 
+number of exporters: 62 
+number of importers: 62 
+number of years: 27 
+number of sectors: not_applicable 
+dimensions: (98612, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 데이터세트의 수입국 수 반환</span>
+<span class="n">gme_data</span><span class="o">.</span><span class="n">number_of_importers</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>62
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 열 이름 리스트 반환</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gme_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;importer&#39;, &#39;exporter&#39;, &#39;year&#39;, &#39;trade_value&#39;, &#39;agree_pta&#39;, &#39;common_language&#39;, &#39;contiguity&#39;, &#39;log_distance&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 연도 리스트 반환</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gme_data</span><span class="o">.</span><span class="n">year_list</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 각 연도별로 데이터세트에 포함된 나라 리스트를 담은 딕셔너리 반환</span>
+<span class="n">country_list</span> <span class="o">=</span> <span class="n">gme_data</span><span class="o">.</span><span class="n">countries_each_year</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">country_list</span><span class="p">[</span><span class="mi">1989</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;CAN&#39;, &#39;SAU&#39;, &#39;GBR&#39;, &#39;DEU&#39;, &#39;ISR&#39;, &#39;PAK&#39;, &#39;PHL&#39;, &#39;TUR&#39;, &#39;BRA&#39;, &#39;AUS&#39;, &#39;BOL&#39;, &#39;HKG&#39;, &#39;IRN&#39;, &#39;ARG&#39;, &#39;IDN&#39;, &#39;KWT&#39;, &#39;GHA&#39;, &#39;PER&#39;, &#39;VEN&#39;, &#39;COL&#39;, &#39;LBY&#39;, &#39;DZA&#39;, &#39;MYS&#39;, &#39;CHN&#39;, &#39;IND&#39;, &#39;IRL&#39;, &#39;TUN&#39;, &#39;NOR&#39;, &#39;NGA&#39;, &#39;KEN&#39;, &#39;DNK&#39;, &#39;URY&#39;, &#39;SWE&#39;, &#39;FIN&#39;, &#39;KOR&#39;, &#39;ZAF&#39;, &#39;PRT&#39;, &#39;FRA&#39;, &#39;MAR&#39;, &#39;GRC&#39;, &#39;HUN&#39;, &#39;PRY&#39;, &#39;JPN&#39;, &#39;ECU&#39;, &#39;ITA&#39;, &#39;SDN&#39;, &#39;NZL&#39;, &#39;THA&#39;, &#39;CHL&#39;, &#39;EGY&#39;, &#39;AUT&#39;, &#39;MEX&#39;, &#39;ESP&#39;, &#39;NLD&#39;, &#39;POL&#39;, &#39;CHE&#39;, &#39;ISL&#39;, &#39;SGP&#39;, &#39;USA&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pandas 데이터 프레임의 여러 기술적(descriptive) 메소드.</span>
+<span class="n">gme_data</span><span class="o">.</span><span class="n">dtypes</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importer            object
+exporter            object
+year                 int64
+trade_value        float64
+agree_pta          float64
+common_language    float64
+contiguity         float64
+log_distance       float64
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pandas 데이터 프레임의 여러 기술적(descriptive) 메소드.</span>
+<span class="n">gme_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 98612 entries, 0 to 98611
+Data columns (total 8 columns):
+ #   Column           Non-Null Count  Dtype  
+---  ------           --------------  -----  
+ 0   importer         98612 non-null  object 
+ 1   exporter         98612 non-null  object 
+ 2   year             98612 non-null  int64  
+ 3   trade_value      98612 non-null  float64
+ 4   agree_pta        97676 non-null  float64
+ 5   common_language  97676 non-null  float64
+ 6   contiguity       97676 non-null  float64
+ 7   log_distance     97676 non-null  float64
+dtypes: float64(5), int64(1), object(2)
+memory usage: 6.0+ MB
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pandas 데이터 프레임의 여러 기술적(descriptive) 메소드.</span>
+<span class="n">gme_data</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>trade_value</th>
+      <th>agree_pta</th>
+      <th>common_language</th>
+      <th>contiguity</th>
+      <th>log_distance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>98612.000000</td>
+      <td>9.861200e+04</td>
+      <td>97676.000000</td>
+      <td>97676.000000</td>
+      <td>97676.000000</td>
+      <td>97676.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2002.210441</td>
+      <td>1.856316e+09</td>
+      <td>0.381547</td>
+      <td>0.380646</td>
+      <td>0.034051</td>
+      <td>8.722631</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>7.713050</td>
+      <td>1.004735e+10</td>
+      <td>0.485769</td>
+      <td>0.485548</td>
+      <td>0.181362</td>
+      <td>0.818818</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1989.000000</td>
+      <td>0.000000e+00</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>5.061335</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1996.000000</td>
+      <td>1.084703e+06</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>8.222970</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2002.000000</td>
+      <td>6.597395e+07</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>9.012502</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2009.000000</td>
+      <td>6.125036e+08</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>9.303026</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2015.000000</td>
+      <td>4.977686e+11</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>9.890765</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>추가로, <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code> 객체는 제공된 데이터 프레임과 함께 작업할 수 있는 모든 기능을 그대로 유지한다. DataFrame은 <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>의 속성을 참조하여 쉽게 접근할 수 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># &#39;trade_values&#39; 열 반환</span>
+<span class="n">gme_data</span><span class="o">.</span><span class="n">data_frame</span><span class="p">[</span><span class="s1">&#39;trade_value&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        3.035469e+08
+1        8.769946e+08
+2        4.005245e+08
+3        2.468977e+09
+4        1.763072e+08
+             ...     
+98607    0.000000e+00
+98608    0.000000e+00
+98609    0.000000e+00
+98610    0.000000e+00
+98611    0.000000e+00
+Name: trade_value, Length: 98612, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h3>모형 생성 및 추정<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>가 한 번 생성되면, 해당 데이터를 사용하여 중력 모형을 추정하는 것은 간단하다. 추정을 위한 기본 단계는 (1) 모형 정의와 (2) 모형 추정의 두 가지다.</p>
+<p>모형 정의는 <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>이라는 또 다른 객체를 생성하는 것을 의미한다. <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>와 마찬가지로, <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>은 모형 명세(specification)를 정하고 추정할 때 일반적으로 취해지는 단계를 표준화하고 단순화하도록 설계되었다. <code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>는 각 연구에서 한 번 생성되는 객체인 반면, <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>은 다양한 명세를 테스트하면서 여러 번 정의될 가능성이 높다.</p>
+<p><code class="docutils literal notranslate"><span class="pre">EstimationData</span></code>와 마찬가지로, <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>도 본질적으로 특정 모형의 특성을 정의하는 추가 정보가 포함된 데이터세트에 불과하다. 아래 예제들은 여러 모형 명세를 예시적으로 보여준다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># &#39;trade_value&#39;가 &#39;log_distance&#39;, &#39;agree_pta&#39; 등 변수에 의존하는 간단한 경우.</span>
+<span class="n">model_baseline</span> <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationModel</span><span class="p">(</span><span class="n">estimation_data</span> <span class="o">=</span> <span class="n">gme_data</span><span class="p">,</span>
+                                     <span class="n">lhs_var</span> <span class="o">=</span> <span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                                     <span class="n">rhs_var</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;log_distance&#39;</span><span class="p">,</span>
+                                                <span class="s1">&#39;agree_pta&#39;</span><span class="p">,</span>
+                                                <span class="s1">&#39;common_language&#39;</span><span class="p">,</span>
+                                                <span class="s1">&#39;contiguity&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 수입국-연도 고정효과 및 수출국-연도 고정효과를 포함시키는 경우.</span>
+<span class="n">fixed_effects_model</span>  <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationModel</span><span class="p">(</span><span class="n">estimation_data</span> <span class="o">=</span> <span class="n">gme_data</span><span class="p">,</span>
+                                           <span class="n">lhs_var</span> <span class="o">=</span> <span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                                           <span class="n">rhs_var</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;log_distance&#39;</span><span class="p">,</span>
+                                                      <span class="s1">&#39;agree_pta&#39;</span><span class="p">,</span> 
+                                                      <span class="s1">&#39;common_language&#39;</span><span class="p">,</span>
+                                                      <span class="s1">&#39;contiguity&#39;</span><span class="p">],</span>
+                                           <span class="n">fixed_effects</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;importer&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">],</span>
+                                                          <span class="p">[</span><span class="s1">&#39;exporter&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 데이터의 하위 집합을 사용하는 경우. 미국(&#39;USA&#39;)은 제외되고, 2013년부터 2015년까지만 포함된다.</span>
+<span class="n">data_subset_model</span> <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationModel</span><span class="p">(</span><span class="n">estimation_data</span> <span class="o">=</span> <span class="n">gme_data</span><span class="p">,</span>
+                                        <span class="n">lhs_var</span> <span class="o">=</span> <span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                                        <span class="n">rhs_var</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;log_distance&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;agree_pta&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;common_language&#39;</span><span class="p">,</span>
+                                                   <span class="s1">&#39;contiguity&#39;</span><span class="p">],</span>
+                                        <span class="n">drop_imp_exp</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;USA&#39;</span><span class="p">],</span>
+                                        <span class="n">keep_years</span><span class="o">=</span><span class="p">[</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2013</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>모형을 지정할 때, 포함할 수 있는 몇 가지 주요 속성 유형이 있다:</p>
+<ul class="simple">
+<li><p><strong>모형 변수</strong>: 포함할 변수들은 각각 좌변의 종속변수와 우변의 독립변수를 나타내는 <code class="docutils literal notranslate"><span class="pre">lhs_vars</span></code>와 <code class="docutils literal notranslate"><span class="pre">rhs_vars</span></code> 인자를 사용하여 지정한다.</p></li>
+<li><p><strong>고정효과</strong>(Fixed Effects): 모형이 추정될 때, <code class="docutils literal notranslate"><span class="pre">fixed_effects</span></code>에 의해 지정된 경우 고정효과가 구성된다. 이는 단일 변수(예: <code class="docutils literal notranslate"><span class="pre">['importer']</span></code>)일 수도 있고, 상호작용 변수(예: <code class="docutils literal notranslate"><span class="pre">[['importer',</span> <span class="pre">'year']]</span></code>)일 수도 있다. 예를 들어, <code class="docutils literal notranslate"><span class="pre">['importer',</span> <span class="pre">['exporter',</span> <span class="pre">'year']]</span></code>를 입력하면, 수입국 고정효과 집합과 수출국-연도 고정효과 집합이 생성된다.</p></li>
+<li><p><strong>데이터 하위 집합</strong>(Data Subsets): 추정에 사용할 데이터의 하위 집합은 다양한 방식으로 지정할 수 있다. <code class="docutils literal notranslate"><span class="pre">keep_years</span></code>와 <code class="docutils literal notranslate"><span class="pre">drop_years</span></code> 인자를 사용하여 포함할 연도의 하위 집합을 선택할 수 있다. 유사하게 <code class="docutils literal notranslate"><span class="pre">keep_imp</span></code>, <code class="docutils literal notranslate"><span class="pre">keep_exp</span></code>, <code class="docutils literal notranslate"><span class="pre">keep_imp_exp</span></code> 인자와 해당하는 <code class="docutils literal notranslate"><span class="pre">drop_...</span></code> 옵션을 사용하여 수입국 및/또는 수출국에 대해 같은 작업을 수행할 수 있다.</p></li>
+</ul>
+<p>모형이 정의되면, 제공된 명세에 따라 PPML 추정을 실행하는 것은 매우 간단하다. <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>의 단일 메소드인 <code class="docutils literal notranslate"><span class="pre">.estimate()</span></code>를 호출하기만 하면 되며, 추가 입력은 필요하지 않다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 계산 시간을 줄이기 위해 일부 연도만 사용하여 새로운 고정효과 모형 정의</span>
+<span class="n">fixed_effects_model_2</span>  <span class="o">=</span> <span class="n">gme</span><span class="o">.</span><span class="n">EstimationModel</span><span class="p">(</span><span class="n">estimation_data</span> <span class="o">=</span> <span class="n">gme_data</span><span class="p">,</span>
+                                             <span class="n">lhs_var</span> <span class="o">=</span> <span class="s1">&#39;trade_value&#39;</span><span class="p">,</span>
+                                             <span class="n">rhs_var</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;log_distance&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;agree_pta&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;common_language&#39;</span><span class="p">,</span>
+                                                        <span class="s1">&#39;contiguity&#39;</span><span class="p">],</span>
+                                             <span class="n">fixed_effects</span><span class="o">=</span><span class="p">[[</span><span class="s1">&#39;importer&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">],</span>
+                                                            <span class="p">[</span><span class="s1">&#39;exporter&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">]],</span>
+                                             <span class="n">keep_years</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2013</span><span class="p">,</span><span class="mi">2014</span><span class="p">,</span><span class="mi">2015</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 고정효과 모형에 대해 PPML 추정 실행</span>
+<span class="n">estimates</span> <span class="o">=</span> <span class="n">fixed_effects_model_2</span><span class="o">.</span><span class="n">estimate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimation began at 12:10 PM  on Feb 22, 2025
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Omitted Regressors: [&#39;importer_year_fe_ARG2015&#39;, &#39;importer_year_fe_AUT2015&#39;, &#39;importer_year_fe_BEL2015&#39;, &#39;importer_year_fe_CHN2015&#39;, &#39;importer_year_fe_COL2015&#39;, &#39;importer_year_fe_DZA2015&#39;, &#39;importer_year_fe_EGY2015&#39;, &#39;importer_year_fe_GHA2014&#39;, &#39;importer_year_fe_GHA2015&#39;, &#39;importer_year_fe_IDN2015&#39;, &#39;importer_year_fe_IRN2013&#39;, &#39;importer_year_fe_IRN2014&#39;, &#39;importer_year_fe_IRN2015&#39;, &#39;importer_year_fe_ISR2015&#39;, &#39;importer_year_fe_KEN2014&#39;, &#39;importer_year_fe_KEN2015&#39;, &#39;importer_year_fe_KOR2015&#39;, &#39;importer_year_fe_KWT2015&#39;, &#39;importer_year_fe_LBY2013&#39;, &#39;importer_year_fe_LBY2014&#39;, &#39;importer_year_fe_LBY2015&#39;, &#39;importer_year_fe_MAR2015&#39;, &#39;importer_year_fe_NGA2015&#39;, &#39;importer_year_fe_NLD2015&#39;, &#39;importer_year_fe_PAK2015&#39;, &#39;importer_year_fe_SAU2014&#39;, &#39;importer_year_fe_SAU2015&#39;, &#39;importer_year_fe_SGP2015&#39;, &#39;importer_year_fe_THA2015&#39;, &#39;importer_year_fe_TUN2014&#39;, &#39;importer_year_fe_TUN2015&#39;, &#39;importer_year_fe_TWN2013&#39;, &#39;importer_year_fe_TWN2014&#39;, &#39;importer_year_fe_TWN2015&#39;, &#39;importer_year_fe_URY2015&#39;, &#39;importer_year_fe_VEN2014&#39;, &#39;importer_year_fe_VEN2015&#39;, &#39;importer_year_fe_ZAF2015&#39;, &#39;exporter_year_fe_ZAF2013&#39;, &#39;exporter_year_fe_ZAF2014&#39;, &#39;exporter_year_fe_ZAF2015&#39;]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estimation completed at 12:10 PM  on Feb 22, 2025
+</pre></div>
+</div>
+</div>
+</div>
+<p>결과(추정치)는 딕셔너리로 저장된다. 또한, 추정 결과는 추정 모형의 속성인 <code class="docutils literal notranslate"><span class="pre">EstimationModel.results_dict</span></code>에 저장되어, 이 방법으로도 불러올 수 있다. 이러한 방식으로 결과를 저장하는 주된 이유는, 각각의 제품/산업/부문에 대해 별도로 모형을 추정하고 각 부문에 대한 추정 결과 집합을 반환하는 <code class="docutils literal notranslate"><span class="pre">sector_by_sector</span></code>를 용이하게 하기 위함이다. 여기서 고려한 예제와 같이 다수의 부문을 고려하지 않는 경우, 결과 딕셔너리에는 <code class="docutils literal notranslate"><span class="pre">'all'</span></code>이라는 키로 하나의 항목만 포함된다.</p>
+</section>
+<section id="id9">
+<h3>결과 보기, 포맷팅 및 출력<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<p>회귀 추정치를 보기 위한 첫 번째 단계는, 저장된 딕셔너리에서 이를 풀어내는 것이다. 딕셔너리는 각 항목이 키와 연관되어 저장된 객체다. 해당 키를 사용하여 연관된 항목을 반환할 수 있다. 위의 예에서, <code class="docutils literal notranslate"><span class="pre">estimates</span></code>는 각 항목이 결과 객체인 딕셔너리다. 본 예에서는 단 한 번의 회귀만 수행되었으므로 하나의 객체만 존재한다. 반면, 여러 부문에 대해 각각 별도의 회귀를 수행하는 경우, 딕셔너리에는 각 부문의 이름을 키로 하여 여러 결과가 포함되게 된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 객체의 키 리스트 반환</span>
+<span class="n">estimates</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;all&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 결과 객체를 반환하고 새 이름으로 저장</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">estimates</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>추정은 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> 패키지의 도구들을 사용하여 결과 객체가 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> GLM 결과 객체의 모든 기능을 상속받도록 한다. 이는 객체가 계수 추정치, 표준오차, <span class="math notranslate nohighlight">\(p\)</span>-값, AIC/BIC 등과 같은 다양한 필드를 포함한다는 것을 의미한다. 마찬가지로, 요약 테이블을 생성하는 데 사용할 수 있는 유용한 메소드가 객체에 포함되어 있다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 결과 요약 출력(길이가 너무 길어서 출력 생략함)</span>
+<span class="c1"># results.summary()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 추정된 파라미터 값 추출 (Pandas.Series로 반환됨)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">params</span>
+<span class="n">coefficients</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>log_distance                -0.739840
+agree_pta                    0.334219
+common_language              0.128770
+contiguity                   0.255161
+importer_year_fe_ARG2013    26.980367
+                              ...    
+exporter_year_fe_USA2014     2.810464
+exporter_year_fe_USA2015     2.958791
+exporter_year_fe_VEN2013    -0.442260
+exporter_year_fe_VEN2014    -0.490659
+exporter_year_fe_VEN2015    -0.958928
+Length: 329, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 표준오차 추출</span>
+<span class="n">results</span><span class="o">.</span><span class="n">bse</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>log_distance                0.023879
+agree_pta                   0.042720
+common_language             0.039384
+contiguity                  0.047051
+importer_year_fe_ARG2013    0.361229
+                              ...   
+exporter_year_fe_USA2014    0.176461
+exporter_year_fe_USA2015    0.223684
+exporter_year_fe_VEN2013    0.314061
+exporter_year_fe_VEN2014    0.308622
+exporter_year_fe_VEN2015    0.346733
+Length: 329, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># p-값 추출</span>
+<span class="n">results</span><span class="o">.</span><span class="n">pvalues</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>log_distance                9.316538e-211
+agree_pta                    5.134251e-15
+common_language              1.076923e-03
+contiguity                   5.857618e-08
+importer_year_fe_ARG2013     0.000000e+00
+                                ...      
+exporter_year_fe_USA2014     4.130107e-57
+exporter_year_fe_USA2015     6.083029e-40
+exporter_year_fe_VEN2013     1.590727e-01
+exporter_year_fe_VEN2014     1.118707e-01
+exporter_year_fe_VEN2015     5.681643e-03
+Length: 329, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 적합값(fitted value) 반환</span>
+<span class="n">results</span><span class="o">.</span><span class="n">fittedvalues</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       1.610136e+09
+1       3.044133e+08
+2       5.799368e+08
+3       4.231019e+08
+4       8.027580e+09
+            ...     
+9355    1.393251e+10
+9356    6.259130e+08
+9357    6.597207e+09
+9358    1.627117e+09
+9359    1.329831e+10
+Length: 8700, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>추정 메소드는 회귀의 품질을 평가하는 데 도움이 되는 몇 가지 진단 정보를 제공한다. 이 정보에는 다중공선성(collinearities)이나 무역 부재로 인해 제거된 열의 리스트와 과적합 여부를 나타내는 지표가 포함된다.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 진단 정보 반환 </span>
+<span class="n">fixed_effects_model_2</span><span class="o">.</span><span class="n">ppml_diagnostics</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overfit Warning                                                                  No
+Number of Regressors Dropped                                                     41
+Regressors with Zero Trade        [importer_year_fe_ARG2015, importer_year_fe_AU...
+Regressors from User                                                             []
+Regressors Perfectly Collinear    [exporter_year_fe_ZAF2013, exporter_year_fe_ZA...
+Completion Time                                                         0.1 minutes
+dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 다중공선성으로 인해 제거된 전체 열 리스트 가져오기</span>
+<span class="n">fixed_effects_model_2</span><span class="o">.</span><span class="n">ppml_diagnostics</span><span class="p">[</span><span class="s1">&#39;Regressors Perfectly Collinear&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;exporter_year_fe_ZAF2013&#39;,
+ &#39;exporter_year_fe_ZAF2014&#39;,
+ &#39;exporter_year_fe_ZAF2015&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">gme</span></code> 패키지는 Python 내외부에서 사용하기 위해 결과를 집계하고 형식을 지정하는 데 도움이 되는 여러 도구들을 제공한다. 이러한 도구들에는 여러 부문에서 모든 계수, 표준오차, <span class="math notranslate nohighlight">\(p\)</span>-값을 단일 데이터 프레임으로 가져오는 <code class="docutils literal notranslate"><span class="pre">combine_sector_results()</span></code> 메소드와, 프레젠테이션용으로 형식화된 테이블을 생성하여 텍스트 파일, CSV 파일 또는 LaTeX 파일로 내보낼 수 있는 <code class="docutils literal notranslate"><span class="pre">format_regression_tables</span></code> 메소드가 있다.</p>
+<p><strong>LaTeX 사용자</strong>: <code class="docutils literal notranslate"><span class="pre">format_regression_table</span></code> 메소드는 원하는 LaTeX 구문을 포함한 CSV 파일 형식으로 테이블을 출력할 수 있다. 이는 <code class="docutils literal notranslate"><span class="pre">format='.csv'</span></code>와 <code class="docutils literal notranslate"><span class="pre">latex_syntax=True</span></code>를 지정하여 수행할 수 있다.</p>
+</section>
+</section>
+<section id="id10">
+<h2>5. GME 패키지 추정 방법론<a class="headerlink" href="#id10" title="Link to this heading">#</a></h2>
+<section id="ppml">
+<h3>PPML 방식<a class="headerlink" href="#ppml" title="Link to this heading">#</a></h3>
+<p>포아송 준최대가능도(PPML) 방식의 특징은 다음과 같다.</p>
+<ol class="arabic simple">
+<li><p><strong>제로 무역값 처리</strong>:<br />
+무역 데이터에서는 많은 국가 쌍에서 실제 무역이 이루어지지 않아 무역액이 0인 경우가 많다. 전통적인 로그 변환 기반의 OLS 추정 방식은 0값을 처리할 수 없기 때문에 데이터를 왜곡하거나 일부 관측치를 제외해야 하는 문제가 발생한다. PPML 방식은 원래의 단위(수치) 그대로 추정하기 때문에 제로 무역값을 포함하여 분석할 수 있다.
+<br><br></p></li>
+<li><p><strong>이분산성 문제 극복</strong>:<br />
+무역 데이터는 평균과 분산이 일정한 비율로 유지되지 않는 이분산성(heteroskedasticity) 문제를 자주 보인다. 중력 모형에서 이분산 문제란, 모형의 오차항(잔차)의 분산이 모든 관측치에서 일정하지 않고 관측치에 따라 달라지는 현상을 말한다. 예를 들어, 무역량이 큰 국가 쌍에서는 오차의 분산이 더 클 수 있으며, 이는 추정 결과의 표준오차나 신뢰구간 계산에 부정적인 영향을 미칠 수 있다. PPML은 조건부 평균의 명세만 정확하면 일관된 추정치를 제공할 수 있기 때문에, 이러한 이분산 문제에 대해 보다 견고한 결과를 산출할 수 있다.
+<br><br></p></li>
+<li><p><strong>GLM 프레임워크의 유연성</strong>:<br />
+PPML은 일반선형모형(GLM) 프레임워크의 특수한 경우로, 다양한 고정효과나 추가 변수들을 쉽게 포함할 수 있는 장점을 가진다. 예를 들어, 국가별 특성, 시간 변화 효과, 또는 기타 무역 결정 요인들을 모형에 손쉽게 반영할 수 있어 현실적인 무역 상황을 더 정밀하게 모형화할 수 있다.
+<br><br></p></li>
+<li><p><strong>추정의 일관성</strong>:<br />
+PPML은 조건부 평균을 올바르게 규정할 경우, 데이터의 분포 형태나 이분산 문제에 크게 영향을 받지 않고 일관된 추정치를 제공한다. 이는 특히 무역 데이터처럼 다양한 분포 특성을 보이는 경우에 큰 장점으로 작용한다.
+<br><br></p></li>
+<li><p><strong>수치적 안정성</strong>:<br />
+PPML 방식은 비선형 추정 방법으로, 많은 무역 데이터에서 나타나는 극단적 값이나 관측치의 편차에 대해 보다 안정적으로 추정할 수 있다. 이는 특히 데이터의 분산이 큰 경우에 추정 결과의 신뢰도를 높여준다.</p></li>
+</ol>
+<p>이러한 이유들로 인해 중력 방정식 모형을 추정할 때 PPML 방식은 제로 무역값, 이분산성, 다양한 고정효과 포함 등 실제 무역 데이터의 복잡한 특성을 효과적으로 다룰 수 있다.</p>
+</section>
+<section id="id11">
+<h3>추정 절차<a class="headerlink" href="#id11" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">estimate</span></code> 메소드는 수렴 가능성을 높이기 위한 데이터 진단과 함께 포아송 분포를 기반으로 부문별 GLM 추정을 수행한다. 만약 <code class="docutils literal notranslate"><span class="pre">sector_by_sector</span></code> 옵션이 지정되면, 해당 루틴은 각 부문에 대해 개별적으로 반복 실행되어 매번 별도의 모형을 추정한다. <code class="docutils literal notranslate"><span class="pre">estimate</span></code> 루틴은 <code class="docutils literal notranslate"><span class="pre">EstimationModel</span></code>에 제공된 모든 명세를 상속받는다.</p>
+</section>
+<section id="id12">
+<h3>PPML 구현의 기술적 세부 사항<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<p>이 장에서 소개하는 <code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지는 Santos Silva와 Tenreyro (2006)의 방법을 따라 PPML을 구현한다. PPML은 분산이 평균에 비례한다고 가정하므로, PPML이 일관되게 추정되기 위해서는 조건부 평균의 올바른 명세가 유일한 조건이다. 또한, PPML은 추정 시 각 관측치에 동일한 가중치를 부여하므로, 무역 데이터의 이분산성 특성에 대한 정보가 많지 않을 때 바람직하다. Santos Silva와 Tenreyro (2006)는 PPML이 다양한 상황에서 잘 작동하며, 종속변수의 특정 유형의 측정 오류도 처리할 수 있음을 시뮬레이션 증거로 제시한다. 또한, PPML은 비선형 추정기법이므로 추정 시 제로 무역 흐름도 처리할 수 있다.</p>
+<p>PPML 추정에서 일반적인 문제로는 완벽한 다중공선성(perfect collinearity)으로 인한 추정 불가능성과 알고리즘 실행 시 발생하는 수치적 어려움이 있다.</p>
+</section>
+<section id="id13">
+<h3>추정값이 존재하지 않는 경우<a class="headerlink" href="#id13" title="Link to this heading">#</a></h3>
+<p>Santos Silva와 Tenreyro (2010)는 종속변수의 양(+)의 관측치 하위 표본에서 완벽한 다중공선성이 존재할 경우(특정 연도나 부문에서 일부 국가가 무역을 하지 않아 <span class="math notranslate nohighlight">\(X_{ij} &gt; 0\)</span>인 경우에 흔함), PPML 추정값이 존재하지 않을 수 있음을 보여준다. 이 경우, 추정 알고리즘이 수렴하지 않거나, <span class="math notranslate nohighlight">\(X_{ij} = 0\)</span>인 관측치에 대해 “완벽한” 적합을 보이는 가짜 수렴(spurious convergence)이 발생할 수 있다. 존재하지 않음을 확인하기 위해 Santos Silva와 Tenreyro (2011)는 문제 있는 회귀변수를 식별하여 제거한 후 PPML을 추정하는 간단한 STATA 코드를 사용한다. 이 코드는 모형이 가짜 수렴으로 인해 과적합되고 있음을 경고한다. <code class="docutils literal notranslate"><span class="pre">GME</span></code> 패키지는 Python에서 동일한 절차(문제 변수 식별 및 제거, 완벽한 다중공선성 테스트, <span class="math notranslate nohighlight">\(X_{ij}=0\)</span>인 관측치가 추정 모형에 의해 완벽하게 예측되는지 확인)를 수행하기 위해 해당 STATA 코드를 구현하였다. 이러한 모든 진단 정보는 PPML 진단으로 저장되어 매 GME 추정 후 사용자에게 제공된다.</p>
+</section>
+<section id="id14">
+<h3>수렴하지 않는 경우<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
+<p>Santos Silva와 Tenreyro (2011)는 수치적 문제에 대한 민감성으로 인해 추정 알고리즘이 최대값을 찾지 못해 PPML 추정값을 찾지 못할 수 있음을 발견하였다. 특히, 서로 다른 크기의 다중공선성 회귀변수나 극단적이지만 완벽하지는 않은 다중공선성 회귀변수가 존재할 때 이러한 수치적 문제가 발생한다. 이들은 이러한 수치적 문제를 해결하기 위해 반복 가중 최소제곱법(Iteratively Reweighted Least Squares, IRLS)을 최적화 알고리즘으로 사용할 것을 권장하는데, 이는 <code class="docutils literal notranslate"><span class="pre">GME</span></code>에서 사용하는 <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> 패키지의 GLM 추정의 기본 방법이기도 하다. 따라서 <code class="docutils literal notranslate"><span class="pre">GME</span></code>의 PPML 추정기법은 서로 다른 데이터 구성으로 인한 수치적 문제에 대해 견고하다.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="17%20%EA%B4%80%EC%84%B8%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EB%B6%84%EC%84%9D.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7 관세 데이터 기초 분석</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="21%20%EA%B5%AD%EC%A0%9C%EB%AC%B4%EC%97%AD%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9D%98%20%ED%8A%B9%EC%A7%95.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">1 국제무역 데이터의 특징</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 중력 방정식 이론</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gme">2. GME 패키지 소개 및 설치</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">소개</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">GME 패키지 설치</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3. 기본 예제</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1">STEP 1: 필요 패키지 불러들이기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">STEP 2: 데이터 규정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3">STEP 3:  모형 규정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4">STEP 4:  모형 추정</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4. 중력 모형 추정</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">데이터 불러오기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimationdata">EstimationData 다루기</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">모형 생성 및 추정</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">결과 보기, 포맷팅 및 출력</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">5. GME 패키지 추정 방법론</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ppml">PPML 방식</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">추정 절차</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">PPML 구현의 기술적 세부 사항</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">추정값이 존재하지 않는 경우</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">수렴하지 않는 경우</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By 최필선 민인식
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
